@@ -114,7 +114,15 @@ Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of determini
 \right \}.
 \end{multline}
 Algorithms in $\ca(\ch)$ are allowed to sample adaptively any bounded, linear functionals
-of the input function $f$.  They must require only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\ch$ can be used in constructing algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a}
+of the input function $f$.  They must require only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\ch$ can be used in constructing algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a} we call a problem \emph{solvable} for inputs $\ch$ if $\ca(\ch)$ is non-empty.
+
+Note that our problem is not solvable for $\cf$.  This can be proven by contradiction. We show that there is some function, $f \in \cf$, that looks like the zero function, but whose corresponding solution, $S(f)$, is far from $0$.   Choose any $A \in \ca(\cf)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals are used to compute $A(0,\varepsilon)$. Since only a finite number of samples is used, there exists some nonzero $f \in \cf$ that  appears exactly like $0$ to the algorithm, but which has a non-zero solution, $S(f)$. This means that $L_1(f) = \cdots = L_n(f) = 0$, and so $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$.  Since our algorithm successfully produces an approximation with error no greater than $\varepsilon$,
+\begin{align*}
+    \varepsilon &\ge \frac 12 \left[ \norm[\cg]{S(0) - A(0,\varepsilon)} + \norm[\cg]{S(cf) - A(cf,\varepsilon)}\right] \\
+    & =  \frac 12 \left[ \norm[\cg]{0 - A(0,\varepsilon)} + \norm[\cg]{S(cf) - A(0,\varepsilon)}\right] \\
+    & \ge  \frac {\abs{c}\norm[\cg]{S(f)}}2  \qquad \text{by the triangle inequality}.
+\end{align*}
+Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c$.  Thus, $\ca(\cf)$ is empty, and our problem is not solvable for $\cf$.  However, it is solvable for well-chosen subsets of $\cf$.
 
 The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define for arbitrary algorithms $A \in \ca(\ch)$, 
 \begin{equation*}
