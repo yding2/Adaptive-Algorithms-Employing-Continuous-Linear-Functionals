@@ -71,7 +71,7 @@
 \title{Adaptive Algorithms Employing Continuous Linear Functionals}
 \author{Yuhan Ding}
 \address{MCA 310, Department of Mathematics, Misericordia University,\\ 301 Lake St., Dallas, PA, 18612}
-\author{Fred John. Hickernell}
+\author{Fred J. Hickernell}
 \address{Center for Interdisciplinary Scientific Computation and \\
 Department of Applied Mathematics, Illinois Institute of Technology \\ RE 208, 10 W.\ 32$^{\text{nd}}$ St., Chicago, IL 60616}
 \author{Llu\'{\i}s Antoni Jim\'{e}nez Rugama}
@@ -114,7 +114,7 @@ Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of determini
 \right \}.
 \end{multline}
 Algorithms in $\ca(\ch)$ are allowed to sample adaptively any bounded, linear functionals
-of the input function $f$.  The definition of $\ch$ can be used in constructing algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.
+of the input function $f$.  They must require only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\ch$ can be used in constructing algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a}
 
 The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define for arbitrary algorithms $A \in \ca(\ch)$, 
 \begin{equation*}
@@ -479,9 +479,12 @@ A lower bound on the complexity of the linear problem defined in \eqref{probDef}
 \begin{subequations} \label{compbd}
 \begin{align}
  \label{compbdA}
-\comp(\ca(\cc),\varepsilon,\rho) &\ge n_{j^*},  \\
+\comp(&\ca(\cc),\varepsilon,\rho) \ge n_{j^*},  \\
+\nonumber
+\text{where} & \\
 \label{compbdB}
-\text{where} \qquad j^* &= \max \left \{ j \in \naturals : \sum_{k=1}^j \frac{b^{k-j}}{\lambda_{n_{k}}}   < \frac{\rho(a-1)}{2a \varepsilon}
+& j^* = \max \left \{ j \in \naturals : \left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}   < 
+\frac{(a-1)^2\rho^2}{(a+1)^2A^2\varepsilon^2}
 \right \}.
 \end{align}
 \end{subequations}
@@ -501,12 +504,14 @@ The first test function $f \in \cc$ is defined in terms of its series coefficien
 \end{cases}
 \\
 \label{cdef}
-c &:= \frac{\rho (a+1)}{2a} \left[\sum_{k=1}^j \frac{b^{k-j}}{\lambda_{n_{k}}} \right]^{-1}.
+c^2 &:=  \rho^2 \left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1},
 \end{align}
+where 
+\[A = \max_{1 \le k \le j} \frac{\lambda_{n_{k-1}+1}}{\lambda_{n_k}}.\]
 It can be verified that the test function lies in a ball of radius $\rho$ and also in the cone $\cc$:
 \begin{align}
 \label{testfunnorm}
-\norm[\cf]{f} & \le c \sum_{k=1}^j \norm[\cf]{\hf_{n_k} u_{n_k}} = c \sum_{k=1}^j \frac{b^{k-j}}{\lambda_{n_{k}}}  \le \rho,
+\norm[\cf]{f}^2 &=  c^2\sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \le \rho^2,
 \\
 \nonumber
 \sigma_k(f) &= \begin{cases}
@@ -524,12 +529,21 @@ b^{r} \sigma_k(f) \le a b^r \sigma_k(f), & k+r \le j, \ r \ge 1,
 \end{cases}
 \end{align}
 
-Now suppose that $A^*(f,\varepsilon)$ samples $L_1(f), \ldots, L_n(f)$ where $n \le \comp(\rho,\varepsilon) < n_j$.  Let $u$ be a linear combination of $u_1, \cdots, u_{n_j}$ constructed to have unit norm and satisfy $L_1(u) = \cdots = L_n(u) = 0$.  Let 
+Now suppose that $A^* \in \ca(\cc)$ is an optimal algorithm, i.e., $\cost(A^*,\cc,\varepsilon,\rho) =  \comp(\ca(\cc),\varepsilon,\rho)$ for all $\varepsilon, \rho > 0$.  For our particular input $f$ defined above, suppose that $A^*(f,\varepsilon)$ samples $L_1(f), \ldots, L_n(f)$ where 
+\[n + 1
+\le \comp(\ca(\cc),\varepsilon,\rho) +1 < n_j.\]  Let $u$ be a linear combination of $u_1, \cdots, u_{n_j}$ constructed to have unit norm and satisfy $L_1(u) = \cdots = L_n(u) = 0$ and $\langle u,f \rangle_{\cf} = 0$. Denote
+\[u = \sum_{k=1}^{j}u^{(k)}\frac{b^{k-j}}{\lambda_{n_k}}\]
+where $u^{k}= \sum_{i = n_{k-1}+1}^{n_k} \hu_i u_i$ and
+$\max_{1\le k\le j} \norm[\cf]{u^{(k)}} = 1.$
+Let 
 \begin{gather}
 \label{etadef}
-f^*_\pm = f \pm \eta u, \quad \eta : = \max_{1 \le k \le j} \frac {c(a-1)b^{k-j}}{(a+1) \lambda_{n_k}}, \\
+f^*_\pm = f \pm \eta u, \quad \eta : =  \frac {(a-1)}{(a+1)A}c, \\
 \nonumber
-\norm[\cf]{f^*_\pm} \le \norm[\cf]{f} + \eta \le \frac{2ac}{a+1} \sum_{k=1}^j \frac{b^{k-j}}{\lambda_{n_{k}}}  \le \rho.
+\norm[\cf]{f^*_\pm}^2 \le \norm[\cf]{f}^2 + \norm[\cf]{\eta u } 
+\le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \norm[\cf]{u^{(k)}}^2\right)\\
+\nonumber
+\le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \right)  \le \rho^2.
 \end{gather} 
 By design, $A^*(f^*_\pm,\varepsilon) = A^*(f,\varepsilon)$, which will be used below.
 
@@ -537,14 +551,19 @@ Now we must check that $f^*_\pm \in \cc$. From the definition in \eqref{sumdef} 
 \begin{align*}
 \sigma_k(f^*_\pm) & \begin{cases} 
 \displaystyle
-\le \sigma_k(f) + \eta \lambda_{n_k} = \frac{2a b^{k-j}}{a+1}, 
+\le \sigma_k(f) + \sigma_k(\eta u)\le 
+c b^{k-j} + \eta\lambda_{n_{k-1}+1}\frac{b^{k-j}\norm[\cf]{u^{(k)} } }{\lambda_{n_k}}
+\le b^{k-j}\left(c+\eta A \right) 
 \\[1ex]
 \displaystyle
-\ge \sigma_k(f) - \eta \lambda_{n_k}  = \frac{2 b^{k-j}}{a+1}, 
+\ge \sigma_k(f) - \sigma_k(\eta u)\ge 
+c b^{k-j} - \eta\lambda_{n_{k-1}+1}\frac{b^{k-j}\norm[\cf]{u^{(k)} } }{\lambda_{n_k}}
+\ge b^{k-j}\left(c-\eta A \right) , 
 \end{cases}
 \\
-\sigma_{k+r}(f^*_\pm) & 
-\le \frac{2a b^{k+r-j}}{a+1} \le ab^r \frac{2 b^{k-j}}{a+1} \le a b^r \sigma_{k}(f^*_\pm).
+\sigma_{k+r}(f^*_\pm)&
+\le b^{k+r-j}(c+\eta A) = ab^r b^{k-j}\frac{2c}{a+1}
+=ab^r b^{k-j}\left(c-\eta A \right) \le a b^r \sigma_{k}(f^*_\pm).
 \end{align*}
 
 Given the two test functions $f^*_\pm$ and our successful algorithm, $A^*$, we note that
@@ -554,12 +573,27 @@ Given the two test functions $f^*_\pm$ and our successful algorithm, $A^*$, we n
 &\qquad \qquad \text{since } A^*(f^*_\pm,\varepsilon) = A^*(f,\varepsilon) \\
 &\ge \frac 12 \norm[\cg]{S(f^*_+) - S(f^*_-)} \quad \text{by the triangle inequality}\\
 &\ge \frac 12 \norm[\cg]{S(f^*_+ - f^*_-)} \quad \text{since $S$ is linear}\\
-&= \eta \norm[\cg]{S(u)} \ge \eta \lambda_{n_j} \ge \frac {c(a-1)}{(a+1)} \quad \text{by \eqref{etadef}} \\
-& = \frac{\rho(a-1)}{2a} \left[\sum_{k=1}^j \frac{b^{k-j}}{\lambda_{n_{k}}} \right]^{-1}.
+&= \eta \norm[\cg]{S(u)}
 \end{align*}
-This lower bound must be satisfied by $j$ to be consistent with the assumption $\comp(\rho,\varepsilon) < n_j$.  Any $j$ violating this inequality then provides a lower bound on $\comp(\rho,\varepsilon)$.
-\end{proof}
+Thus, we have
+\begin{align*}
+\varepsilon^2 \ge \eta \norm[\cg]{S(u)}^2 & = 
+\eta^2\sum_{k=1}^{j} \norm[\cf]{S(u^{(k)}}^2 
+\left(\frac{b^{k-j}}{\lambda_{n_k}}\right)^2\\
+& \ge \eta^2 
+\sum_{k=1}^{j} {\sigma_k(u)}^2 
+\left(\frac{b^{k-j}}{\lambda_{n_k}}\right)^2\\
+& \ge \eta^2 
+\sum_{k=1}^{j} \norm[\cf]{u^{(k)}}^2 
+b^{2(k-j)}\\
+& \ge  \eta^2 b^{2(k^{*}-j)} \qquad \text{ where } k^* = \arg\max_{k} \norm[\cf]{u^{(k)}} = 1\\
+& \ge \eta^2 = \frac{(a-1)^2}{(a+1)^2A^2}c^2 \\
+&
+=\frac{(a-1)^2 \rho^2}{(a+1)^2A^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1}
+\end{align*}
 
+This lower bound must be satisfied by $j$ to be consistent with the assumption $\comp(\ca(\cc),\varepsilon,\rho) < n_j$.  Any $j$ violating this inequality then provides a lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$.
+\end{proof}
 
 
 
@@ -622,7 +656,11 @@ v_{\vk}(\vx) & : =  -\sign(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \b
 \lambda_{\vk} &:= \frac{2 \pi \abs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}
 \end{align*}
 
-
+\yuhannote{The figure is here in comment}
+%\begin{figure}
+%	\centering
+%	\includegraphics[width = 8 cm]{ProgramsImages/SimDirectSolErr.eps}
+%\end{figure}
 
 
 %\subsection{Examples: Approximating the divergence of a vector field}
@@ -647,6 +685,11 @@ v_{\vk}(\vx) & : =  -\sign(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \b
 
 
 \end{document}
+
+
+
+
+
 
 \begin{rem}
 For the algorithm, $\tA$, defined in Algorithm \ref{algo2}, $\cost(\tA,\rho,\varepsilon) \le n_{j^*}$, where $j^*$ satisfies the following upper bound:
