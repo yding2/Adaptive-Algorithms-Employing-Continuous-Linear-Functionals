@@ -132,12 +132,12 @@ For unbounded sets, $\ch$, this cost may be infinite.  Therefore, it is also hel
 \begin{equation*}
 \cost(A,\ch,\varepsilon,\rho) : = \sup \{\cost(A,f,\varepsilon) : f \in \ch \cap \cb_{\rho} \} \qquad \forall \rho > 0, \ \varepsilon > 0.
 \end{equation*}
-Note that $\cost(A,\ch,\varepsilon,\rho)$ is no less than---but possibly greater than---$\cost(A,\ch \cap \cb_{\rho},\varepsilon)$.  In the former case, the algorithm is unaware  that the input function has norm no greater than $\rho$.  
 Finally, we define the complexity of the problem as computational cost of the best algorithm:
 \begin{gather*}
 \comp(\ca(\ch),\varepsilon) := \min_{A \in \ca(\ch)} \cost(A, \ch, \varepsilon), \\
 \comp(\ca(\ch),\varepsilon,\rho) := \min_{A \in \ca(\ch)} \cost(A, \ch, \varepsilon, \rho).
 \end{gather*}
+Note that $\comp(\ca(\ch),\varepsilon,\rho) \ge \comp(\ca(\ch \cap \cb_{\rho}),\varepsilon)$.  In the former case, the algorithm is unaware  that the input function has norm no greater than $\rho$.  
 
 An optimal algorithm for $\cb_{\rho}$ can be constructed in terms of the interpolation based on the first $n$ series coefficients of the input, namely,
 \begin{gather}  \label{optAdef}
