@@ -479,27 +479,30 @@ Since the $\lambda_i$ are non-increasing,
 From Corollary \ref{cor:tAsameCosthA} it is known that $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially no worse than
 $\cost(\hA,\cb_{\rho},\varepsilon) = \comp(\ca(\cb_{\rho}),\varepsilon)$.  We would like to show that $\tA \in \ca(\cc)$ is  essentially optimal, i.e., $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially the same as  $\comp(\ca(\cc),\varepsilon,\rho)$.  However,  $\comp(\ca(\cc),\varepsilon,\rho)$ may be smaller than $\comp(\ca(\cb_{\rho}),\varepsilon)$ because $\cc \cap \cb_\rho$ is a strict subset of  $ \cb_\rho$.  This presents a challenge.
 
-The proof is accomplished by constructing fooling functions in $\cc$ with norms no greater than $\varrho$.
+A lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$ is established by   proof is accomplished by constructing fooling functions in $\cc$ with norms no greater than $\rho$.  To obtain a result that can be compared with the cost of our algorithm, we assume that 
+\begin{equation} \label{lambdaRatio}
+R = \sup_{k \in \naturals} \frac{\lambda_{n_{k-1}}}{\lambda_{n_k}} < \infty.
+\end{equation}
+This means that the $n_k$ are not too far apart with respect to the decay of $\lambda_i$ as $i \to \infty$
 
 
 \begin{theorem} \label{thm:lowbdcomp}
-A lower bound on the complexity of the linear problem defined in \eqref{probDef} is
+Under assumption  \eqref{lambdaRatio}, a lower bound on the complexity of the linear problem defined in \eqref{probDef} is
 \begin{subequations} \label{compbd}
 \begin{align}
  \label{compbdA}
-\comp(&\ca(\cc),\varepsilon,\rho) \ge n_{j^*},  \\
-\nonumber
-\text{where} & \\
+&\comp(\ca(\cc),\varepsilon,\rho) \ge n_{j^*}, 
+\intertext{where}
 \label{compbdB}
-& j^* = \max \left \{ j \in \naturals : \left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}   < 
-\frac{(a-1)^2\rho^2}{(a+1)^2A^2\varepsilon^2}
+j^* & = \max \left \{ j \in \naturals : \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}   <
+\frac{\rho^2}{\varepsilon^2}
 \right \}.
 \end{align}
 \end{subequations}
 \end{theorem}
 
 \begin{proof}
-Consider a fixed $\rho$ and $\varepsilon$.  Choose any positive integer $j$ such that $n_j$ exceeds $\comp(\ca(\cc),\varepsilon,\rho)$.  The proof proceeds by constructing test input functions, $f$ and $f^*_{\pm}$, all lying in $\cc$ and in the ball with radius $\rho$, which yield the same approximate solution while yielding different true solutions.  This leads to a lower bound on $n_j$, which can be translated into a lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$. 
+Consider a fixed $\rho$ and $\varepsilon$.  Choose any positive integer $j$ such that $n_j$ exceeds $\comp(\ca(\cc),\varepsilon,\rho)$.  The proof proceeds by carefully constructing thre  test input functions, $f$ and $f_{\pm}$, lying in $\cc \cap \cb_{\rho}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $n_j$, which can be translated into a lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$. 
 
 The first test function $f \in \cc$ is defined in terms of its series coefficients:
 \begin{align}
@@ -508,15 +511,13 @@ The first test function $f \in \cc$ is defined in terms of its series coefficien
 \displaystyle
 \frac{c b^{k-j}}{\lambda_{n_{k}}},  & i =  n_{k}, \ k = 1, \ldots, j,
 \\
-0, & \text{otherwise}
+0, & \text{otherwise},
 \end{cases}
 \\
 \label{cdef}
-c^2 &:=  \rho^2 \left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1},
+c^2 &:=  \rho^2 \left[ \left(1+\frac{(a-1)^2}{(a+1)^{2} R^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1}.
 \end{align}
-where 
-\[A = \max_{1 \le k \le j} \frac{\lambda_{n_{k-1}+1}}{\lambda_{n_k}}.\]
-It can be verified that the test function lies in a ball of radius $\rho$ and also in the cone $\cc$:
+It can be verified that the test function lies both in $\cb_{\rho}$ and in $\cc$:
 \begin{align}
 \label{testfunnorm}
 \norm[\cf]{f}^2 &=  c^2\sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \le \rho^2,
@@ -538,119 +539,83 @@ b^{r} \sigma_k(f) \le a b^r \sigma_k(f), & k+r \le j, \ r \ge 1,
 \end{align}
 
 Now suppose that $A^* \in \ca(\cc)$ is an optimal algorithm, i.e., $\cost(A^*,\cc,\varepsilon,\rho) =  \comp(\ca(\cc),\varepsilon,\rho)$ for all $\varepsilon, \rho > 0$.  For our particular input $f$ defined above, suppose that $A^*(f,\varepsilon)$ samples $L_1(f), \ldots, L_n(f)$ where 
-\[n + 1
-\le \comp(\ca(\cc),\varepsilon,\rho) +1 < n_j.\]  Let $u$ be a linear combination of $u_1, \cdots, u_{n_j}$ constructed to have unit norm and satisfy $L_1(u) = \cdots = L_n(u) = 0$ and $\langle u,f \rangle_{\cf} = 0$. Denote
-\[u = \sum_{k=1}^{j}u^{(k)}\frac{b^{k-j}}{\lambda_{n_k}}\]
-where $u^{k}= \sum_{i = n_{k-1}+1}^{n_k} \hu_i u_i$ and
-$\max_{1\le k\le j} \norm[\cf]{u^{(k)}} = 1.$
-Let 
-\begin{gather}
-\label{etadef}
-f^*_\pm = f \pm \eta u, \quad \eta : =  \frac {(a-1)}{(a+1)A}c, \\
-\nonumber
-\norm[\cf]{f^*_\pm}^2 \le \norm[\cf]{f}^2 + \norm[\cf]{\eta u } 
-\le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \norm[\cf]{u^{(k)}}^2\right)\\
-\nonumber
-\le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \right)  \le \rho^2.
-\end{gather} 
-By design, $A^*(f^*_\pm,\varepsilon) = A^*(f,\varepsilon)$, which will be used below.
+\[
+n + 1\le \comp(\ca(\cc),\varepsilon,\rho) +1 < n_j.
+\]  
 
-Now we must check that $f^*_\pm \in \cc$. From the definition in \eqref{sumdef} it follows that for $k = 1, \ldots, j$ and $r \ge 1$
-\begin{align*}
-\sigma_k(f^*_\pm) & \begin{cases} 
+Let $u$ be a linear combination of $u_1, \cdots, u_{n_j}$, expressed as
+\[
+u =  \sum_{k=0}^{j}\frac{b^{k-j}u^{(k)}}{\lambda_{n_k}},
+\]
+where $u^{(0)}$ is a linear combination of $u_{1}, \ldots, u_{n_0}$, and each $u^{(k)}$ is a linear combination of $u_{n_k+1}, \ldots, u_{n_k}$, for $k =1, \ldots, j$.  We constrain $u$ to satisfy:
+\begin{equation}\label{uConstraint}
+L_1(u) = \cdots = L_n(u) = 0, \qquad \langle u,f \rangle_{\cf} = 0, \qquad 
+\max_{0\le k\le j} \bignorm[\cf]{u^{(k)}} = 1.
+\end{equation}
+Since $u$ is a linear combination of $n_j >n+1$ basis functions, these constraints can be satisfied.
+
+Let the other two test functions be constructed in terms of $u$ as 
+\begin{align}
+\label{etadef}
+f_\pm & := f \pm \eta u, \qquad \eta : =  \frac {(a-1)c}{(a+1)R}, \\
+\nonumber
+\norm[\cf]{f^*_\pm}^2 & \le \norm[\cf]{f}^2 + \norm[\cf]{\eta u }^2 \qquad \text{by \eqref{uConstraint}} \\
+& \le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \bignorm[\cf]{u^{(k)}}^2\right) + \eta^2 \bignorm[\cf]{u^{(0)}}^2 \frac{b^{-2j}}{\lambda_{n_0}^2}\\
+\nonumber
+& \le  \left(c^2+ \eta^2 \right) \sum_{k=0}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}}  \qquad \text{by \eqref{uConstraint}}\\
+&  \le \rho^2,
+\end{align} 
+so $f_{\pm} \in \cb_{\rho}$.  By design, $A^*(f_\pm,\varepsilon) = A^*(f,\varepsilon)$, which will be used below.
+
+Now we must check that $f_\pm \in \cc$. From the definition in \eqref{sumdef} it follows that for $k = 1, \ldots, j$ and $r \ge 1$
+\begin{equation*}
+\sigma_k(f_\pm)  \begin{cases} 
 \displaystyle
 \le \sigma_k(f) + \sigma_k(\eta u)\le 
 c b^{k-j} + \eta\lambda_{n_{k-1}+1}\frac{b^{k-j}\norm[\cf]{u^{(k)} } }{\lambda_{n_k}}
-\le b^{k-j}\left(c+\eta A \right) 
+\le b^{k-j}\left(c+\eta R \right) 
 \\[1ex]
 \displaystyle
 \ge \sigma_k(f) - \sigma_k(\eta u)\ge 
 c b^{k-j} - \eta\lambda_{n_{k-1}+1}\frac{b^{k-j}\norm[\cf]{u^{(k)} } }{\lambda_{n_k}}
-\ge b^{k-j}\left(c-\eta A \right) , 
+\ge b^{k-j}\left(c-\eta R \right) , 
 \end{cases}
-\\
-\sigma_{k+r}(f^*_\pm)&
-\le b^{k+r-j}(c+\eta A) = ab^r b^{k-j}\frac{2c}{a+1}
-=ab^r b^{k-j}\left(c-\eta A \right) \le a b^r \sigma_{k}(f^*_\pm).
-\end{align*}
+\end{equation*}
+Therefore, 
+\begin{equation*}
+\sigma_{k+r}(f_\pm)
+\le b^{k+r-j}(c+\eta R) = ab^r b^{k-j}\frac{2c}{a+1}
+=ab^r b^{k-j}\left(c-\eta R \right) \le a b^r \sigma_{k}(f_\pm),
+\end{equation*}
+which establishes that $f_\pm \in \cc$.
 
-Given the two test functions $f^*_\pm$ and our successful algorithm, $A^*$, we note that
+Although two test functions $f_\pm$ yield the same approximate solution, they have different true solutions.  In particular,
 \begin{align*}
-\varepsilon &\ge \max \bigl\{\norm[\cg]{S(f^*_+) - A^*(f^*_+,\varepsilon)}, \norm[\cg]{S(f^*_-) - A^*(f^*_-,\varepsilon)} \bigr\} \\
+\varepsilon &\ge \max \bigl\{\norm[\cg]{S(f_+) - A^*(f_+,\varepsilon)}, \norm[\cg]{S(f_-) - A^*(f_-,\varepsilon)} \bigr\} \\
 &\ge \frac 12 \bigl[\norm[\cg]{S(f^*_+) - A^*(f,\varepsilon)} + \norm[\cg]{S(f^*_-) - A^*(f,\varepsilon)}  \bigr] \\
 &\qquad \qquad \text{since } A^*(f^*_\pm,\varepsilon) = A^*(f,\varepsilon) \\
 &\ge \frac 12 \norm[\cg]{S(f^*_+) - S(f^*_-)} \quad \text{by the triangle inequality}\\
 &\ge \frac 12 \norm[\cg]{S(f^*_+ - f^*_-)} \quad \text{since $S$ is linear}\\
-&= \eta \norm[\cg]{S(u)}
+&= \eta \norm[\cg]{S(u)}.
 \end{align*}
 Thus, we have
 \begin{align*}
-\varepsilon^2 \ge \eta \norm[\cg]{S(u)}^2 & = 
-\eta^2\sum_{k=1}^{j} \norm[\cf]{S(u^{(k)}}^2 
-\left(\frac{b^{k-j}}{\lambda_{n_k}}\right)^2\\
+\varepsilon^2  & \ge \eta \norm[\cg]{S(u)}^2= 
+\eta^2 \sum_{k=0}^{j} \bignorm[\cg]{S(u^{(k)})}^2  \frac{b^{2(k-j)}}{\lambda_{n_k}^2}\\
 & \ge \eta^2 
-\sum_{k=1}^{j} {\sigma_k(u)}^2 
-\left(\frac{b^{k-j}}{\lambda_{n_k}}\right)^2\\
-& \ge \eta^2 
-\sum_{k=1}^{j} \norm[\cf]{u^{(k)}}^2 
+\sum_{k=0}^{j} \bignorm[\cf]{u^{(k)}}^2 
 b^{2(k-j)}\\
-& \ge  \eta^2 b^{2(k^{*}-j)} \qquad \text{ where } k^* = \arg\max_{k} \norm[\cf]{u^{(k)}} = 1\\
-& \ge \eta^2 = \frac{(a-1)^2}{(a+1)^2A^2}c^2 \\
+& \ge  \eta^2 b^{2(k^{*}-j)} \qquad \text{ where } k^* = \argmax_{0 \le k \le j} \bignorm[\cf]{u^{(k)}} \\
+& \ge \eta^2 = \frac{(a-1)^2c^2}{(a+1)^2R^2} \\
 &
-=\frac{(a-1)^2 \rho^2}{(a+1)^2A^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1}
+=\frac{(a-1)^2 \rho^2}{(a+1)^2A^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
+& = \rho^2 \left[\left\{\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right\}\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
 \end{align*}
 
-This lower bound must be satisfied by $j$ to be consistent with the assumption $\comp(\ca(\cc),\varepsilon,\rho) < n_j$.  Any $j$ violating this inequality then provides a lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$.
+This lower bound must be satisfied by $j$ to be consistent with the assumption $\comp(\ca(\cc),\varepsilon,\rho) \le n_j - 1$.  Thus, for any $j$ violating this inequality it follows that $\comp(\ca(\cc),\varepsilon,\rho) \ge n_j$.  This implication provides a lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$.
 \end{proof}
 
 
-
-\begin{theorem}
-If the $\lambda_{n_j}$ satisfy the lower bound
-\begin{equation} \label{lambdaalphabetabd}
-\lambda_{n_j} \ge \xi \zeta^{j}, \qquad j \in \naturals,
-\end{equation}
-for some non-negative $\xi$ and $\zeta$ with $\zeta < 1$, then $\cost(\tA,\cc,\varepsilon,\rho)$ is essentially the same as $\comp(\ca(\cc),\varepsilon,\rho)$ for all positive $\varepsilon$ and $\rho$.  Thus, our adaptive algorithm, $\tA$ is essentially optimal for problems defined on $\cc$.
-\end{theorem}
-\begin{proof}  Fix positive $\varepsilon$ and $\rho$.  Without loss of generality, we may choose $\zeta$ in \eqref{lambdaalphabetabd} different from $b$.  Let $j^*$ be defined as in \eqref{compbdB}, and consider the sum in its definition.  For all $j \in \naturals$, 
-\begin{align*}
-\sum_{k=1}^j \frac{b^{k-j}}{\lambda_{n_{k}}}
-& \le 
-\frac{1}{\xi b^j} \sum_{k=1}^j \left(\frac{b}{\zeta} \right)^{k-j} 
-= 
-\frac{1}{\xi b^j} \frac{b/\zeta - (b/\zeta)^{j+1}}{1 - b/\zeta}
-\\
-&\le
-\begin{cases}
-\displaystyle 
-\frac{b}{\xi \zeta^{j}(b -  \zeta)},
-& \zeta < b
-\\
-\displaystyle 
-\frac{b}{\xi b^{j}(\zeta - b)}, & \zeta > b.
-\end{cases}
-\end{align*}
-
-Let $n_{j^\dagger} = \cost(\tA,\cc,\varepsilon,\rho)$.  We consider two cases.
-
-If $\zeta > b$, then 
-\begin{align*}
-\sum_{k=1}^{j^\dagger} \frac{b^{k-j^\dagger}}{\lambda_{n_{k}}}
-& \le \frac{b}{\xi b^{j^\dagger}(\zeta - b)} \\ 
-& < \frac{\rho a^2 b \lambda_{n_0+1}}{\varepsilon \xi \sqrt{1-b^2}(\zeta - b) } \\
-& = \frac{\rho (a-1)}{2 a (\omega\varepsilon)}, \quad \text{where } \omega = \frac{\xi (a-1)\sqrt{1-b^2}(\zeta - b)}{2a^3b \lambda_{n_0+1}}  
-\end{align*}
-Thus, by \eqref{compbd}, $\cost(\tA,\cc,\varepsilon,\rho) = n_{j^\dagger} \le \comp(\ca(\cc),\omega \varepsilon,\rho)$.
-
-Alternatively, if $\zeta < b$, then 
-\begin{align*}
-\sum_{k=1}^{j^\dagger} \frac{b^{k-j^\dagger}}{\lambda_{n_{k}}}
-& \le \frac{b}{\xi \zeta^{j^\dagger}(b - \zeta)} \\ 
-& < \frac{\rho a^2 b \lambda_{n_0+1}}{\varepsilon \xi \sqrt{1-b^2}(\zeta - b) } \\
-& = \frac{\rho (a-1)}{2 a (\omega\varepsilon)}, \quad \text{where } \omega = \frac{\xi (a-1)\sqrt{1-b^2}(\zeta - b)}{2a^3b \lambda_{n_0+1}}  
-\end{align*}
-
-\end{proof}
 
 \section{Examples} \label{sec:examp}
 
@@ -665,10 +630,10 @@ v_{\vk}(\vx) & : =  -\sign(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \b
 \end{align*}
 
 \yuhannote{The figure is here in comment}
-%\begin{figure}
-%	\centering
-%	\includegraphics[width = 8 cm]{ProgramsImages/SimDirectSolErr.eps}
-%\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width = 8 cm]{ProgramsImages/SimDirectSolErr.eps}
+\end{figure}
 
 
 %\subsection{Examples: Approximating the divergence of a vector field}
