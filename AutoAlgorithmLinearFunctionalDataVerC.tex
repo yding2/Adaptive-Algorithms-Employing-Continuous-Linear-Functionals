@@ -284,7 +284,7 @@ Here $\cg=\cl_2[0,1]$.  The larger the non-negative parameter $r$ is, the smalle
 
 
 
-\section{Assuming that the Series Coefficients of the Solution Decay \\ Steadily} \label{sec:cone}
+\section{Assuming a Steady Decay of the Series Coefficients of the Solution} \label{sec:cone}
 
 Recall from \eqref{errOpt} that the error of the fixed sample size interpolatory algorithm $\optAn$ is $\norm[\cg]{S(f) - \optAn(f)} = \bignorm[2]{\bigl(\lambda_{i} \hf_{i} \bigr)_{i= n+1}^{\infty}}$.  The error depends on the series coefficients not yet observed, so at first glance this error seems to be impossible to bound in terms of observed series coefficients.  
 
@@ -474,7 +474,7 @@ Since the $\lambda_i$ are non-increasing,
 \end{proof}
 
 
-\section{Optimality of the Adaptive Algorithm} \label{sec:opt}
+\section{Essential Optimality of the Adaptive Algorithm} \label{sec:opt}
 
 From Corollary \ref{cor:tAsameCosthA} it is known that $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially no worse than
 $\cost(\hA,\cb_{\rho},\varepsilon) = \comp(\ca(\cb_{\rho}),\varepsilon)$.  We would like to show that $\tA \in \ca(\cc)$ is  essentially optimal, i.e., $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially the same as  $\comp(\ca(\cc),\varepsilon,\rho)$.  However,  $\comp(\ca(\cc),\varepsilon,\rho)$ may be smaller than $\comp(\ca(\cb_{\rho}),\varepsilon)$ because $\cc \cap \cb_\rho$ is a strict subset of  $ \cb_\rho$.  This presents a challenge.
@@ -483,7 +483,9 @@ A lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$ is established by   proof is
 \begin{equation} \label{lambdaRatio}
 R = \sup_{k \in \naturals} \frac{\lambda_{n_{k-1}}}{\lambda_{n_k}} < \infty.
 \end{equation}
-This means that the $n_k$ are not too far apart with respect to the decay of $\lambda_i$ as $i \to \infty$
+This means that the $n_k$ are not too far apart with respect to the decay of $\lambda_i$ as $i \to \infty$.
+
+The following theorem establishes a lower bound on the complexity of our problem for input functions in $\cc$.  After that we show that the cost of our algorithm as given in Theorem \ref{thm:compcost} is essentially no worse than this lower bound.
 
 
 \begin{theorem} \label{thm:lowbdcomp}
@@ -567,7 +569,7 @@ f_\pm & := f \pm \eta u, \qquad \eta : =  \frac {(a-1)c}{(a+1)R}, \\
 \end{align} 
 so $f_{\pm} \in \cb_{\rho}$.  By design, $A^*(f_\pm,\varepsilon) = A^*(f,\varepsilon)$, which will be used below.
 
-Now we must check that $f_\pm \in \cc$. From the definition in \eqref{sumdef} it follows that for $k = 1, \ldots, j$ and $r \ge 1$
+Now we must check that $f_\pm \in \cc$. From the definition in \eqref{sumdef} it follows that for $k = 1, \ldots, j$ and $r \ge 1$,
 \begin{equation*}
 \sigma_k(f_\pm)  \begin{cases} 
 \displaystyle
@@ -608,13 +610,36 @@ b^{2(k-j)}\\
 & \ge  \eta^2 b^{2(k^{*}-j)} \qquad \text{ where } k^* = \argmax_{0 \le k \le j} \bignorm[\cf]{u^{(k)}} \\
 & \ge \eta^2 = \frac{(a-1)^2c^2}{(a+1)^2R^2} \\
 &
-=\frac{(a-1)^2 \rho^2}{(a+1)^2A^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
-& = \rho^2 \left[\left\{\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right\}\sum_{k=1}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
+=\frac{(a-1)^2 \rho^2}{(a+1)^2A^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
+& \le  \rho^2 \left[\left\{\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right\}\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
 \end{align*}
 
 This lower bound must be satisfied by $j$ to be consistent with the assumption $\comp(\ca(\cc),\varepsilon,\rho) \le n_j - 1$.  Thus, for any $j$ violating this inequality it follows that $\comp(\ca(\cc),\varepsilon,\rho) \ge n_j$.  This implication provides a lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$.
 \end{proof}
 
+The next step is to show that the cost of our algorithm is essentially no worse than that of the optimal algorithm.
+
+\begin{theorem}
+\label{thm:CostNoWorse}
+Under assumption \eqref{lambdaRatio} $\cost(\tA,\rho,\varepsilon)$ is essentially no worse than $\comp(\ca(\cc),\rho,\varepsilon)$.
+\end{theorem}
+\begin{proof}
+Let  
+\begin{equation} \label{omegadef}
+    \omega = \sqrt{\frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}}
+\end{equation}
+For any positive $\rho$ and $\varepsilon$, Theorem \ref{thm:compcost} says that $\cost(\tA,\rho,\varepsilon) \le n_{j^\dagger}$ where 
+\begin{align*} 
+j^\dagger &\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\} \\
+&\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4b^2} \sum_{k=1}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k-1}+1}^2} \right\} \qquad \text{since } a > 1\\
+&\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}+1}^2} \right\} \\
+&\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{since } \lambda_{n_k} \ge \lambda_{n_k+1}\\
+&\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)} \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{by \eqref{lambdaRatio} } \\
+&\le \min \left \{j \in \naturals : \frac{\rho^2}{\omega^2 \varepsilon^2} \le \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{by \eqref{omegadef} } \\
+&\le \max \left \{j \in \naturals : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} =:j^*.
+\end{align*}
+By Theorem \ref{thm:lowbdcomp}, $\comp(\ca(\cc),\omega\varepsilon,\rho) \ge n_{j^*}$, and by the argument above $n_{j^*} \ge n_{j^\dagger} \ge \cost(\tA,\varepsilon,\rho)$.  Thus, our algorithm is essentially no more costly than the optimal algorithm.
+\end{proof}
 
 
 \section{Examples} \label{sec:examp}
