@@ -332,7 +332,7 @@ for some constants $C_{\lo}$ and $C_{\up}$, unless the series coefficients drop 
 Thus, choosing $a \ge C_{\up}/C_{\lo}$ and $b \ge 2^{1-p}$ ensures that reasonable inputs $f$ lie inside the cone $\cc$.
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Adaptive Algorithm} \label{sec:adaptalgo}
 
 Now we introduce our adaptive algorithm, $\tA \in \ca(\cc)$, which yields an approximate solution to the problem $S:\cc\rightarrow\cg$ that meets the absolute error tolerance $\varepsilon$.
@@ -355,7 +355,7 @@ The algorithm, $\tA$, defined in Algorithm \ref{algo2} lies in $\ca(\cc)$ and ha
 \[
 \sigma_{j^*}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab}  < \sigma_{j}(f), \quad 1 \le j < j^*.
 \]
-Moreover, $\cost(\tA,\rho,\varepsilon) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
+Moreover, $\cost(\tA,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdagger}
 j^\dagger \le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}.
 \end{equation}
@@ -365,7 +365,7 @@ j^\dagger \le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \f
 \begin{proof}
 This algorithm terminates for some $j = j^*$ because $\sigma_j(f) \le ab^{j-1} \sigma_{1}(f) \to 0$ as $j \to \infty$. The value of $j^*$ follows directly from this termination criterion in Step 2.  It then follows that the error bound on $A_{n_{j^*}}(f)$ in \eqref{algoineq} is no greater than the error tolerance $\varepsilon$.  So, $\tA \in \ca(\cc)$.
 
-To derive an upper bound on $\cost(\tA,\rho,\varepsilon)$ we start by noting some properties of $\sigma_j(f)$ for all $f \in \cc$:
+To derive an upper bound on $\cost(\tA,\varepsilon,\rho)$ we start by noting some properties of $\sigma_j(f)$ for all $f \in \cc$:
 \begin{multline} \label{normsigineq}
 \lambda_{n_j} \bignorm[2]{\big( \hf_i \big)_{i=n_{j-1}+1}^{n_j}} \le 
 \bignorm[2]{\big( \lambda_i \hf_i \big)_{i=n_{j-1}+1}^{n_j}} = \sigma_j(f) 
@@ -414,7 +414,7 @@ The upper bound on $\cost(\tA,\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  
 \end{equation}
 One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\tA$
 
-\begin{cor} For the algorithm, $\tA$, defined in Algorithm \ref{algo2}, then $\cost(\tA,\rho,\varepsilon) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
+\begin{cor} For the algorithm, $\tA$, defined in Algorithm \ref{algo2}, then $\cost(\tA,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdaggerfirst}
 j^\dagger \le \left \lceil \log\left(\frac{\rho a^2\lambda_{n_{0}+1} }{\varepsilon \sqrt{1 - b^2}}\right) \div \log\left(\frac{1}{b}\right) \right \rceil.
 \end{equation}
@@ -473,7 +473,7 @@ Since the $\lambda_i$ are non-increasing,
 \end{equation*}
 \end{proof}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Essential Optimality of the Adaptive Algorithm} \label{sec:opt}
 
 From Corollary \ref{cor:tAsameCosthA} it is known that $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially no worse than
@@ -621,7 +621,7 @@ The next step is to show that the cost of our algorithm is essentially no worse 
 
 \begin{theorem}
 \label{thm:CostNoWorse}
-Under assumption \eqref{lambdaRatio} $\cost(\tA,\rho,\varepsilon)$ is essentially no worse than $\comp(\ca(\cc),\rho,\varepsilon)$.
+Under assumption \eqref{lambdaRatio} $\cost(\tA,\varepsilon,\rho)$ is essentially no worse than $\comp(\ca(\cc),\varepsilon,\rho)$.
 \end{theorem}
 \begin{proof}
 Let  
@@ -636,12 +636,12 @@ j^\dagger &\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \
 &\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{since } \lambda_{n_k} \ge \lambda_{n_k+1}\\
 &\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)} \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{by \eqref{lambdaRatio} } \\
 &\le \min \left \{j \in \naturals : \frac{\rho^2}{\omega^2 \varepsilon^2} \le \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{by \eqref{omegadef} } \\
-&\le \max \left \{j \in \naturals : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} =:j^*.
+&= \max \left \{j \in \naturals : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} =:j^*.
 \end{align*}
 By Theorem \ref{thm:lowbdcomp}, $\comp(\ca(\cc),\omega\varepsilon,\rho) \ge n_{j^*}$, and by the argument above $n_{j^*} \ge n_{j^\dagger} \ge \cost(\tA,\varepsilon,\rho)$.  Thus, our algorithm is essentially no more costly than the optimal algorithm.
 \end{proof}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Examples} \label{sec:examp}
 
 Consider the case of approximating the first partial derivatives of periodic functions defined on the $d$-dimensional unit cube:
