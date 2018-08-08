@@ -89,15 +89,15 @@ Department of Applied Mathematics, Illinois Institute of Technology \\ RE 208, 1
 \end{frontmatter}
 
 \section{Introduction}
-Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy.  A priori upper bounds on some norm of the input function are not required, but there may be some underlying assumptions about the input function required for the adaptive algorithm to be successful.  Here we consider general linear problems where the series coefficients of the input function are used to obtain an approximate solution.  The algorithm proposed guarantees the accuracy of the approximate solution.  Moreover, our algorithm is shown to have a computational cost that is asymptotically optimal in comparison to the best possible algorithm.  The set of functions on which our adaptive algorithm is defined is a cone.
+Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider general linear problems where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that  computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  The set of input functions for which our adaptive algorithm is defined is a cone.
 
-Let $\cf$ be a separable Hilbert space of input functions with orthonormal basis $\{u_i\}_{i=1}^\infty$, and let $\cg$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i=1}^\infty$:  
+Let $\cf$ be a separable Hilbert space of input functions with orthonormal basis $\{u_i\}_{i=1}^\infty$, let $\cg$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i=1}^\infty$, and let their norms be defined as the $\ell^2$-norms of their series coefficients:  
 \begin{subequations}\label{probDef}
 \begin{gather}
 f = \sum_{i=1}^\infty \hf_i u_i \in \cf, \qquad \norm[\cf]{f}=\bignorm[2]{(\hf_i\big)_{i=1}^\infty}, \\
 g = \sum_{i=1}^\infty \hg_i v_i \in \cg, \qquad \norm[\cg]{g}=\bignorm[2]{(\hg_i\big)_{i=1}^\infty}.
 \end{gather}
-Let these bases be chosen by the singular value decomposition so that the linear solution operator, $S:\cf \to \cg$, satisfies
+Let the bases of spaces of inputs and outputs be chosen by the singular value decomposition so that the linear solution operator, $S:\cf \to \cg$, satisfies
 \begin{gather}
 S(u_i) = \lambda_i v_i, \quad i \in \naturals, \qquad S(f) = \sum_{i=1}^n \lambda_i \hf_i v_i, \\
 \lambda_1 \ge \lambda_2 \ge \cdots > 0, \quad \lim_{i \to \infty} \lambda_i = 0, \qquad
@@ -106,7 +106,7 @@ S(u_i) = \lambda_i v_i, \quad i \in \naturals, \qquad S(f) = \sum_{i=1}^n \lambd
 \end{subequations}
 This setting includes, for example, the recovery of functions, derivatives, and indefinite integrals.  We are interested in cases where the exact solution generally requires an infinite number of series coefficients, $\hf_i$, Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$.
 
-Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of deterministic algorithms that successfully approximate the solution to some error tolerance for all inputs in $\ch$:
+Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \ch \to \cg$ to within some error tolerance for all inputs in $\ch$:
 \begin{multline} \label{adapErrCrit}
 \ca(\ch) : = \left\{ \text{algorithms } A:\ch \times (0,\infty) \rightarrow \cg : 
 \right . \\ \left .
@@ -114,21 +114,21 @@ Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of determini
 \right \}.
 \end{multline}
 Algorithms in $\ca(\ch)$ are allowed to sample adaptively any bounded, linear functionals
-of the input function $f$.  They must require only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\ch$ can be used in constructing algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a} we call a problem \emph{solvable} for inputs $\ch$ if $\ca(\ch)$ is non-empty.
+of the input function.  They must require only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\ch$ can be used to construct algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a} we call a problem \emph{solvable} for inputs $\ch$ if $\ca(\ch)$ is non-empty.
 
-Our problem is not solvable for $\cf$, as can be demonstrated by contradiction. For any potential algorithm, we show that there is some $f \in \cf$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \ca(\cf)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals are used to compute $A(0,\varepsilon)$. Since $n$ is finite, there exists some nonzero $f \in \cf$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$.  Since $A$ successfully produces an approximation with error no greater than $\varepsilon$ for both $0$ and $cf$,
+Our problem is not solvable for $\cf$, as can be demonstrated by contradiction. For any potential algorithm, we show that there exists some $f \in \cf$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \ca(\cf)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals are used to compute $A(0,\varepsilon)$. Since the output space, $\cg$, is infinite dimensional and $n$ is finite, there exists some nonzero $f \in \cf$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$.  Since $A$ successfully produces an approximation with error no greater than $\varepsilon$ for both $0$ and $cf$,
 \begin{align*}
     \varepsilon &\ge \frac 12 \left[ \norm[\cg]{S(0) - A(0,\varepsilon)} + \norm[\cg]{S(cf) - A(cf,\varepsilon)}\right] \\
     & =  \frac 12 \left[ \norm[\cg]{0 - A(0,\varepsilon)} + \norm[\cg]{S(cf) - A(0,\varepsilon)}\right] \\
     & \ge  \frac {\abs{c}\norm[\cg]{S(f)}}2  \qquad \text{by the triangle inequality}.
 \end{align*}
-Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c$.  Thus, $\ca(\cf)$ is empty, and our problem is not solvable for $\cf$.  However, it is solvable for well-chosen subsets of $\cf$.
+Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c$.  The presumed $A$ does not exist, $\ca(\cf)$ is empty, and our problem is not solvable for $\cf$. However, it is solvable for well-chosen subsets of $\cf$, as will be shown in the sections below.
 
-The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define for arbitrary algorithms $A \in \ca(\ch)$, 
+The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define the cost of algorithms as 
 \begin{equation*}
 \cost(A,\ch,\varepsilon) : = \sup \{\cost(A,f,\varepsilon) : f \in \ch \} \qquad \forall \varepsilon > 0.
 \end{equation*}
-For unbounded sets, $\ch$, this cost may be infinite.  Therefore, it is also helpful to define the cost for input functions in $\ch \cap \cb_{\rho}$, where $\cb_{\rho} : = \{ f \in \cf : \norm[\cf]{f} \le \rho \}$ is the ball of radius $\rho$:
+For unbounded sets, $\ch$, this cost may be infinite.  Therefore, it is also helpful to define the cost of algorithms for input functions in $\ch \cap \cb_{\rho}$, where $\cb_{\rho} : = \{ f \in \cf : \norm[\cf]{f} \le \rho \}$ is the ball of radius $\rho$:
 \begin{equation*}
 \cost(A,\ch,\varepsilon,\rho) : = \sup \{\cost(A,f,\varepsilon) : f \in \ch \cap \cb_{\rho} \} \qquad \forall \rho > 0, \ \varepsilon > 0.
 \end{equation*}
@@ -155,17 +155,17 @@ This algorithm is optimal among algorithms in $\ca(\cb_{\rho})$, i.e.,
 \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \}.
 \]
 
-To prove this, let $A^*$ be an arbitrary algorithm in $\ca(\cb_{\rho})$, and let $L_1, \ldots, L_n$ be the linear functionals chosen when evaluating this algorithm for the zero function with tolerance $\varepsilon$.  Thus, $A^*(0,\varepsilon)$ is some function of $(L_1(0) , \ldots, L_n(0)) = (0, \ldots, 0)$.  Let $f$ be a linear combination of $u_1, \ldots, u_{n+1}$ with norm $\rho$ satisfying  $L_1(f) = \cdots = L_n(f) = 0$, then $A^*(\pm f) = A^*(0)$, and
+To prove this, let $A^*$ be an arbitrary algorithm in $\ca(\cb_{\rho})$, and let $L_1, \ldots, L_N$ be the linear functionals chosen when evaluating this algorithm for the zero function with tolerance $\varepsilon$.  Thus, $A^*(0,\varepsilon)$ is some function of $(L_1(0) , \ldots, L_N(0)) = (0, \ldots, 0)$.  Let $f$ be a linear combination of $u_1, \ldots, u_{n+1}$ with norm $\rho$ satisfying  $L_1(f) = \cdots = L_N(f) = 0$, then $A^*(\pm f) = A^*(0)$, and
 \begin{align*}
 \varepsilon & \ge \max_{\pm} \norm[\cg]{S(\pm f) - A^*(\pm f)} =  \max_{\pm} \norm[\cg]{\pm S( f) - A^*(0)} \\
 & \ge \frac 12 \left [ \norm[\cg]{S( f) - A^*(0)} + \norm[\cg]{- S( f) - A^*(0)}\right] \\
 & \ge \norm[\cg]{S(f)} 
-= \bignorm[2]{\big(\lambda_i\hf_i\big)_{i=1}^{n+1}} \\
-& \ge \lambda_{n+1} \bignorm[2]{\big(\hf_i\big)_{i=1}^{n+1}} = \lambda_{n+1} \norm[\cf]{f} = \lambda_{n+1} \rho.
+= \bignorm[2]{\big(\lambda_i\hf_i\big)_{i=1}^{N+1}} \\
+& \ge \lambda_{N+1} \bignorm[2]{\big(\hf_i\big)_{i=1}^{N+1}} = \lambda_{N+1} \norm[\cf]{f} = \lambda_{N+1} \rho.
 \end{align*}
-Thus, $\lambda_{n+1} \le \varepsilon/\rho$, and $n \ge \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \}$.  Hence, algorithm $\hA$ defined in \eqref{optBallalg} is optimal for $\ca(\cb_{\rho})$.
+Thus, $\lambda_{N+1} \le \varepsilon/\rho$, and $N \ge \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \} = \cost(\tA,\cb_\rho,\varepsilon)$.  Hence, algorithm $\hA$ defined in \eqref{optBallalg} is optimal for $\ca(\cb_{\rho})$.
 
-We defined an algorithm $A \in \ca(\ch)$ to have \emph{essentially no worse cost} then an algorithm $A^* \in \ca(\ch^*)$ if for some number $\omega$,
+Our goal is not only to construct algorithms in $\ca(\ch)$ for some $\ch$, but also to determine whether the computational cost of our algorithms are reasonable.  We define an algorithm $A \in \ca(\ch)$ to have \emph{essentially no worse cost} then an algorithm $A^* \in \ca(\ch^*)$ if for some number $\omega$,
 \begin{gather}
 \cost(A,\ch,\varepsilon) \le \cost(A^*,\ch^*,\omega\varepsilon), \qquad \forall \varepsilon > 0, \\
 \cost(A,\ch,\varepsilon,\rho) \le \cost(A^*,\ch^*,\omega\varepsilon,\rho), \qquad \forall \varepsilon,\rho > 0.
@@ -245,11 +245,11 @@ For bounded sets of input functions, such as balls, non-adaptive algorithms, suc
 
 Adaptive algorithms encountered in practice typically employ heuristic error bounds.  While any algorithm can be fooled, we would like precise necessary conditions for being fooled, or equivalently, sufficient conditions for the algorithm to succeed.  That is what our adaptive algorithm accomplishes.
 
-Our rigorous, data-driven error bound assumes the input to have steadily---but not necessarily monotonically---decaying series coefficients.  The cone of nice inputs, $\cc$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\tA \in \ca(\cc)$, in Section \ref{sec:adaptalgo},  where $\tA(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\tA(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\tA$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is asymptotically optimal, i.e., ???.  Section \ref{sec:examp} provides an example of our algorithm.  Concluding remarks are give in Section \ref{sec:conc}.  We close this section with an example of the function spaces and solution operator that we consider.
+Our rigorous, data-driven error bound assumes the input to have steadily---but not necessarily monotonically---decaying series coefficients.  The cone of nice inputs, $\cc$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\tA \in \ca(\cc)$, in Section \ref{sec:adaptalgo},  where $\tA(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\tA(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\tA$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  Concluding remarks are give in Section \ref{sec:conc}.  We close this section with an example of the function spaces and solution operator that we consider.
 
 \begin{exmp} Consider the case of function approximation for periodic functions defined on the [0,1], and algorithm $\hA$ defined in \eqref{optBallalg}:
 \begin{align*}
-f &= \sum_{k \in \integers} \hf(k) \hu_{k} (\vx) = \sum_{i=1}^n \hf_i u_i(x), 
+f &= \sum_{k \in \integers} \hf(k) \hu_{k}  = \sum_{i=1}^n \hf_i u_i, 
 & S(f) & = \sum_{k \in \integers} \hf(k) \hlambda_k \hv_k = \sum_{i=1}^n \hf_i \lambda_i \hv_i, \\
 \hv_{k} (x) &:= \begin{cases} 1, & k = 0, \\
 \displaystyle \sqrt{2} \sin(2\pi k x), & k > 0, \\
@@ -262,8 +262,8 @@ f &= \sum_{k \in \integers} \hf(k) \hu_{k} (\vx) = \sum_{i=1}^n \hf_i u_i(x),
 \displaystyle \frac{1}{\abs{k}^r}, & k \ne 0,
 \end{cases}
 & \lambda_i &= \hlambda_{\lfloor i/2\rfloor} = \frac{1}{\max(1,\lfloor i/2\rfloor)^r}, \\
-\hu_{k} (x) &:= \hlambda_k\hv_k(x),
-& u_i(x) &= \begin{cases} \hu_{-i/2}, & i \text{ even},\\
+\hu_{k} &:=  \hlambda_k \hv_k,
+& u_i & \lambda_i v_i = \begin{cases} \hu_{-i/2}, & i \text{ even},\\
 \hu_{(i-1)/2}, & i \text{ odd},
 \end{cases}
 \\
@@ -278,12 +278,12 @@ f &= \sum_{k \in \integers} \hf(k) \hu_{k} (\vx) = \sum_{i=1}^n \hf_i u_i(x),
 = 2 \left \lceil \left(\frac{\rho}{\varepsilon} \right)^{1/r} \right \rceil - 1.
 % & \lambda_{n+1} = \frac{1}{\lceil (n+1)/2 \rceil^r}.
 \end{align*}
-Here $\cg=\cl_2[0,1]$.  The larger the non-negative parameter $r$ is, the smaller $\cb_\rho$ is, and the smaller  $\cost(\hA,\cb_{\rho},\varepsilon)$ is.  For $r = 0$, $\cost(\hA,\cb_{\rho},\varepsilon) = \infty$.
+Here $\cg=\cl_2[0,1]$.  The larger the non-negative parameter $r$ is, the faster the $\lambda_i$ tend to 0 as $ i \to 0$, the smaller $\cb_\rho$ is, and the smaller  $\cost(\hA,\cb_{\rho},\varepsilon)$ is.  For $r = 0$, $\cost(\hA,\cb_{\rho},\varepsilon) = \infty$.
 \end{exmp}
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Assuming a Steady Decay of the Series Coefficients of the Solution} \label{sec:cone}
 
 Recall from \eqref{errOpt} that the error of the fixed sample size interpolatory algorithm $\optAn$ is $\norm[\cg]{S(f) - \optAn(f)} = \bignorm[2]{\bigl(\lambda_{i} \hf_{i} \bigr)_{i= n+1}^{\infty}}$.  The error depends on the series coefficients not yet observed, so at first glance this error seems to be impossible to bound in terms of observed series coefficients.  
@@ -305,13 +305,13 @@ b <1 < a.
 \end{equation}
 The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in \cc$. We do not expect the series coefficients of the solution $S(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.
 
-Using the expression for the error in \eqref{errOpt} and the definition of the cone in  \eqref{decayconedef}, one can now derive a data-driven error bound for $j \in \naturals$:
+From the expression for the error in \eqref{errOpt} and the definition of the cone in  \eqref{decayconedef}, one can now derive a data-driven error bound for $j \in \naturals$:
 \begin{align}
 \nonumber
 \norm[\cg]{S(f)-A_{n_j}(f)} &= \norm[2]{\left(\lambda_{i} \hf_{i} \right)_{i = n_j+1}^\infty} = \left\{\sum_{r=1}^\infty \sum_{i=n_{j+r-1}+1}^{n_{j+r}}  \abs{\lambda_{i}\hf_{i} }^{2}  \right\}^{1/2}\\
 \nonumber
-&= \norm[2]{ \left(\sigma_{j+r}(f)\right)_{r=1}^{\infty}} \\
-&\le \norm[2]{ \left(ab^r\sigma_{j}(f)\right)_{r=1}^{\infty}}
+&= \norm[2]{ \bigl(\sigma_{j+r}(f)\bigr)_{r=1}^{\infty}} \\
+&\le \norm[2]{ \bigl(ab^r\sigma_{j}(f)\bigr)_{r=1}^{\infty}}
  = \displaystyle ab \sqrt{\frac{1}{1 - b^2}}\sigma_{j}(f)
  \label{algoineq}
 \end{align}
@@ -352,9 +352,9 @@ Given $a$, $b$, the sequence $\vn$, the cone $\cc$, and the input function $f \i
 
 \begin{theorem}\label{thm:compcost}
 The algorithm, $\tA$, defined in Algorithm \ref{algo2} lies in $\ca(\cc)$ and has computational cost $\cost(\tA,f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly by the inequalities 
-\[
-\sigma_{j^*}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab}  < \sigma_{j}(f), \quad 1 \le j < j^*.
-\]
+\begin{equation} \label{eq:OurAlgjstar}
+j^* = \min\left \{ j \in \naturals : \sigma_{j}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab}  \right\}.
+\end{equation}
 Moreover, $\cost(\tA,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdagger}
 j^\dagger \le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}.
@@ -365,14 +365,15 @@ j^\dagger \le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \f
 \begin{proof}
 This algorithm terminates for some $j = j^*$ because $\sigma_j(f) \le ab^{j-1} \sigma_{1}(f) \to 0$ as $j \to \infty$. The value of $j^*$ follows directly from this termination criterion in Step 2.  It then follows that the error bound on $A_{n_{j^*}}(f)$ in \eqref{algoineq} is no greater than the error tolerance $\varepsilon$.  So, $\tA \in \ca(\cc)$.
 
-To derive an upper bound on $\cost(\tA,\varepsilon,\rho)$ we start by noting some properties of $\sigma_j(f)$ for all $f \in \cc$:
+For the remainder of the proof consider $\rho$ and $\varepsilon$ fixed.  To derive an upper bound on $n_{j^\dagger} = \cost(\tA,\varepsilon,\rho)$ we first note some properties of $\sigma_j(f)$ for all $f \in \cc$:
 \begin{multline} \label{normsigineq}
 \lambda_{n_j} \bignorm[2]{\big( \hf_i \big)_{i=n_{j-1}+1}^{n_j}} \le 
 \bignorm[2]{\big( \lambda_i \hf_i \big)_{i=n_{j-1}+1}^{n_j}} = \sigma_j(f) 
 \\
 \le \lambda_{n_{j-1}+1} \bignorm[2]{\big( \hf_i \big)_{i=n_{j-1}+1}^{n_j}}.
 \end{multline}
-A rough upper bound on $\cost(\tA,\rho,\varepsilon)$ may be obtained by noting that  for any $f \in \cc$ that also lies in the ball of radius $\rho$, and for any $j < j^\dagger$, it follows by \eqref{normsigineq} and  Theorem \ref{thm:compcost} that 
+
+A rough upper bound on $j^\dagger$ may be obtained by noting that for any $f \in \cc \cap \cb_\rho$ and for any $j < j^* \le j^\dagger$, it follows from \eqref{eq:OurAlgjstar} and \eqref{normsigineq} that 
 \begin{equation*}
 \rho \ge \norm[\cf]{f} \ge \bignorm[2]{\big( \hf_i \big)_{i=n_{j-1}+1}^{n_j}} \ge \frac{\sigma_j(f)}{\lambda_{n_{j-1}+1}} > \frac{\varepsilon\sqrt{1 - b^2}}{ab \lambda_{n_{j-1}+1}}
 \end{equation*}
@@ -381,8 +382,8 @@ Thus, one upper bound on $j^\dagger$ is the smallest $j$ violating the above ine
 j^\dagger \le \min \left \{j \in \naturals :  \lambda_{n_{j-1}+1} \le \frac{\varepsilon\sqrt{1 - b^2}}{ab \rho} \right\}.
 \end{equation}
 
-The tighter upper bound in Theorem \ref{thm:compcost} may be obtained by an argument in a similar vein to the one above.  
-For any $f \in \cc$ that also lies in the ball of radius $\rho$,
+The tighter upper bound in Theorem \ref{thm:compcost} may be obtained by a more careful argument in a similar vein.  
+For any $f \in  \cc \cap \cb_\rho$ and for any $j < j^* \le j^\dagger$,
 \begin{align*}
 \rho^2 &\ge \norm[\cf]{f}^2 = \bignorm[2]{\big( \hf_i \big)_{i=1}^{\infty}}^2 \\
 & \ge \sum_{k=1}^j \bignorm[2]{\big( \hf_i \big)_{i=n_{k-1}+1}^{n_k}}^2 \qquad \forall j \ge 1\\
@@ -390,13 +391,13 @@ For any $f \in \cc$ that also lies in the ball of radius $\rho$,
 & \ge \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}\sigma_j^2(f)}{a^{2}\lambda_{n_{k-1}+1}^2} + \frac{\sigma_j^2(f)}{\lambda_{n_{j-1}+1}^2} \qquad \text{by \eqref{decayconedef}} \\
 & = \sigma_j^2(f) \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^{2} \lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right].
 \end{align*}
-Note that the quantity in the square brackets is an increasing function of $j$ because as $j$ increases, the sum becomes more inclusive and $b^{2(k-j)}$ also increases.
+Note that the quantity in the square brackets is an increasing function of $j$ because as $j$ increases, the sum becomes includes more terms and $b^{2(k-j)}$ also increases.
 
-For all $j < j^\dagger$ it follows from the definition of the algorithm and Theorem \ref{thm:compcost} above that 
+For all $j < j^* \le j^\dagger$ it follows from \eqref{eq:OurAlgjstar} that
 \begin{equation*}
 \rho^2 > \frac{\varepsilon^2(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}}{a^{2}\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right].
 \end{equation*}
-Thus, any $j$ that violates the above inequality, must satisfy $j \ge j^\dagger$.
+Thus, any $j$ that violates the above inequality, must satisfy $j \ge j^\dagger$, establishing \eqref{jdagger}.
 \end{proof}
 
 We note in passing that for our adaptive algorithm
@@ -445,7 +446,7 @@ j^\dagger \le \min \left \{j \in \naturals :  \alpha \beta^j < \frac{\varepsilon
 which implies \eqref{jdaggerlastsimple}.
 \end{proof}
 
-This corollary highlights two limiting factors on the computational cost of our adaptive algorithm, $\tA$. When $j$ is large enough to make $\lambda_{n_{j-1}+1}\norm[\cf]{f}/\varepsilon$ small enough, $\tA(f,\varepsilon)$ stops.  This is statement \eqref{jdaggerlastsimple}, and its precursor, \eqref{jdaggerlast}.  Alternatively, the assumption that the $\sigma_j(f)$ are steadily decreasing, as specified in the definition of $\cc$ in \eqref{cdef}, means that $\tA(f,\varepsilon)$ also must stop by the time $j$ becomes large enough with respect to $\lambda_{n_0+1}\norm[\cf]{f}/\varepsilon$.
+This corollary highlights two limiting factors on the computational cost of our adaptive algorithm, $\tA$. When $j$ is large enough to make $\lambda_{n_{j-1}+1}\norm[\cf]{f}/\varepsilon$ small enough, $\tA(f,\varepsilon)$ stops.  This is statement \eqref{jdaggerlastsimple}, and its precursor, \eqref{jdaggerlast}.  Alternatively, the assumption that the $\sigma_j(f)$ are steadily decreasing, as specified in the definition of $\cc$ in \eqref{decayconedef}, means that $\tA(f,\varepsilon)$ also must stop by the time $j$ becomes large enough with respect to $\lambda_{n_0+1}\norm[\cf]{f}/\varepsilon$.
 
 Assumption \eqref{lambdankbd} is not very restrictive.  It holds if the $\lambda_i$ decay algebraically and the $n_j$ increase geometrically.  It also holds if the $\lambda_i$ decay geometrically and the $n_j$ increase arithmetically.
 
@@ -477,15 +478,15 @@ Since the $\lambda_i$ are non-increasing,
 \section{Essential Optimality of the Adaptive Algorithm} \label{sec:opt}
 
 From Corollary \ref{cor:tAsameCosthA} it is known that $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially no worse than
-$\cost(\hA,\cb_{\rho},\varepsilon) = \comp(\ca(\cb_{\rho}),\varepsilon)$.  We would like to show that $\tA \in \ca(\cc)$ is  essentially optimal, i.e., $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially the same as  $\comp(\ca(\cc),\varepsilon,\rho)$.  However,  $\comp(\ca(\cc),\varepsilon,\rho)$ may be smaller than $\comp(\ca(\cb_{\rho}),\varepsilon)$ because $\cc \cap \cb_\rho$ is a strict subset of  $ \cb_\rho$.  This presents a challenge.
+$\cost(\hA,\cb_{\rho},\varepsilon) = \comp(\ca(\cb_{\rho}),\varepsilon)$.  We would like to show that $\tA \in \ca(\cc)$ is  essentially optimal, i.e., $\cost(\tA,\cc, \varepsilon,\rho)$ is essentially no worse than  $\comp(\ca(\cc),\varepsilon,\rho)$.  However,  $\comp(\ca(\cc),\varepsilon,\rho)$ may be smaller than $\comp(\ca(\cb_{\rho}),\varepsilon)$ because $\cc \cap \cb_\rho$ is a strict subset of  $ \cb_\rho$.  This presents a challenge.
 
-A lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$ is established by   proof is accomplished by constructing fooling functions in $\cc$ with norms no greater than $\rho$.  To obtain a result that can be compared with the cost of our algorithm, we assume that 
+A lower bound on $\comp(\ca(\cc),\varepsilon,\rho)$ is established by constructing fooling functions in $\cc$ with norms no greater than $\rho$.  To obtain a result that can be compared with the cost of our algorithm, we assume that 
 \begin{equation} \label{lambdaRatio}
 R = \sup_{k \in \naturals} \frac{\lambda_{n_{k-1}}}{\lambda_{n_k}} < \infty.
 \end{equation}
 This means that the $n_k$ are not too far apart with respect to the decay of $\lambda_i$ as $i \to \infty$.
 
-The following theorem establishes a lower bound on the complexity of our problem for input functions in $\cc$.  After that we show that the cost of our algorithm as given in Theorem \ref{thm:compcost} is essentially no worse than this lower bound.
+The following theorem establishes a lower bound on the complexity of our problem for input functions in $\cc$.  The theorem after that shows that the cost of our algorithm as given in Theorem \ref{thm:compcost} is essentially no worse than this lower bound.
 
 
 \begin{theorem} \label{thm:lowbdcomp}
@@ -626,8 +627,9 @@ Under assumption \eqref{lambdaRatio} $\cost(\tA,\varepsilon,\rho)$ is essentiall
 \begin{proof}
 Let  
 \begin{equation} \label{omegadef}
-    \omega = \sqrt{\frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}}
+    \omega = \sqrt{\frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}},
 \end{equation}
+and note that it does not depend on $\rho$ or $\varepsilon$ but only on the definition of $\cc$. 
 For any positive $\rho$ and $\varepsilon$, Theorem \ref{thm:compcost} says that $\cost(\tA,\rho,\varepsilon) \le n_{j^\dagger}$ where 
 \begin{align*} 
 j^\dagger &\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\} \\
@@ -638,7 +640,7 @@ j^\dagger &\le \min \left \{j \in \naturals : \frac{\rho^2}{\varepsilon^2} \le \
 &\le \min \left \{j \in \naturals : \frac{\rho^2}{\omega^2 \varepsilon^2} \le \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{by \eqref{omegadef} } \\
 &= \max \left \{j \in \naturals : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} =:j^*.
 \end{align*}
-By Theorem \ref{thm:lowbdcomp}, $\comp(\ca(\cc),\omega\varepsilon,\rho) \ge n_{j^*}$, and by the argument above $n_{j^*} \ge n_{j^\dagger} \ge \cost(\tA,\varepsilon,\rho)$.  Thus, our algorithm is essentially no more costly than the optimal algorithm.
+By Theorem \ref{thm:lowbdcomp}, $\comp(\ca(\cc),\omega\varepsilon,\rho) \ge n_{j^*}$, and by the argument above, $n_{j^*} \ge n_{j^\dagger} \ge \cost(\tA,\varepsilon,\rho)$.  Thus, our algorithm is essentially no more costly than the optimal algorithm.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
