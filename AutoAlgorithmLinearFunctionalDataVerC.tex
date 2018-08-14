@@ -55,6 +55,7 @@
 
 \newcommand{\arbAn}{A^*_n}
 \newcommand{\optAn}{A_n}
+\providecommand{\HickernellFJ}{Hickernell}
 
 \definecolor{orange}{rgb}{1.0,0.3,0.0}
 \definecolor{violet}{rgb}{0.75,0,1}
@@ -124,7 +125,7 @@ Our problem is not solvable for $\cf$, as can be demonstrated by contradiction. 
 \end{align*}
 Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c$.  The presumed $A$ does not exist, $\ca(\cf)$ is empty, and our problem is not solvable for $\cf$. However, it is solvable for well-chosen subsets of $\cf$, as will be shown in the sections below.
 
-\subsection{Computational Cost and Complexity of the Problem} The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define the cost of algorithms as 
+\subsection{Computational Cost of the Algorithm and Complexity of the Problem} The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define the cost of algorithms as 
 \begin{equation*}
 \cost(A,\ch,\varepsilon) : = \sup \{\cost(A,f,\varepsilon) : f \in \ch \} \qquad \forall \varepsilon > 0.
 \end{equation*}
@@ -185,7 +186,7 @@ Hence, algorithm $\hA$ defined in \eqref{optBallalg} is optimal for $\ca(\cb_{\r
 	\end{cases}
 	& \lambda_i &= \hlambda_{\lfloor i/2\rfloor} = \frac{1}{\max(1,\lfloor i/2\rfloor)^r}, \\
 	\hu_{k} &:=  \hlambda_k \hv_k,
-	& u_i & \lambda_i v_i = \begin{cases} \hu_{-i/2}, & i \text{ even},\\
+	& u_i & = \lambda_i v_i = \begin{cases} \hu_{-i/2}, & i \text{ even},\\
 	\hu_{(i-1)/2}, & i \text{ odd},
 	\end{cases}
 	\\
@@ -219,7 +220,7 @@ By definition, the cost of algorithm $A^*$ is no better than that of  $\hA$.  Al
 %\[
 \everymath{\displaystyle}
 \begin{longtable}{>{$}r<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}}
-\toprule
+\toprule \toprule
 &\lambda_i = \frac{C}{i^p}
 & 
 \cost(\hA,\cb_\rho,\varepsilon) \ge \left ( \frac{C\rho}{\varepsilon} \right)^{1/p} - 1
@@ -244,7 +245,7 @@ By definition, the cost of algorithm $A^*$ is no better than that of  $\hA$.  Al
 \cost(A^*,\cb_\rho,\varepsilon)  \ge 
 \left ( \frac{C^*\rho}{\varepsilon} \right)^{1/q} - 1 
 \\[2ex]
-\toprule
+\toprule \toprule
 &\lambda_i = \frac{C}{p^i}, \ p > 1
 & 
 \cost(\hA,\cb_\rho,\varepsilon) \ge \frac{\log (C\rho/\varepsilon)}{\log(p)} - 1
@@ -276,14 +277,14 @@ By definition, the cost of algorithm $A^*$ is no better than that of  $\hA$.  Al
 \cost(A^*,\cb_\rho,\varepsilon)  \ge 
 \frac{\log (C^*\rho/\varepsilon)}{\log(q)} - 1
 \\[2ex]
-\toprule
+\toprule \toprule
 \end{longtable}
 %\]
 
 \subsection{The Case for Adaptive Algorithms}
 For bounded sets of input functions, such as balls, non-adaptive algorithms, such as $\hA$, make sense.  However, it is typically unknown which ball the input function lies in.  Thus, we consider unbounded sets of input functions, whose properties can be inferred from the data we collect.  We use the interpolatory algorithm $\optAn$, defined in \eqref{optAdef}, but we propose an alternative way to bound the error other than assuming an a priori bound on $\norm[\cf]{f}$.
 
-Adaptive algorithms encountered in practice typically employ heuristic error bounds.  While any algorithm can be fooled, we would like precise necessary conditions for being fooled, or equivalently, sufficient conditions for the algorithm to succeed.  Our adaptive algorithm has such conditions.
+Adaptive algorithms encountered in practice typically employ heuristic error bounds.  While any algorithm can be fooled, we would like precise necessary conditions for being fooled, or equivalently, sufficient conditions for the algorithm to succeed.  Our adaptive algorithm has such conditions and follows in the vein of adaptive algorithms developed in \cite{HicEtal14a, HIcEtal14b, HicJim16a, JimHic16a}.
 
 Our rigorous, data-driven error bound assumes the input to have steadily---but not necessarily monotonically---decaying series coefficients.  The cone of nice inputs, $\cc$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\tA \in \ca(\cc)$, in Section \ref{sec:adaptalgo},  where $\tA(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$ depending on the input data and the definition of $\cc$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\tA(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\tA$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  Concluding remarks are give in Section \ref{sec:conc}. 
 
@@ -651,17 +652,19 @@ By Theorem \ref{thm:lowbdcomp}, $\comp(\ca(\cc),\omega\varepsilon,\rho) \ge n_{j
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Examples} \label{sec:examp}
+\section{Numerical Example} \label{sec:examp}
 
-Consider the case of approximating the first partial derivatives of periodic functions defined on the $d$-dimensional unit cube:
+Consider the case of approximating the  partial derivative with respect to $x_1$ of periodic functions defined on the $d$-dimensional unit cube:
 \begin{align*}
 f &= \sum_{\vk \in \integers^d} \hf(\vk) u_{\vk} (\vx), \\
 u_{\vk} (\vx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max(1,\gamma_j k_j)},  \\
 S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\vk \in \integers^d} \hf(\vk) \lambda_{\vk} v_{\vk} (\vx), \\
 v_{\vk}(\vx) & : =  -\sign(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
 & \qquad \qquad \times \prod_{j=2}^d 2^{(1-\delta_{k_j,0})/2} \cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\
-\lambda_{\vk} &:= \frac{2 \pi \abs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}
+\lambda_{\vk} &:= \frac{2 \pi \abs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}.
 \end{align*}
+We construct a function by choosing its Fourier coefficients $\hf$ to be normal distributed \textbf{What distribution (mean, standard deviation)?  How many Fourier coefficients are chosen to construct the function?}. Let $d=3, a= 2, b=\frac{1}{2},$ and $\varepsilon = 0.1.$ Based on our algorithm, we obtain $ n_{j^\dagger} = 1024.$ Using that, we can obtain the approximated solution and error in Figure \ref{solfig}. Based on Figure \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
+
 
 \begin{figure}[ht]
 	\centering
@@ -674,8 +677,6 @@ v_{\vk}(\vx) & : =  -\sign(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \b
 		(b) The error of the approximation 
 		\label{solfig}} % 
 \end{figure}
-
-To do the simulation, we choose the Fourier coefficients $\hf$ to be normal distributed. Let $d=3, a= 2, b=\frac{1}{2},$ and $\varepsilon = 0.1.$ Based on our algorithm, we obtain $ n_{j^\dagger} = 1024.$ Using that, we can obtain the approximated solution and error in Figure \ref{solfig}. Based on Figure \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
 
 \begin{figure}[ht]
 	\centering
@@ -707,7 +708,7 @@ Actually, we can also use these 1024 Fourier coefficients to approximate the inp
 
 \section{Discussion and Conclusions} \label{sec:conc}
 
-\section*{References}
+%\section*{References}
 %\nocite{*}
 \bibliographystyle{elsarticle-num}
 \bibliography{FJH23,FJHown23}
