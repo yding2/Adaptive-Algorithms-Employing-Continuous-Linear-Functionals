@@ -1,6 +1,6 @@
 \documentclass[final]{elsarticle}
 \setlength{\marginparwidth}{0.5in}
-\usepackage{amsmath,amssymb,amsthm,natbib,bbm,mathtools,booktabs,graphicx,color}
+\usepackage{amsmath,amssymb,amsthm,natbib,bbm,mathtools,array,longtable,booktabs,graphicx,color}
 \input FJHDef.tex
 
 \newcommand{\chin}{\ch_{\text{\rm{in}}}}
@@ -89,24 +89,24 @@ Department of Applied Mathematics, Illinois Institute of Technology \\ RE 208, 1
 \end{frontmatter}
 
 \section{Introduction}
-Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider general linear problems where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that  computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  The set of input functions for which our adaptive algorithm is defined is a cone.
+Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy based on the input function data sampled.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider \emph{general linear problems} where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that  computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  Our adaptive algorithm is defined on a \emph{cone} of input functions.
 
-Let $\cf$ be a separable Hilbert space of input functions with orthonormal basis $\{u_i\}_{i=1}^\infty$, let $\cg$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i=1}^\infty$, and let their norms be defined as the $\ell^2$-norms of their series coefficients:  
+\subsection{Input and Output Spaces}  Let $\cf$ be a separable Hilbert space of inputs with orthonormal basis $\{u_i\}_{i=1}^\infty$, let $\cg$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i=1}^\infty$, and let their norms be defined as the $\ell^2$-norms of their series coefficients:  
 \begin{subequations}\label{probDef}
 \begin{gather}
 f = \sum_{i=1}^\infty \hf_i u_i \in \cf, \qquad \norm[\cf]{f}=\bignorm[2]{(\hf_i\big)_{i=1}^\infty}, \\
 g = \sum_{i=1}^\infty \hg_i v_i \in \cg, \qquad \norm[\cg]{g}=\bignorm[2]{(\hg_i\big)_{i=1}^\infty}.
 \end{gather}
-Let the bases of spaces of inputs and outputs be chosen by the singular value decomposition so that the linear solution operator, $S:\cf \to \cg$, satisfies
+Let these two bases be chosen by the singular value decomposition so that the linear solution operator, $S:\cf \to \cg$, satisfies
 \begin{gather}
 S(u_i) = \lambda_i v_i, \quad i \in \naturals, \qquad S(f) = \sum_{i=1}^n \lambda_i \hf_i v_i, \\
 \lambda_1 \ge \lambda_2 \ge \cdots > 0, \quad \lim_{i \to \infty} \lambda_i = 0, \qquad
 \norm[\cf \to \cg]{S} := \sup_{f \ne 0} \frac{\norm[\cg]{S(f)}}{\norm[\cf]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, and indefinite integrals.  We are interested in cases where the exact solution generally requires an infinite number of series coefficients, $\hf_i$, Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$.
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\hf_i$, Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$.
 
-Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \ch \to \cg$ to within some error tolerance for all inputs in $\ch$:
+\subsection{Solvability}  Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \ch \to \cg$ to within some error tolerance for all inputs in $\ch$:
 \begin{multline} \label{adapErrCrit}
 \ca(\ch) : = \left\{ \text{algorithms } A:\ch \times (0,\infty) \rightarrow \cg : 
 \right . \\ \left .
@@ -114,9 +114,9 @@ Let $\ch$ be any subset of $\cf$, and let $\ca(\ch)$ denote the set of determini
 \right \}.
 \end{multline}
 Algorithms in $\ca(\ch)$ are allowed to sample adaptively any bounded, linear functionals
-of the input function.  They must require only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\ch$ can be used to construct algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a} we call a problem \emph{solvable} for inputs $\ch$ if $\ca(\ch)$ is non-empty.
+of the input function.  They must sample only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\ch$ can be used to construct algorithms in $\ca(\ch)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a} we call a problem \emph{solvable} for inputs $\ch$ if $\ca(\ch)$ is non-empty.
 
-Our problem is not solvable for $\cf$, as can be demonstrated by contradiction. For any potential algorithm, we show that there exists some $f \in \cf$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \ca(\cf)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals are used to compute $A(0,\varepsilon)$. Since the output space, $\cg$, is infinite dimensional and $n$ is finite, there exists some nonzero $f \in \cf$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$.  Since $A$ successfully produces an approximation with error no greater than $\varepsilon$ for both $0$ and $cf$,
+Our problem is not solvable for $\cf$, as can be demonstrated by contradiction. For any potential algorithm, we show that there exists some $f \in \cf$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \ca(\cf)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals are used to compute $A(0,\varepsilon)$. Since the output space, $\cg$, is infinite dimensional and $n$ is finite, there exists some nonzero $f \in \cf$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$, and both of these have approximation error no greater than $\varepsilon$, i.e.,
 \begin{align*}
     \varepsilon &\ge \frac 12 \left[ \norm[\cg]{S(0) - A(0,\varepsilon)} + \norm[\cg]{S(cf) - A(cf,\varepsilon)}\right] \\
     & =  \frac 12 \left[ \norm[\cg]{0 - A(0,\varepsilon)} + \norm[\cg]{S(cf) - A(0,\varepsilon)}\right] \\
@@ -124,7 +124,7 @@ Our problem is not solvable for $\cf$, as can be demonstrated by contradiction. 
 \end{align*}
 Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c$.  The presumed $A$ does not exist, $\ca(\cf)$ is empty, and our problem is not solvable for $\cf$. However, it is solvable for well-chosen subsets of $\cf$, as will be shown in the sections below.
 
-The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define the cost of algorithms as 
+\subsection{Computational Cost and Complexity of the Problem} The computational cost of an algorithm $A \in \ca(\ch)$ for $f \in \ch$ and error tolerance $\varepsilon$ is denoted $\cost(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define the cost of algorithms as 
 \begin{equation*}
 \cost(A,\ch,\varepsilon) : = \sup \{\cost(A,f,\varepsilon) : f \in \ch \} \qquad \forall \varepsilon > 0.
 \end{equation*}
@@ -139,7 +139,7 @@ Finally, we define the complexity of the problem as computational cost of the be
 \end{gather*}
 Note that $\comp(\ca(\ch),\varepsilon,\rho) \ge \comp(\ca(\ch \cap \cb_{\rho}),\varepsilon)$.  In the former case, the algorithm is unaware  that the input function has norm no greater than $\rho$.  
 
-An optimal algorithm for $\cb_{\rho}$ can be constructed in terms of the interpolation based on the first $n$ series coefficients of the input, namely,
+An optimal algorithm for $\cb_{\rho}$ can be constructed in terms of interpolation based on the first $n$ series coefficients of the input, namely,
 \begin{gather}  \label{optAdef}
 \optAn(f) := \sum_{i=1}^n \lambda_{i} \hf_{i} v_{i}, \\
 \label{errOpt}
@@ -163,7 +163,46 @@ To prove this, let $A^*$ be an arbitrary algorithm in $\ca(\cb_{\rho})$, and let
 = \bignorm[2]{\big(\lambda_i\hf_i\big)_{i=1}^{N+1}} \\
 & \ge \lambda_{N+1} \bignorm[2]{\big(\hf_i\big)_{i=1}^{N+1}} = \lambda_{N+1} \norm[\cf]{f} = \lambda_{N+1} \rho.
 \end{align*}
-Thus, $\lambda_{N+1} \le \varepsilon/\rho$, and $N \ge \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \} = \cost(\tA,\cb_\rho,\varepsilon)$.  Hence, algorithm $\hA$ defined in \eqref{optBallalg} is optimal for $\ca(\cb_{\rho})$.
+Thus, $\lambda_{N+1} \le \varepsilon/\rho$, and 
+\[
+\cost(A^*,\cb_\rho,\varepsilon) \ge \cost(A^*,0,\varepsilon)  = N \ge \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \} = \cost(\tA,\cb_\rho,\varepsilon).
+\]
+Hence, algorithm $\hA$ defined in \eqref{optBallalg} is optimal for $\ca(\cb_{\rho})$.
+
+\begin{exmp} Consider the case of function approximation for periodic functions defined on the [0,1], and algorithm $\hA$ defined in \eqref{optBallalg}:
+	\begin{align*}
+	f &= \sum_{k \in \integers} \hf(k) \hu_{k}  = \sum_{i=1}^n \hf_i u_i, 
+	& S(f) & = \sum_{k \in \integers} \hf(k) \hlambda_k \hv_k = \sum_{i=1}^n \hf_i \lambda_i \hv_i, \\
+	\hv_{k} (x) &:= \begin{cases} 1, & k = 0, \\
+	\displaystyle \sqrt{2} \sin(2\pi k x), & k > 0, \\
+	\displaystyle \sqrt{2} \cos(2\pi k x), & k < 0, \\
+	\end{cases} 
+	& v_i(x) &= \begin{cases} \hv_{-i/2}, & i \text{ even},\\
+	\hv_{(i-1)/2}, & i \text{ odd},
+	\end{cases} \\
+	\hlambda_{k} &:= \begin{cases} 1, & k = 0, \\
+	\displaystyle \frac{1}{\abs{k}^r}, & k \ne 0,
+	\end{cases}
+	& \lambda_i &= \hlambda_{\lfloor i/2\rfloor} = \frac{1}{\max(1,\lfloor i/2\rfloor)^r}, \\
+	\hu_{k} &:=  \hlambda_k \hv_k,
+	& u_i & \lambda_i v_i = \begin{cases} \hu_{-i/2}, & i \text{ even},\\
+	\hu_{(i-1)/2}, & i \text{ odd},
+	\end{cases}
+	\\
+	&&\hf_i& = \begin{cases} \hf(-i/2), & i \text{ even},\\
+	\hf((i-1)/2), & i \text{ odd},
+	\end{cases}
+	\end{align*}
+	\begin{align*}
+	\comp(\ca(\cb_{\rho}),\varepsilon) &= \cost(\hA,\cb_{\rho},\varepsilon) 
+	=\min\{ n : \lambda_{n+1} \le \varepsilon/\rho \} \\
+	& = \min \left\{ n : \frac{1}{\lfloor (n+1)/2 \rfloor^r} \le \frac{\varepsilon}{\rho} \right\} 
+	= 2 \left \lceil \left(\frac{\rho}{\varepsilon} \right)^{1/r} \right \rceil - 1.
+	% & \lambda_{n+1} = \frac{1}{\lceil (n+1)/2 \rceil^r}.
+	\end{align*}
+	Here $\cg=\cl_2[0,1]$.  The larger the non-negative parameter $r$ is, the faster the $\lambda_i$ tend to 0 as $ i \to 0$, the smaller $\cb_\rho$ is, and the smaller  $\cost(\hA,\cb_{\rho},\varepsilon)$ is.  For $r = 0$, $\cost(\hA,\cb_{\rho},\varepsilon) = \infty$.
+\end{exmp}
+
 
 Our goal is not only to construct algorithms in $\ca(\ch)$ for some $\ch$, but also to determine whether the computational cost of our algorithms are reasonable.  We define an algorithm $A \in \ca(\ch)$ to have \emph{essentially no worse cost} then an algorithm $A^* \in \ca(\ch^*)$ if for some number $\omega$,
 \begin{gather}
@@ -176,10 +215,10 @@ To illustrate these concepts, consider a nondecreasing sequence of positive numb
 \begin{equation} \label{altBallalg}
 A^*(f,\varepsilon) = A_{n_{j^\dagger}}(f), \quad \text{where } j^\dagger = \min\{ j : \lambda^*_{n_j+1} \le \varepsilon/\rho \}, \qquad A^* \in \ca(\cb_{\rho}).
 \end{equation}
-Algorithm $A^*$ may or may not have essentially no worse cost than $\hA$ depending on the choice of $\vlambda^*$ and $\vn$.  The table below shows some examples.  Each different case of $A^*$ is labeled as having a cost that is either essentially no worse or essentially worse than that of $\hA$.
-\[
+By definition, the cost of algorithm $A^*$ is no better than that of  $\hA$.  Algorithm $A^*$ may or may not have essentially no worse cost than $\hA$ depending on the choice of $\vlambda^*$ and $\vn$.  The table below shows some examples.  Each different case of $A^*$ is labeled as having a cost that is either essentially no worse or essentially worse than that of $\hA$.
+%\[
 \everymath{\displaystyle}
-\begin{array}{rllll}
+\begin{longtable}{>{$}r<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}}
 \toprule
 &\lambda_i = \frac{C}{i^p}
 & 
@@ -238,48 +277,16 @@ Algorithm $A^*$ may or may not have essentially no worse cost than $\hA$ dependi
 \frac{\log (C^*\rho/\varepsilon)}{\log(q)} - 1
 \\[2ex]
 \toprule
-\end{array}
-\]
+\end{longtable}
+%\]
 
-For bounded sets of input functions, such as balls, non-adaptive algorithms, such as $\hA$, make sense.  However, it is typically unknown which ball the input function lies in.  Thus, we consider unbounded sets of input functions, whose properties can be inferred from the data we collect.  We will use the interpolatory algorithm $\optAn$, defined in \eqref{optAdef}, but we will propose an alternative way to bound the error other than assuming an a priori bound on $\norm[\cf]{f}$.
+\subsection{The Case for Adaptive Algorithms}
+For bounded sets of input functions, such as balls, non-adaptive algorithms, such as $\hA$, make sense.  However, it is typically unknown which ball the input function lies in.  Thus, we consider unbounded sets of input functions, whose properties can be inferred from the data we collect.  We use the interpolatory algorithm $\optAn$, defined in \eqref{optAdef}, but we propose an alternative way to bound the error other than assuming an a priori bound on $\norm[\cf]{f}$.
 
-Adaptive algorithms encountered in practice typically employ heuristic error bounds.  While any algorithm can be fooled, we would like precise necessary conditions for being fooled, or equivalently, sufficient conditions for the algorithm to succeed.  That is what our adaptive algorithm accomplishes.
+Adaptive algorithms encountered in practice typically employ heuristic error bounds.  While any algorithm can be fooled, we would like precise necessary conditions for being fooled, or equivalently, sufficient conditions for the algorithm to succeed.  Our adaptive algorithm has such conditions.
 
-Our rigorous, data-driven error bound assumes the input to have steadily---but not necessarily monotonically---decaying series coefficients.  The cone of nice inputs, $\cc$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\tA \in \ca(\cc)$, in Section \ref{sec:adaptalgo},  where $\tA(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\tA(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\tA$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  Concluding remarks are give in Section \ref{sec:conc}.  We close this section with an example of the function spaces and solution operator that we consider.
+Our rigorous, data-driven error bound assumes the input to have steadily---but not necessarily monotonically---decaying series coefficients.  The cone of nice inputs, $\cc$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\tA \in \ca(\cc)$, in Section \ref{sec:adaptalgo},  where $\tA(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$ depending on the input data and the definition of $\cc$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\tA(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\tA$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  Concluding remarks are give in Section \ref{sec:conc}. 
 
-\begin{exmp} Consider the case of function approximation for periodic functions defined on the [0,1], and algorithm $\hA$ defined in \eqref{optBallalg}:
-\begin{align*}
-f &= \sum_{k \in \integers} \hf(k) \hu_{k}  = \sum_{i=1}^n \hf_i u_i, 
-& S(f) & = \sum_{k \in \integers} \hf(k) \hlambda_k \hv_k = \sum_{i=1}^n \hf_i \lambda_i \hv_i, \\
-\hv_{k} (x) &:= \begin{cases} 1, & k = 0, \\
-\displaystyle \sqrt{2} \sin(2\pi k x), & k > 0, \\
-\displaystyle \sqrt{2} \cos(2\pi k x), & k < 0, \\
-\end{cases} 
-& v_i(x) &= \begin{cases} \hv_{-i/2}, & i \text{ even},\\
-\hv_{(i-1)/2}, & i \text{ odd},
-\end{cases} \\
-\hlambda_{k} &:= \begin{cases} 1, & k = 0, \\
-\displaystyle \frac{1}{\abs{k}^r}, & k \ne 0,
-\end{cases}
-& \lambda_i &= \hlambda_{\lfloor i/2\rfloor} = \frac{1}{\max(1,\lfloor i/2\rfloor)^r}, \\
-\hu_{k} &:=  \hlambda_k \hv_k,
-& u_i & \lambda_i v_i = \begin{cases} \hu_{-i/2}, & i \text{ even},\\
-\hu_{(i-1)/2}, & i \text{ odd},
-\end{cases}
-\\
-&&\hf_i& = \begin{cases} \hf(-i/2), & i \text{ even},\\
-\hf((i-1)/2), & i \text{ odd},
-\end{cases}
-\end{align*}
-\begin{align*}
-\comp(\ca(\cb_{\rho}),\varepsilon) &= \cost(\hA,\cb_{\rho},\varepsilon) 
-=\min\{ n : \lambda_{n+1} \le \varepsilon/\rho \} \\
-& = \min \left\{ n : \frac{1}{\lfloor (n+1)/2 \rfloor^r} \le \frac{\varepsilon}{\rho} \right\} 
-= 2 \left \lceil \left(\frac{\rho}{\varepsilon} \right)^{1/r} \right \rceil - 1.
-% & \lambda_{n+1} = \frac{1}{\lceil (n+1)/2 \rceil^r}.
-\end{align*}
-Here $\cg=\cl_2[0,1]$.  The larger the non-negative parameter $r$ is, the faster the $\lambda_i$ tend to 0 as $ i \to 0$, the smaller $\cb_\rho$ is, and the smaller  $\cost(\hA,\cb_{\rho},\varepsilon)$ is.  For $r = 0$, $\cost(\hA,\cb_{\rho},\varepsilon) = \infty$.
-\end{exmp}
 
 
 
@@ -288,10 +295,10 @@ Here $\cg=\cl_2[0,1]$.  The larger the non-negative parameter $r$ is, the faster
 
 Recall from \eqref{errOpt} that the error of the fixed sample size interpolatory algorithm $\optAn$ is $\norm[\cg]{S(f) - \optAn(f)} = \bignorm[2]{\bigl(\lambda_{i} \hf_{i} \bigr)_{i= n+1}^{\infty}}$.  The error depends on the series coefficients not yet observed, so at first glance this error seems to be impossible to bound in terms of observed series coefficients.  
 
-However, we can observe, say the partial sums 
+However, we can observe the partial sums 
 \begin{equation} \label{sumdef}
 \sigma_j(f) :
-= \norm[2]{ \left(\lambda_{i} \hf_{i} \right)_{i=n_{j-1}+1}^{n_j}}, \qquad j=1, 2, \ldots,
+= \norm[2]{ \left(\lambda_{i} \hf_{i} \right)_{i=n_{j-1}+1}^{n_j}}, \qquad j \in \naturals,
 \end{equation}
 where $\vn  = \{n_0, n_1, \ldots\}$ is a strictly increasing, unbounded sequence of non-negative integers.  We define the cone of nice input functions to consist of those functions for which the $\sigma_j(f)$ decay at a given rate with respect to one another:
 \begin{align} \label{decayconedef}
