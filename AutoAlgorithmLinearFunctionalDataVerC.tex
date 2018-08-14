@@ -104,7 +104,7 @@ Department of Applied Mathematics, Illinois Institute of Technology,\\ RE 208, 1
 \section{Introduction}
 Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy based on the input function data sampled.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider \emph{general linear problems} where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that  computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  Our adaptive algorithm is defined on a \emph{cone} of input functions.
 
-\subsection{Input and Output Spaces}  Let $\calF$ be a separable Hilbert space of inputs with orthonormal basis $\{u_i\}_{i=1}^\infty$, let $\calG$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i=1}^\infty$, and let their norms be defined as the $\ell^2$-norms of their series coefficients:  
+\subsection{Input and Output Spaces}  Let $\calF$ be a separable Hilbert space of inputs with orthonormal basis $\{u_i\}_{i \in \bbN}$, let $\calG$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i\in \bbN}$, and let their norms be defined as the $\ell^2$-norms of their series coefficients:  
 \begin{subequations}\label{probDef}
 \begin{gather}
 f = \sum_{i\in \bbN} \widehat{f}_i u_i \in \calF, \qquad 
