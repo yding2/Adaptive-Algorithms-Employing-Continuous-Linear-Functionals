@@ -656,11 +656,38 @@ v_{\vk}(\vx) & : =  -\sign(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \b
 \lambda_{\vk} &:= \frac{2 \pi \abs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}
 \end{align*}
 
-\yuhannote{The figure is here in comment} \frednote{The figure looked bad when I compiled it on my screen so I re-ran Matlab and then uploaded the new figures.}
-\begin{figure}
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width = 8 cm]{ProgramsImages/SimDirectSolErr.eps}
+	\begin{tabular}{cc}
+	\includegraphics[width =5.5 cm]{ProgramsImages/SimDirectSolAppx.eps} &
+	\includegraphics[width = 5.5 cm]{ProgramsImages/SimDirectSolErr.eps}
+	\\ (a) & (b)
+\end{tabular}
+	\caption{(a) The approximation of the first partial derivative of $f$
+(b) The error of the approximation 
+\label{solfig}} % 
 \end{figure}
+
+To do the simulation, we choose the Fourier coefficients $\hf$ to be normal distributed. Let $d=3, a= 2, b=\frac{1}{2},$ and $\varepsilon = 0.1.$ Based on our algorithm, we obtain $ n_{j^\dagger} = 1024.$ Using that, we can obtain the approximated solution and error in Figure \ref{solfig}. Based on Figure \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{cc}
+\includegraphics[width = 5.5 cm]{ProgramsImages/SimDirectInpFunAppx.eps}& 
+	\includegraphics[width = 5.5 cm]{ProgramsImages/SimDirectInpFunErr.eps}
+	\\ (a) & (b)
+\end{tabular}
+	\caption{(a) The approximation of the input function $f$
+(b) The error of the approximation 
+\label{inpfig}} % 
+\end{figure}
+
+Actually, we can also use these 1024 Fourier coefficients to approximate the input function. The above is the approximation of the input function $f$. Notice that, the errors in Figure \ref{inpfig}(b) are much smaller than the errors in Figure \ref{solfig}(b). 
+
+
+
+
+
 
 
 %\subsection{Examples: Approximating the divergence of a vector field}
