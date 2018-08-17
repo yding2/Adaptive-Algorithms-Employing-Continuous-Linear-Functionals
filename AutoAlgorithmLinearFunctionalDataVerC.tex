@@ -98,6 +98,7 @@ Department of Applied Mathematics, Illinois Institute of Technology,\\ RE 208, 1
 \maketitle
 
 \abstract{}
+Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to achieve an approximation to the function satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We also proivde a numerical experiment to illustrate our algorithm.
 
 
 
@@ -676,7 +677,17 @@ v_{\bsk}(\bsx) & : =  -\textup{sign}(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j
 & \qquad \qquad \times \prod_{j=2}^d 2^{(1-\delta_{k_j,0})/2} \cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\
 \lambda_{\bsk} &:= \frac{2 \pi \DHJRabs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}.
 \end{align*}
-We construct a function by choosing its Fourier coefficients $\widehat{f}$ to be normal distributed \textbf{What distribution (mean, standard deviation)?  How many Fourier coefficients are chosen to construct the function?}. Let $d=3, a= 2, b=\frac{1}{2},$ and $\varepsilon = 0.1.$ Based on our algorithm, we obtain $ n_{j^\dagger} = 1024.$ Using that, we can obtain the approximated solution and error in Figure \ref{solfig}. Based on Figure \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
+We construct a function by choosing its Fourier coefficients $\widehat{f} \sim  \mathcal{N}(0,1)$ with size $68931$.  Let $ a= 2$ and  $b=\frac{1}{2}$ and 
+ $\bsn = \{0, 2^{3+1}, \ldots, 2^{3+k} \},$ where $k =\lfloor \log_2^{68931} \rfloor=13$. Thus, by \eqref{sumdef} we can obtain $\sigma_j(f), \ j = 1,\ldots, 13.$  Given $\varepsilon$, we can derive the error bound and find the $n_{j^\dagger}$ where
+ \[j^{\dagger} = \min \left\{j : \frac{ab\sigma_j(f)}{\sqrt{1-b^2}}  \le \varepsilon, \ 1 \le j \le 13. \right\}\]
+
+ \begin{figure}[ht]
+ 	\centering
+ 		\includegraphics[width =7.5 cm]{ProgramsImages/SimFourCoefErr.eps}
+ 	\caption{Sample size, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
+ \end{figure}
+
+Fig. \ref{errfig} shows the number of sample size needed when we choose 10 different error tolerance from $10^{-1}$ to $10^{1}$. If we consider $\varepsilon = 0.1$, $ n_{j^\dagger} = 1024$ can reach the error tolerance. Using that, we can obtain the approximated solution and error in Figure \ref{solfig}. Based on Fig. \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
 
 
 \begin{figure}[ht]
@@ -703,7 +714,7 @@ We construct a function by choosing its Fourier coefficients $\widehat{f}$ to be
 		\label{inpfig}} % 
 \end{figure}
 
-Actually, we can also use these 1024 Fourier coefficients to approximate the input function. The above is the approximation of the input function $f$. Notice that, the errors in Figure \ref{inpfig}(b) are much smaller than the errors in Figure \ref{solfig}(b). 
+Actually, we can also use these 1024 Fourier coefficients to approximate the input function. The above is the approximation of the input function $f$. Notice that, the errors in Fig. \ref{inpfig}(b) are much smaller than the errors in Fig. \ref{solfig}(b). 
 
 
 %\subsection{Examples: Approximating the divergence of a vector field}
