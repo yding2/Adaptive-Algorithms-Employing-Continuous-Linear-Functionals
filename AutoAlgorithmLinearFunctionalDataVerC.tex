@@ -82,28 +82,27 @@
 
 %\journal{Journal of Complexity}
 
-
+\allowdisplaybreaks[4]
 
 \begin{document}
 
 \title*{Adaptive Algorithms Employing Continuous Linear Functionals}
 \author{Yuhan Ding \and Fred J. Hickernell \and Llu\'{\i}s Antoni Jim\'{e}nez Rugama}
-\institute{Yuhan Ding \at MCA 310, Department of Mathematics, Misericordia University,\\ 301 Lake St., Dallas, PA, 18612 \email{}
+\institute{Yuhan Ding \at MCA 310, Department of Mathematics, Misericordia University,\\ 301 Lake St., Dallas, PA, 18612 \email{yding@misericordia.edu}
 \and
 Fred J. Hickernell \at Center for Interdisciplinary Scientific Computation and \\
 Department of Applied Mathematics, Illinois Institute of Technology \\ RE 208, 10 W.\ 32$^{\text{nd}}$ St., Chicago, IL 60616 \email{hickernell@iit.edu}
 \and Llu\'{\i}s Antoni Jim\'{e}nez Rugama \at
-Department of Applied Mathematics, Illinois Institute of Technology,\\ RE 208, 10 W.\ 32$^{\text{nd}}$ St., Chicago, IL 60616 \email{}}
+Department of Applied Mathematics, Illinois Institute of Technology,\\ RE 208, 10 W.\ 32$^{\text{nd}}$ St., Chicago, IL 60616 \email{ljimene1@hawk.iit.edu}}
 
 \maketitle
 
-\abstract{}
-Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to achieve an approximation to the function satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We also proivde a numerical experiment to illustrate our algorithm.
+\abstract{Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to achieve an approximation to the function satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We also provide a numerical experiment to illustrate our algorithm.}
 
 
 
 \section{Introduction}
-Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy based on the input function data sampled.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider \emph{general linear problems} where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that  computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  Our adaptive algorithm is defined on a \emph{cone} of input functions.
+Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy based on the input function data sampled.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider \emph{general linear problems} where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that {\color{red} the} computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  Our adaptive algorithm is defined on a \emph{cone} of input functions.
 
 \subsection{Input and Output Spaces}  Let $\calF$ be a separable Hilbert space of inputs with orthonormal basis $\{u_i\}_{i \in \bbN}$, let $\calG$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i\in \bbN}$, and let their norms be defined as the $\ell^2$-norms of their series coefficients:  
 \begin{subequations}\label{probDef}
@@ -119,9 +118,9 @@ S(u_i) = \lambda_i v_i, \quad i \in \bbN, \qquad S(f) = \sum_{i=1}^n \lambda_i \
 \DHJRnorm[\calF \to \calG]{S} := \sup_{f \ne 0} \frac{\DHJRnorm[\calG]{S(f)}}{\DHJRnorm[\calF]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$, Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$.
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. {\color{red} The embedding operator is not considered either, right ($\lambda_i=1$)? When do these two basis exist? For instance, can we freely choose from exponential to Walsh bases?}
 
-\subsection{Solvability}  Let $\calH$ be any subset of $\calF$, and let $\calA(\calH)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \calH \to \calG$ to within some error tolerance for all inputs in $\calH$:
+\subsection{Solvability}  Let $\calH$ be any subset {\color{red}(any subset? But $S$ will linearly defined over $\calH$?)} of $\calF$, and let $\calA(\calH)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \calH \to \calG$ to within some error tolerance for all inputs in $\calH$:
 \begin{multline} \label{adapErrCrit}
 \calA(\calH) : = \left\{ \text{algorithms } A:\calH \times (0,\infty) \rightarrow \calG : 
 \right . \\ \left .
@@ -186,8 +185,8 @@ Hence, algorithm $\widehat{A}$ defined in \eqref{optBallalg} is optimal for $\ca
 
 \begin{example} Consider the case of function approximation for periodic functions defined on the [0,1], and algorithm $\widehat{A}$ defined in \eqref{optBallalg}:
 	\begin{align*}
-	f &= \sum_{k \in \bbZ} \widehat{f}(k) \widehat{u}_{k}  = \sum_{i=1}^n \widehat{f}_i u_i, 
-	& S(f) & = \sum_{k \in \bbZ} \widehat{f}(k) \widehat{\lambda}_k \widehat{v}_k = \sum_{i=1}^n \widehat{f}_i \lambda_i \widehat{v}_i, \\
+	f &= \sum_{k \in \bbZ} \widehat{f}(k) \widehat{u}_{k}  = \sum_{i \in \bbN} \widehat{f}_i u_i, 
+	& S(f) & = \sum_{k \in \bbZ} \widehat{f}(k) \widehat{\lambda}_k \widehat{v}_k = \sum_{i \in \bbN} \widehat{f}_i \lambda_i v_i, \\
 	\widehat{v}_{k} (x) &:= \begin{cases} 1, & k = 0, \\
 	\displaystyle \sqrt{2} \sin(2\pi k x), & k > 0, \\
 	\displaystyle \sqrt{2} \cos(2\pi k x), & k < 0, \\
@@ -670,25 +669,45 @@ By Theorem \ref{thm:lowbdcomp}, $\textup{comp}(\calA(\calC),\omega\varepsilon,\r
 
 Consider the case of approximating the  partial derivative with respect to $x_1$ of periodic functions defined on the $d$-dimensional unit cube:
 \begin{align*}
-f &= \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) u_{\bsk} (\bsx), \\
-u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max(1,\gamma_j k_j)},  \\
-S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \lambda_{\bsk} v_{\bsk} (\bsx), \\
+\allowdisplaybreaks
+f &= \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \widehat{u}_{\bsk} = \sum_{i \in \bbN} \widehat{f}_i u_i , \\
+u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max(1,\gamma_j k_j)},  \\ 
+S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \lambda_{\bsk} v_{\bsk} (\bsx)
+= \sum_{i \in \bbN} \widehat{f}_i \lambda_i v_i, \\ 
 v_{\bsk}(\bsx) & : =  -\textup{sign}(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
-& \qquad \qquad \times \prod_{j=2}^d 2^{(1-\delta_{k_j,0})/2} \cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\
+& \qquad \qquad \times \prod_{j=2}^d 2^{(1-\delta_{k_j,0})/2} \cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\ 
 \lambda_{\bsk} &:= \frac{2 \pi \DHJRabs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}.
 \end{align*}
-We construct a function by choosing its Fourier coefficients $\widehat{f} \sim  \mathcal{N}(0,1)$ with size $68931$.  Let $ a= 2$ and  $b=\frac{1}{2}$ and 
- $\bsn = \{0, 2^{3+1}, \ldots, 2^{3+k} \},$ where $k =\lfloor \log_2^{68931} \rfloor=13$. Thus, by \eqref{sumdef} we can obtain $\sigma_j(f), \ j = 1,\ldots, 13.$  Given $\varepsilon$, we can derive the error bound and find the $n_{j^\dagger}$ where
- \[j^{\dagger} = \min \left\{j : \frac{ab\sigma_j(f)}{\sqrt{1-b^2}}  \le \varepsilon, \ 1 \le j \le 13. \right\}\]
+where $\gamma = [2^0, 2^{-1},\ldots, 2^{-d+1}].$
+
+\yuhannote{According to code, some expression should be as follows:}
+\begin{align*}
+u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max^8(1,\gamma_j k_j)},  \\ 
+\lambda_{\bsk} &:= 2 \pi \DHJRabs{k_1}\frac{2^{(1-\delta_{k_j,0})/2}}{\prod_{j=1}^d\max^8(1,\gamma_j k_j)}.\\
+\end{align*}
+
+\yuhannote{$v_{\bsk}(\bsx) $ still doesn't match the code}
+\begin{align*}
+    v_{\bsk}(\bsx) & : =  -\textup{sign}(k_1)  \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
+& \qquad \qquad \times \prod_{j=2}^d
+\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) 
+\end{align*}
+
+
+We construct a function by choosing its Fourier coefficients $\widehat{f}_i \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for  $i = 1, \ldots, 68931$, and $\widehat{f}_i = 0$ otherwise.  Let $ a= 2$ and  $b=\frac{1}{2}$ and 
+ choose $\bsn = \{0, 2^{3+1}, \ldots, 2^{3+k}, \ldots \}.$
+ To  obtain $\sigma_j(f), \ j \in \bbN$ by \eqref{sumdef},
+ we need to sort $\lambda_i$ in the descending order and get corresponding $\widehat{f}_i$ and $\widehat{v}_i$, which is similar to the Example 1. To implement it efficiently, we use another vector to keep the index of the descending order of $\lambda_i$. Thus, we can obtain the correct
+ $\lambda_i$,  $\widehat{f}_i$, and $v_i$ according to $\bsn_k$. Thus, we can add them together to get $\sigma_j(f)$.  Given $\varepsilon$, we can derive the error bound and find the $n_{j^\dagger}$ where
+ \[j^{\dagger} = \min \left\{j \in \bbN : \frac{ab\sigma_j(f)}{\sqrt{1-b^2}}  \le \varepsilon. \right\}\]
 
  \begin{figure}[ht]
  	\centering
  		\includegraphics[width =7.5 cm]{ProgramsImages/SimFourCoefErr.eps}
- 	\caption{Sample size, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
+ 	\caption{Sample size $n$, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
  \end{figure}
 
 Fig. \ref{errfig} shows the number of sample size needed when we choose 10 different error tolerance from $10^{-1}$ to $10^{1}$. If we consider $\varepsilon = 0.1$, $ n_{j^\dagger} = 1024$ can reach the error tolerance. Using that, we can obtain the approximated solution and error in Figure \ref{solfig}. Based on Fig. \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
-
 
 \begin{figure}[ht]
 	\centering
@@ -697,40 +716,15 @@ Fig. \ref{errfig} shows the number of sample size needed when we choose 10 diffe
 		\includegraphics[width = 5.5 cm]{ProgramsImages/SimDirectSolErr.eps}
 		\\ (a) & (b)
 	\end{tabular}
-	\caption{(a) The approximation of the first partial derivative of $f$
-		(b) The error of the approximation 
+	\caption{For $\varepsilon = 0.1$:  (a) The approximation of the first partial derivative of $f$; 
+		(b) The error of the approximation.
 		\label{solfig}} % 
 \end{figure}
 
-\begin{figure}[ht]
-	\centering
-	\begin{tabular}{cc}
-		\includegraphics[width = 5.5 cm]{ProgramsImages/SimDirectInpFunAppx.eps}& 
-		\includegraphics[width = 5.5 cm]{ProgramsImages/SimDirectInpFunErr.eps}
-		\\ (a) & (b)
-	\end{tabular}
-	\caption{(a) The approximation of the input function $f$
-		(b) The error of the approximation 
-		\label{inpfig}} % 
-\end{figure}
 
-Actually, we can also use these 1024 Fourier coefficients to approximate the input function. The above is the approximation of the input function $f$. Notice that, the errors in Fig. \ref{inpfig}(b) are much smaller than the errors in Fig. \ref{solfig}(b). 
-
-
-%\subsection{Examples: Approximating the divergence of a vector field}
-%
-%In this case, $\calF=\{f:\reals^n\mapsto\reals^m,\, f\in C^1(\Omega)\}$ and $\calG=\{g:\reals^n\mapsto\reals,\, g\in C^0(\Omega)\}$ and $S: f\mapsto \nabla\cdot f=\sum_{j=1}^{m}\partial_{x_j}f_j$.
-%
-%\begin{gather*}
-%\DHJRnorm[\calF]{f} =\left[\int_\Omega \sum_{j=1}^{m}\DHJRabs{f_j(x)}^2+\sum_{j=1}^{m}\DHJRabs{f'_j(x)}^2 \, \dif x \right]^{1/2},\\
-%\DHJRnorm[\calG]{g} = \left[\int_\Omega \DHJRabs{g(x)}^2 \, \dif x \right]^{1/2}, \\
-%u_{i}(x) = \frac{\me^{2 \pi \sqrt{-1} <i,x>}}{\sqrt{mV(\omega)+4\pi<i,i>}}, \\
-%v_i(x) = \me^{2 \pi \sqrt{-1} <i,x>},\\
-% \lambda_i=\frac{2\pi\sqrt{-1}\sum_{j=1}^{m}i_j}{\sqrt{mV(\omega)+4\pi<i,i>}}, \qquad i \in \bbZ^m,\\
-%\pin=\pout=2,\quad q=\infty.
-%\end{gather*}
 
 \section{Discussion and Conclusions} \label{sec:conc}
+
 
 %\section*{References}
 %\nocite{*}
@@ -739,296 +733,4 @@ Actually, we can also use these 1024 Fourier coefficients to approximate the inp
 
 
 \end{document}
-
-
-
-
-
-
-\begin{remark}
-For the algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2}, $\textup{cost}(\widetilde{A},\rho,\varepsilon) \le n_{j^*}$, where $j^*$ satisfies the following upper bound:
-\[
-j^* \le \min \left \{j \in \bbN : \rho^2 \le \frac{\varepsilon^2(1 - b^2)}{a^2b^2C_{\textup{up}}^2n_0^{2(1-p)}} \left[ \frac{1-b^2}{a^2b^{2(j-1)}}+ \frac{1}{2^{2(j-1)(1-p)}}\right]\right\}.
-\]
-\end{remark}
-
-
-\begin{proof}
-First, we have a rough upper bound on $\textup{cost}(\widetilde{A},\rho,\varepsilon)$ in the proof of  Theorem  \ref{thm:compcost} by finding the smallest $j$ violating the following inequality:
-\begin{equation*}
-\rho \ge \DHJRnorm[\calF]{f} \ge \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} \ge \frac{\sigma_j(f)}{\lambda_{n_{j-1}+1}} > \frac{\varepsilon\sqrt{1 - b^2}}{ab \lambda_{n_{j-1}+1}}
-\end{equation*}
-If we consider $\lambda_{i}$ is bounded above
-\begin{equation} \label{lambdaDecI}
-\lambda_i \le C_{\textup{up}} i^{1-p}, \quad   i \in \bbN,
-\end{equation}
-where $p > 1$, we obtain
-\begin{align*}
-\rho & > \frac{\varepsilon\sqrt{1 - b^2}}{ab \lambda_{n_{j-1}+1}} \\
-& \ge \frac{\varepsilon\sqrt{1 - b^2}}{ab C_{\textup{up}}(n_{j-1}+1)^{1-p}} \qquad \text{by \eqref{lambdaDecI}} \\
-& > \frac{\varepsilon\sqrt{1 - b^2}}{ab C_{\textup{up}}n_{j-1}^{1-p}} \\
-& \ge \frac{\varepsilon\sqrt{1 - b^2}}{ab C_{\textup{up}}(2^{j-1}n_0)^{1-p}} \qquad \text{by \eqref{geonj}} \\
-& = \frac{\varepsilon\sqrt{1 - b^2}}{ab C_{\textup{up}}n_0^{1-p} 2^{(j-1)(1-p)}}
-\end{align*}
-Thus, one upper bound on $j^*$ is the smallest $j$ violating the above inequality:
-\[
-j^* \le \min \left \{j \in \bbN :  
-j \ge \frac{\log\left[\frac{\varepsilon \sqrt{1-b^2}}{\rho ab C_{\textup{up}}n_0^{1-p}}\right]}{(1-p)\log 2}+ 1\right\}
-\]
-
-We could also obtain another upper bound similar to the tighter upper bound in Theorem \ref{thm:compcost}.  
-The tighter cost is the smallest $j$ that violates the following inequality
-\begin{equation*}
-\rho^2 > \frac{\varepsilon^2(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}}{a^{2}\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right].
-\end{equation*}
-From \eqref{lambdaDecI}, we can obtain for any $k=1, \ldots,j-1$
-\[\lambda_{n_{k-1}+1} \le C_{\textup{up}}(n_{k-1}+1)^{1-p} 
-<  C_{\textup{up}}(n_{k-1})^{1-p} < C_{\textup{up}}n_0^{1-p}.\]
-Thus, we have 
-\begin{align*}
-\rho^2 &> \frac{\varepsilon^2(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}}{a^{2}\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]\\
-& >  \frac{\varepsilon^2(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}}{a^{2}(C_{\textup{up}}n_0^{1-p})^2} + \frac{1}{(C_{\textup{up}}(n_{j-1})^{1-p} )^2}\right] \\
-& = \frac{\varepsilon^2(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}}{a^{2}C_{\textup{up}}^2n_0^{2(1-p)}} + \frac{1}{C^2_{\textup{up}}(2^{j-1}n_0)^{2(1-p)}}\right] \qquad \text{by \eqref{geonj}}\\
-&  =\frac{\varepsilon^2(1 - b^2)}{a^2b^2C_{\textup{up}}^2n_0^{2(1-p)}} \left[ \frac{1}{a^2b^{2j}}\sum_{k=1}^{j-1} b^{2k }+ \frac{1}{2^{2(j-1)(1-p)}}\right] \\
-& > \frac{\varepsilon^2(1 - b^2)}{a^2b^2C_{\textup{up}}^2n_0^{2(1-p)}} \left[ \frac{1-b^2}{a^2b^{2(j-1)}}+ \frac{1}{2^{2(j-1)(1-p)}}\right] .
-\end{align*}
-Hence, any $j$ that violates the above inequality, must satisfy $j \ge j^*$.
-\end{proof}
-
-
-
-
-/fi
-\iffalse
-\subsection{The embedding of $f(x)=\frac{(b^2-1)}{b^2+1-2b\cos(2\pi x)}$}
-
-In our example, consider $\calF=\calG=\cl_2[0,1]$, and $S: f \mapsto f$ the embedding operator with:
-\begin{gather*}
-\DHJRnorm[\calF]{f} = \DHJRnorm[\calG]{f} = \left[\int_0^1 \DHJRabs{f(x)}^2 \, \dif x \right]^{1/2}, \\
-u_{i}(x) = v_i(x) = \me^{2 \pi \sqrt{-1} i x},\quad \lambda_i=1, \qquad i \in \bbZ,\\
-\pin=\pout=2,\quad q=\infty.
-\end{gather*}
-
-For our index set $\ci=\bbZ=\{0,1,-1,2,-2,\ldots\}$,
-\begin{gather*}
-i_j=(-1)^{j}\left\lfloor\frac{j}{2}\right\rfloor,\qquad j\in\bbN,\\
-n_0=0,\quad n_k=2k+1, \qquad k\in\bbN.
-\end{gather*}
-
-The Fourier coefficients of this function can be easily found:
-\begin{align*}
-f(x)&=\frac{b^2-1}{b^2+1-2b\cos(2\pi x)}\\
-&=\frac{1-b^{-2}+b^{-1}(\me^{-2\pi\sqrt{-1}x}-\me^{-2\pi\sqrt{-1}x})}{1+b^{-2}-b^{-1}(\me^{2\pi\sqrt{-1}x}+\me^{-2\pi\sqrt{-1}x})}\\
-&=\frac{(1-b^{-1}\me^{-2\pi\sqrt{-1}x})+(1-b^{-1}\me^{2\pi\sqrt{-1}x})b^{-1}\me^{-2\pi\sqrt{-1}x}}{(1-b^{-1}\me^{2\pi\sqrt{-1}x})(1-b^{-1}\me^{-2\pi\sqrt{-1}x})}\\
-&=\frac{1}{1-b^{-1}\me^{2\pi\sqrt{-1}x}}+\frac{b^{-1}\me^{-2\pi\sqrt{-1}x}}{1-b^{-1}\me^{-2\pi\sqrt{-1}x}}\\
-&=\sum_{k\in\bbN_0}\left(b^{-1}\me^{2\pi\sqrt{-1}x}\right)^k+\sum_{k\in\bbN}\left(b^{-1}\me^{-2\pi\sqrt{-1}x}\right)^k\\
-&=\sum_{k\in\bbZ}b^{-\DHJRabs{k}}\me^{2\pi\sqrt{-1}kx}\Longrightarrow\widehat{f}_{i_j}=b^{-\DHJRabs{i_j}}
-\end{align*}
-
-Because we are interested in seeing how far the approximation is from the real solution, the norm of the exact solution has to be found. Knowing the Fourier coefficients leads us to an easy way to calculate it:
-\begin{align*}
-\DHJRnorm[\calG]{S(f)}&=\left(\sum_{j\in\bbZ}\lambda_{i_j}^2\widehat{f}_{i_j}^2\right)^{\frac{1}{2}} =\left(1+2\sum_{k\in\bbN}b^{-2k}\right)^{\frac{1}{2}}=\left(\frac{b^2+1}{b^2-1}\right)^{\frac{1}{2}}
-\end{align*}
-
-We can also give the sums of coefficients,
-\begin{align*}
-&\sigma_1(f)=\sqrt{1+2b^{-2}}\\
-&\sigma_k(f)=\sqrt{2}b^{-k}, \qquad k \in\bbN\setminus\{1\}.
-\end{align*}
-Recalling the alternative definition of the cone in (\ref{decayconedef}), with these sums, $f\in\calC$ for $\gamma_r=b^{-r}$ since
-\begin{equation*}
-\sigma_k(f) \le \min_{1 \le i <k}\{\gamma_i\sigma_{k-i}(f)\}=\min\left\{1 \; , \; \sqrt{1+\frac{b^2}{2}} \right\}\sigma_k(f)
-\end{equation*}
-
-In this case, $\DHJRnorm[\pout]{\bgamma}=\frac{1}{\sqrt{b^2-1}}$. If we use our Algorithm \ref{algo2}, we have to check first whether $\sqrt{\frac{b^2+2}{b^4-b^2}}\le\varepsilon$. If this inequality states, then $k^*=1$. If not,
-\begin{equation*}
-k^*=\min\left\{k\in\bbN\setminus\{1\}:\frac{1}{2\log(b)}\log\left(\frac{2}{(b^2-1)\varepsilon^2}\right) \le k \right\}
-\end{equation*}
-
-For a numerical application, set $b=3$ and find below a table of results for this example,
-
-\begin{center}
-\begin{tabular}{|c|c|c|c|}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-  $\varepsilon$ & $k^*$ & $n_{k^*}$ & $\operatorname{error}=\DHJRnorm[\calG]{S(f)}-\DHJRnorm[\calG]{A_{n_{k^*}}(f)}$ \\
-  \hline
-  $1$ & $1$ & $3$ & $1.2492\cdot10^{-2}$ \\
-  $10^{-1}$ & $2$ & $5$ & $1.3811\cdot10^{-3}$ \\
-  $10^{-2}$ & $4$ & $9$ & $1.7041\cdot10^{-5}$ \\
-  $10^{-3}$ & $6$ & $13$ & $2.1038\cdot10^{-7}$ \\
-  $10^{-4}$ & $8$ & $17$ & $2.5973\cdot10^{-9}$ \\
-  $10^{-5}$ & $10$ & $21$ & $3.2065\cdot10^{-11}$ \\
-  $10^{-6}$ & $12$ & $25$ & $3.9591\cdot10^{-13}$ \\
-  $10^{-7}$ & $15$ & $31$ & $4.4409\cdot10^{-16}$ \\
-  \hline
-\end{tabular}
-\end{center}
-
-\subsection{Derivation of the Bernoulli polynomials}
-
-The properties we will use for these particular polynomials can be found in \cite{AbrSte64}: derivatives, explicit Fourier coefficients, etc. To deal with this example, now $\calF=\calG=\cl_2[0,1]$, and $S: f \mapsto f'$ with,
-\begin{gather*}
-\DHJRnorm[\calF]{f} = \left[\int_0^1 \left\{\DHJRabs{f(x)}^2 + \DHJRabs{f'(x)}^2\right\}\, \dif x\right]^{1/2}, \quad \DHJRnorm[\calG]{f} = \left[\int_0^1 \DHJRabs{f(x)}^2 \, \dif x \right]^{1/2}, \\
-u_{i}(x) = \frac{\me^{2 \pi \sqrt{-1} i x}}{\sqrt{1+4 \pi^2 i^2}}, \quad v_i(x) = \me^{2 \pi \sqrt{-1} i x}, \quad \lambda_i=\frac{2 \pi \sqrt{-1} i}{\sqrt{1+4 \pi^2 i^2}}, \qquad i \in \bbZ,\\
-\pin=\pout=2,\quad q=\infty.
-\end{gather*}
-
-Like in the previous example, the index set $\ci=\bbZ=\{0,1,-1,2,-2,\ldots\}$ has the following ordering
-\begin{gather*}
-i_j=(-1)^{j}\left\lfloor\frac{j}{2}\right\rfloor,\qquad j\in\bbN,\\
-n_0=0,\quad n_k=2^k, \qquad k\in\bbN.
-\end{gather*}
-
-For this case,
-\begin{equation*}
-B_n(x)=-\frac{n!}{(2\pi\sqrt{-1})^n}\sum_{k\in\bbZ\setminus\{0\}}\frac{\me^{2\pi\sqrt{-1}kx}}{k^n}\Longrightarrow
-\left\{\begin{array}{l}
-\widehat{B_n}_0=0 \\
-\widehat{B_n}_{i_j}=-\frac{n!\sqrt{1+4 \pi^2 i_j^2}}{(2\pi\sqrt{-1}i_j)^n},\quad i_j\in\bbZ\setminus\{0\}
-\end{array}\right.
-\end{equation*}
-
-Using that $B'_n(x)=nB_{n-1}(x)$ and $\int_0^1B_n(t)B_m(t)\dif t=(-1)^{n-1}\frac{m!n!}{(m+n)!}B_{n+m}$, the real solution comes automatically,
-\begin{equation*}
-\DHJRnorm[\calG]{S(B_n(x))}=n\DHJRnorm[\calG]{B_{n-1}(x)}=n!\sqrt{\frac{\DHJRabs{B_{2(n-1)}}}{[2(n-1)]!}}
-\end{equation*}
-where $B_n=B_n(0)$ are the Bernoulli numbers.
-
-If we consider $\gamma_r=s_1s_2^{-r}$ and that
-\begin{equation}\label{bound}
-\frac{n!}{\sqrt{2}\pi^n}j^{-n} \le \DHJRabs{\lambda_{i_j}\widehat{B_n}_{i_j}} \le \frac{n!2^n}{\pi^n}j^{-n},\quad j\in\bbN\setminus\{1\}
-\end{equation}
-then $C_{\textup{up}}=2^{n+\frac{1}{2}}C_{\textup{lo}}=\frac{n!2^n}{\pi^n}$. Thus, as shown in the example example at the beginning of this section we can take
-\begin{equation*}
-s_1=2\times11^{n-\frac{1}{2}},\quad s_2=2^{n-\frac{1}{2}}
-\end{equation*}
-There is still one thing to check because $j=1$ was not taken into account in the inequality (\ref{bound}). However, see that $\sigma_1(f) \ge C_{\textup{lo}}\left(\frac{5}{36}\right)^{n-\frac{1}{2}}$ what means that the $\gamma_r=s_1s_2^{-r}$ found satisfies our needs.
-
-For a numerical application, find below the results for the case $n=5$ and $n=10$,
-
-\begin{center}
-\begin{tabular}{|c|c|c|c|}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-  \multicolumn{4}{|c|}{$B_5(x)=x^5-\frac{5}{2}x^4+\frac{5}{3}x^3-\frac{1}{6}x$} \\
-  \hline
-  $\varepsilon$ & $k^*$ & $n_{k^*}$ & $\operatorname{error}=\DHJRnorm[\calG]{S(B_5(x))}-\DHJRnorm[\calG]{A_{n_{k^*}}(B_5(x))}$ \\
-  \hline
-  $1$ & $5$ & $32$ & $2.9439\cdot10^{-11}$ \\
-  $10^{-1}$ & $6$ & $64$ & $2.2703\cdot10^{-13}$ \\
-  $10^{-2}$ & $7$ & $128$ & $1.8735\cdot10^{-15}$ \\
-  $10^{-3}$ & $7$ & $128$ & $1.8735\cdot10^{-15}$ \\
-  $10^{-4}$ & $8$ & $256$ & $1.1102\cdot10^{-16}$ \\
-  $10^{-5}$ & $9$ & $512$ & $9.7145\cdot10^{-17}$ \\
-  \hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|c|c|c|c|}
-  \hline
-  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-  \multicolumn{4}{|c|}{$B_{10}(x)=x^{10}-5x^9+\frac{15}{2}x^8-7x^6+5x^4-\frac{3}{2}x^2+\frac{5}{66}$} \\
-  \hline
-  $\varepsilon$ & $k^*$ & $n_{k^*}$ & $\operatorname{error}=\DHJRnorm[\calG]{S(B_{10}(x))}-\DHJRnorm[\calG]{A_{n_{k^*}}(B_{10}(x))}$ \\
-  \hline
-  $1$ & $5$ & $32$ & $7.7716\cdot10^{-16}$ \\
-  $10^{-1}$ & $5$ & $32$ & $7.7716\cdot10^{-16}$ \\
-  $10^{-2}$ & $6$ & $64$ & $7.7716\cdot10^{-16}$ \\
-  $10^{-3}$ & $6$ & $64$ & $7.7716\cdot10^{-16}$ \\
-  $10^{-4}$ & $7$ & $128$ & $7.7716\cdot10^{-16}$ \\
-  $10^{-5}$ & $7$ & $128$ & $7.7716\cdot10^{-16}$ \\
-  \hline
-\end{tabular}
-\end{center}
-
-\begin{remark}
-MATLAB's machine epsilon is $2.2204\cdot10^{-16}$.
-\end{remark}
-\fi
-
-
-
-
-\iffalse
-
-We do not expect the series coefficients of the solution $S(f)$, to decay monotonically.  The sequence $\bsn$ is used to average finite sequences of Fourier coefficients into groups to smooth the peaks we could encounter if we take these coefficients one by one. Flattening the peaks is a must to fit functions into the cone. Nevertheless, the solution of our algorithm is in this set $\cn$ which means that the sequence does not have to distance the optimal number of data needed in our algorithm (defined below) more than a constant.
-
-We define the optimal number of data needed to solve the problem defined as \eqref{errCond} is 
-\begin{equation*}
-N_{\opt}(f,\varepsilon)=\min\left\{n\in\bbN:\,\DHJRnorm[2]{\left(\lambda_{i_j} \widehat{f}_{i_j} \right)_{j\ge n+1}} \le \varepsilon \right\}
-\end{equation*}
-
-Any algorithm is called \emph{asymptotically  optimal} if it essentially tracks the optimal number of data needed,
-\begin{equation} \label{nearoptdef}
-\sup_{\varepsilon > 0 } \frac{\textup{cost}(A,f;\varepsilon)} {N_{\opt}(f,\varepsilon)} <\infty 
-\end{equation}
-or
-\[
-\sup_{\varepsilon > 0 } [\textup{cost}(A,f;\varepsilon)- N_{\opt}(f,\varepsilon)] <\infty.
-\]
-
-Next, we prove our algorithm is optimal.
-
-\begin{theorem}\label{nopt}
-Algorithm \ref{algo2} is optimal for this problem.
-
-\end{theorem}
-\begin{proof}
-Given $f \in \calC$ and $\varepsilon$, denote $n^*= N_{\opt}(f,\varepsilon)$. Let 
-\[n_{k^*-r-1} < n^{*}  \le n_{k^*-r} \le n_{k^*},\]
-where $n_{k^*}$ is the cost of our algorithm.
-Thus by \eqref{sumdef}, we obtain
-\[\sigma_{k^*-r+1}(f) = \DHJRnorm[2]{ \left(\lambda_{i_j} \widehat{f}_{i_j} \right)_{j=n_{k^*-r}+1}^{n_{k^*-r+1}}}
- \le \DHJRnorm[2]{ \left(\lambda_{i_j} \widehat{f}_{i_j} \right)_{j=n^*}^{\infty}} \le \varepsilon.\]
-By the cone condition \eqref{decayconedef} , we have 
-\[\sigma_{k^*-r+m}(f) \le \gamma_{m-1}\sigma_{k^*-r+1}(f) \le\gamma_{m-1} \cdot \varepsilon.\]
-Choose $m$ such that $\gamma_{m-1} \le \frac{1}{\DHJRnorm[2]{\vgamma}},$
-thus we obtain
-\[\sigma_{k^*-r+m}(f) \le\gamma_{m-1} \cdot \varepsilon \le \frac{\varepsilon}{\DHJRnorm[2]{\vgamma}}.\]
-Suppose $\gamma_r$ decays geometrically, $n_k$ increases geometrically $n_k = n_0 2^k $, we have
-\[\frac{\textup{cost}(\widetilde{A},f;\varepsilon)}{N_{\opt}(f,\varepsilon)} \le 
-\frac{n_{k^*-r+m}}{n_{k^*-r-1}} = \frac{n_0 2^{k^*-r+m}}{n_0 2^{k^*-r-1}}
-= 2^{m+1}.\]
-
-
-As $m$ satisfied 
-\begin{align*}\
-\gamma_{m-1} \le \frac{1}{\DHJRnorm[2]{\vgamma}} 
-& \Longleftrightarrow C_1C_2^{-m+1} \le \frac{\sqrt{C_2^2-1}}{C_1} \\
-& \Longrightarrow C_2^{-m+1} \le \frac{\sqrt{C_2^2-1}}{C^2_1} \\
-& \Longrightarrow  m \ge 1+ 
-\frac{\log\left(\frac{C_1^2}{\sqrt{C_2^2-1}}\right)}{\log(C_2)}.
-\end{align*}
-Therefore we can choose 
-\[m = \left\lceil 1+ 
-\frac{\log\left(\frac{C_1^2}{\sqrt{C_2^2-1}}\right)}{\log(C_2)} \right\rceil
- < 2 + \frac{\log\left(\frac{C_1^2}{\sqrt{C_2^2-1}}\right)}{\log(C_2)}. \]
-Hence,
- \[\frac{\textup{cost}(A,f;\varepsilon)} {N_{\opt}(f,\varepsilon)} 
- \le 2^{m+1} < 2^{3+\frac{\log\left(\frac{C_1^2}{\sqrt{C_2^2-1}}\right)}{\log(C_2)}} \Longrightarrow \sup_{f,\varepsilon} \frac{\textup{cost}(A,f;\varepsilon)} {N_{\opt}(f,\varepsilon)} <\infty.\]
-
-Suppose $\gamma_r$ decays geometrically, $n_k$ increases linearly $n_k = n_0 + 2k $, we have
-\begin{align*}
-\textup{cost}(\widetilde{A},f;\varepsilon)-N_{\opt}(f,\varepsilon) & \le 
-n_{k^*-r+m}-n_{k^*-r-1} \\ & = (n_0 +2(k^*-r+m))-(n_0+2(k^*-r-1))\\
-& = 2(m+1).
-\end{align*}
-Still choose
-\[m = \left\lceil 1+ 
-\frac{\log\left(\frac{C_1^2}{\sqrt{C_2^2-1}}\right)}{\log(C_2)} \right\rceil
- < 2 + \frac{\log\left(\frac{C_1^2}{\sqrt{C_2^2-1}}\right)}{\log(C_2)}. \]
- We have
-\begin{align*}
-\textup{cost}(\widetilde{A},f;\varepsilon)-N_{\opt}(f,\varepsilon) 
-& = 2(m+1) \\
-&  = 2\left(3+ \frac{\log\left(\frac{C_1^2}{\sqrt{C_2^2-1}}\right)}{\log(C_2)}\right)\\
-\Longrightarrow &
-\sup_{f,\varepsilon} \left[\textup{cost}(A,f;\varepsilon) -N_{\opt}(f,\varepsilon) \right]< \infty
-\end{align*}
-\end{proof}
-
-\fi
-
 
