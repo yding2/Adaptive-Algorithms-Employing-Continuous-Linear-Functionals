@@ -671,19 +671,20 @@ Consider the case of approximating the  partial derivative with respect to $x_1$
 \begin{align*}
 \allowdisplaybreaks
 f &= \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \widehat{u}_{\bsk} = \sum_{i \in \bbN} \widehat{f}_i u_i , \\
-u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max(1,\gamma_j k_j)},  \\ 
-S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \lambda_{\bsk} v_{\bsk} (\bsx)
+\widehat{u}_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max(1,\gamma_j \DHJRabs{k_j})},  \\ 
+S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \lambda(\bsk) \widehat{v}_{\bsk} (\bsx)
 = \sum_{i \in \bbN} \widehat{f}_i \lambda_i v_i, \\ 
-v_{\bsk}(\bsx) & : =  -\textup{sign}(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
+\widehat{v}_{\bsk}(\bsx) & : =  -\textup{sign}(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
 & \qquad \qquad \times \prod_{j=2}^d 2^{(1-\delta_{k_j,0})/2} \cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\ 
-\lambda_{\bsk} &:= \frac{2 \pi \DHJRabs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}.
+\lambda(\bsk) &:= \frac{2 \pi \DHJRabs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}, \\
+\boldsymbol{\gamma} & := (1,1/2, 1/4, \ldots, 2^{-d+1}).
 \end{align*}
-where $\gamma = [2^0, 2^{-1},\ldots, 2^{-d+1}].$
 
 \yuhannote{According to code, some expression should be as follows:}
+\frednote{I hope that it is fixed now.}
 \begin{align*}
 u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max^8(1,\gamma_j k_j)},  \\ 
-\lambda_{\bsk} &:= 2 \pi \DHJRabs{k_1}\frac{2^{(1-\delta_{k_j,0})/2}}{\prod_{j=1}^d\max^8(1,\gamma_j k_j)}.\\
+\lambda(\bsk) &:= 2 \pi \DHJRabs{k_1}\frac{2^{(1-\delta_{k_j,0})/2}}{\prod_{j=1}^d\max^8(1,\gamma_j k_j)}.\\
 \end{align*}
 
 \yuhannote{$v_{\bsk}(\bsx) $ still doesn't match the code}
@@ -694,33 +695,34 @@ u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_
 \end{align*}
 
 
-We construct a function by choosing its Fourier coefficients $\widehat{f}_i \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for  $i = 1, \ldots, 68931$, and $\widehat{f}_i = 0$ otherwise.  Let $ a= 2$ and  $b=\frac{1}{2}$ and 
- choose $\bsn = \{0, 2^{3+1}, \ldots, 2^{3+k}, \ldots \}.$
- To  obtain $\sigma_j(f), \ j \in \bbN$ by \eqref{sumdef},
- we need to sort $\lambda_i$ in the descending order and get corresponding $\widehat{f}_i$ and $\widehat{v}_i$, which is similar to the Example 1. To implement it efficiently, we use another vector to keep the index of the descending order of $\lambda_i$. Thus, we can obtain the correct
- $\lambda_i$,  $\widehat{f}_i$, and $v_i$ according to $\bsn_k$. Thus, we can add them together to get $\sigma_j(f)$.  Given $\varepsilon$, we can derive the error bound and find the $n_{j^\dagger}$ where
+We construct a function by choosing its Fourier coefficients $\widehat{f}(\bsk) \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for  $\bsk \in \{-30, -29, \ldots, 30\}^d$, and $\widehat{f}(\bsk) = 0$ otherwise.  This corresponds to $61^3 \approx 2 \times 10^5$ nonzero Fourier coefficients.  Let $ a= 2$ and  $b=\frac{1}{2}$ and 
+ choose $\bsn = \{0, 16, 32, 64, \ldots \}.$
+ To  compute $\sigma_j(f), \ j \in \bbN$ by \eqref{sumdef},
+ we need to sort $\bigl(\lambda(\bsk)\bigr)_{\bsk \in \bbZ^d}$ in descending order, $\lambda_1, \lambda_2, \ldots$. Given $\varepsilon$, we can then find the number of series coefficients needed to satisfy the the error criterion, i.e., $n_{j^\dagger}$ where
  \[j^{\dagger} = \min \left\{j \in \bbN : \frac{ab\sigma_j(f)}{\sqrt{1-b^2}}  \le \varepsilon. \right\}\]
-
- \begin{figure}[ht]
- 	\centering
- 		\includegraphics[width =7.5 cm]{ProgramsImages/SimFourCoefErr.eps}
- 	\caption{Sample size $n$, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
- \end{figure}
-
-Fig. \ref{errfig} shows the number of sample size needed when we choose 10 different error tolerance from $10^{-1}$ to $10^{1}$. If we consider $\varepsilon = 0.1$, $ n_{j^\dagger} = 1024$ can reach the error tolerance. Using that, we can obtain the approximated solution and error in Figure \ref{solfig}. Based on Fig. \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
+ 
+Fig.\ \ref{solfig} shows the input function, the solution, the approximate solution, and the error of the approximate solution for $d=3$ and $\varepsilon = 0.1$.  For this example, $ n_{j^\dagger} = 8192$ is sufficient to satisfy the error tolerance, as is clear from Fig.\ \ref{solfig}(d).  Fig. \ref{errfig} shows the sample size, $n_{j^\dagger}$ needed for ten different error tolerances from $0.1$ to $10$. Because the possible sample sizes powers of $2$, some tolerances require the same sample size.
 
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{cc}
+		\includegraphics[width =5.5 cm]{ProgramsImages/SimFourCoefInpFun.eps} &
+		\includegraphics[width = 5.5 cm]{ProgramsImages/SimFourCoefSol.eps}
+		\\ (a) & (b) \\
 		\includegraphics[width =5.5 cm]{ProgramsImages/SimDirectSolAppx.eps} &
 		\includegraphics[width = 5.5 cm]{ProgramsImages/SimDirectSolErr.eps}
-		\\ (a) & (b)
+		\\ (c) & (d)
 	\end{tabular}
-	\caption{For $\varepsilon = 0.1$:  (a) The approximation of the first partial derivative of $f$; 
-		(b) The error of the approximation.
+	\caption{For $\varepsilon = 0.1$:  (a) The input function, $f$; (b) The true first partial derivative of $f$; (c) The approximate first partial derivative of $f$; 
+		(d) The approximation error.
 		\label{solfig}} % 
 \end{figure}
 
+\begin{figure}[ht]
+ 	\centering
+ 		\includegraphics[width =7.5 cm]{ProgramsImages/SimFourCoefErr.eps}
+ 	\caption{Sample size $n$, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
+ \end{figure}
 
 
 \section{Discussion and Conclusions} \label{sec:conc}
