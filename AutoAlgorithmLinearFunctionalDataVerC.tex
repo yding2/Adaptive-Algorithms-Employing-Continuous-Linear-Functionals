@@ -701,17 +701,7 @@ We construct a function by choosing its Fourier coefficients $\widehat{f}(\bsk) 
  we need to sort $\bigl(\lambda(\bsk)\bigr)_{\bsk \in \bbZ^d}$ in descending order, $\lambda_1, \lambda_2, \ldots$. Given $\varepsilon$, we can then find the number of series coefficients needed to satisfy the the error criterion, i.e., $n_{j^\dagger}$ where
  \[j^{\dagger} = \min \left\{j \in \bbN : \frac{ab\sigma_j(f)}{\sqrt{1-b^2}}  \le \varepsilon. \right\}\]
  
- Fig.\ \ref{solfig} shows
- 
- 
-
- \begin{figure}[ht]
- 	\centering
- 		\includegraphics[width =7.5 cm]{ProgramsImages/SimFourCoefErr.eps}
- 	\caption{Sample size $n$, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
- \end{figure}
-
-Fig. \ref{errfig} shows the sample size needed for ten different error tolerances from $10^{-1}$ to $10^{1}$. If we consider $\varepsilon = 0.1$, $ n_{j^\dagger} = 8192$ is sufficient to satisfy the error tolerance. For $\varepsilon = 0.1$, the approximate solution and the error in Figure \ref{solfig}. Based on Fig. \ref{solfig}(b), we can obtain the exact errors are less than $0.01 < \varepsilon $.  This shows our algorithm works.
+Fig.\ \ref{solfig} shows the input function, the solution, the approximate solution, and the error of the approximate solution for $d=3$ and $\varepsilon = 0.1$.  For this example, $ n_{j^\dagger} = 8192$ is sufficient to satisfy the error tolerance, as is clear from Fig.\ \ref{solfig}(d).  Fig. \ref{errfig} shows the sample size, $n_{j^\dagger}$ needed for ten different error tolerances from $0.1$ to $10$. Because the possible sample sizes powers of $2$, some tolerances require the same sample size.
 
 \begin{figure}[ht]
 	\centering
@@ -728,6 +718,11 @@ Fig. \ref{errfig} shows the sample size needed for ten different error tolerance
 		\label{solfig}} % 
 \end{figure}
 
+\begin{figure}[ht]
+ 	\centering
+ 		\includegraphics[width =7.5 cm]{ProgramsImages/SimFourCoefErr.eps}
+ 	\caption{Sample size $n$, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
+ \end{figure}
 
 
 \section{Discussion and Conclusions} \label{sec:conc}
