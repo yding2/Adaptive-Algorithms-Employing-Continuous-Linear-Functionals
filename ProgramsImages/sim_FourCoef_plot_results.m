@@ -133,4 +133,3 @@ zlabel(['\(f_{\mbox{err}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
 gcf; print -depsc SimDirectInpFunErr.eps
 
 figure(1)
-
