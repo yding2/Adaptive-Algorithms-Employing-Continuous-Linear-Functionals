@@ -10,14 +10,14 @@ gail.InitializeDisplay %add some variables for nice plotting
 
 figure
 log10epsVec = log10(eps_vec);
-h = scatter(rat_vec,n_vec,800,log10epsVec,'.'); %plot ratio of actual error to tolerance, with color corresonding to tolerance
+%h = scatter(rat_vec,n_vec,800,log10epsVec,'.'); %plot ratio of actual error to tolerance, with color corresonding to tolerance
 hold on
 set(gca,'XScale','log', 'YScale','log')
 xlim([min([10.^floor(log10(rat_vec*0.8)); 0.1]) ...
  max([10.^(ceil(log10(rat_vec*1.2))); 1])])
 ylim(10.^[floor(log10(min(n_vec))) ceil(log10(max(n_vec)))])
 xlabel({'\(||f-\hat{f}||_{\infty}/\varepsilon\)'})
-ylabel({'Sample size, \(n\)'})
+ylabel({'Sample size, \(n_{j^{\dagger}}\)'})
 hcb = colorbar; %showing tolerance values
 title(hcb,'\(\varepsilon\)','interpreter','latex')
 tickVals = floor(min_log10_eps):ceil(max_log10_eps);
@@ -29,7 +29,7 @@ set(hcb,'Ticks',tickVals,'TickLabels',tickLabels, ...
 %    }, ...
 %    'box','off','location','north','orientation','horizontal');
 set(gcf,'Position',[200,200,1000,500]) %make figure big enough and the right aspect ratio
-leg_icons(2).Children.MarkerSize = 30; %make legend icons large enough
+%leg_icons(2).Children.MarkerSize = 30; %make legend icons large enough
 print -depsc SimFourCoefErr.eps
 
 %% Visualize (only a 2-d projection)
