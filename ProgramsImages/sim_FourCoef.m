@@ -9,7 +9,7 @@ format short e
 d = 3;     %dimension
 coord_wt_vec = 2.^(0:-1:-d+1);
 wt_pow = 4;
-wv_num_max = 20;
+wv_num_max = 30;
 wv_num_mtx = permn(-wv_num_max:wv_num_max,d); %compute this just once for all
 nBasis = size(wv_num_mtx,1); %number of basis elements
 n_app = 2^10; %number of points to use for approximating L_inf norm

@@ -17,7 +17,7 @@ xlim([min([10.^floor(log10(rat_vec*0.8)); 0.1]) ...
  max([10.^(ceil(log10(rat_vec*1.2))); 1])])
 ylim(10.^[floor(log10(min(n_vec))) ceil(log10(max(n_vec)))])
 xlabel({'\(||f-\hat{f}||_{\infty}/\varepsilon\)'})
-ylabel({'Sample size \(n\)'})
+ylabel({'Sample size, \(n\)'})
 hcb = colorbar; %showing tolerance values
 title(hcb,'\(\varepsilon\)','interpreter','latex')
 tickVals = floor(min_log10_eps):ceil(max_log10_eps);
@@ -65,8 +65,10 @@ Sf_true_Vis = reshape(Sf_true_Vis,[n_grd_val n_grd_val]);
 surf(x_grd,x_grd,Sf_true_Vis); shading interp
 xlabel(['\(x_{' int2str(xcoord) '}\)'])
 ylabel(['\(x_{' int2str(ycoord) '}\)'])
-zlabel(['\(\partial^{\{1\}}f(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
-   '}, ' num2str(nom_Val) ', \ldots)\)'])
+zlabel(['\(S(f)(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
+   '}, ' num2str(nom_Val) ')\)'])
+%zlabel(['\(\partial^{\{1\}}f(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
+%   '}, ' num2str(nom_Val) ', \ldots)\)'])
 print -depsc SimFourCoefSol.eps
 
 
@@ -76,8 +78,10 @@ Sf_app_Vis = reshape(Sf_app_Vis,[n_grd_val n_grd_val]);
 surf(x_grd,x_grd,Sf_app_Vis); shading interp
 xlabel(['\(x_{' int2str(xcoord) '}\)'])
 ylabel(['\(x_{' int2str(ycoord) '}\)'])
-zlabel(['\(\partial^{\{1\}}f_{\mbox{app}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
-   '}, ' num2str(nom_Val) ', \ldots)\)'])
+zlabel(['\(\tilde{A}(f,\varepsilon)(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
+   '}, ' num2str(nom_Val) ')\)'])
+%zlabel(['\(\partial^{\{1\}}f_{\mbox{app}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
+%   '}, ' num2str(nom_Val) ', \ldots)\)'])
 print -depsc SimDirectSolAppx.eps
 
 figure
@@ -86,8 +90,10 @@ err_Vis = Sf_true_Vis - Sf_app_Vis;
 surf(x_grd,x_grd,err_Vis); shading interp
 xlabel(['\(x_{' int2str(xcoord) '}\)'])
 ylabel(['\(x_{' int2str(ycoord) '}\)'])
-zlabel(['\(\partial^{\{1\}}f_{\mbox{err}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
-   '}, ' num2str(nom_Val) ', \ldots)\)'])
+zlabel(['\((S(f) - \tilde{A}(f))(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
+   '}, ' num2str(nom_Val) ')\)'])
+%zlabel(['\(\partial^{\{1\}}f_{\mbox{err}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
+%   '}, ' num2str(nom_Val) ', \ldots)\)'])
 print -depsc SimDirectSolErr.eps
 
 
@@ -98,7 +104,9 @@ surf(x_grd,x_grd,f_true_Vis); shading interp
 xlabel(['\(x_{' int2str(xcoord) '}\)'])
 ylabel(['\(x_{' int2str(ycoord) '}\)'])
 zlabel(['\(f(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
-   '}, ' num2str(nom_Val) ', \ldots)\)'])
+   '}, ' num2str(nom_Val) ')\)'])
+%zlabel(['\(f(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
+%   '}, ' num2str(nom_Val) ', \ldots)\)'])
 print -depsc SimFourCoefInpFun.eps
 
 
