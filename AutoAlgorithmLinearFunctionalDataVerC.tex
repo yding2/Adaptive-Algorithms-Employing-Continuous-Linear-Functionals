@@ -679,6 +679,7 @@ S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\
 \lambda(\bsk) &:= \frac{2 \pi \DHJRabs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}, \\
 \boldsymbol{\gamma} & := (1,1/2, 1/4, \ldots, 2^{-d+1}).
 \end{align*}
+Note that $\lambda_1 \ge \lambda_2 \ge \cdots$ is an ordering of the $\lambda(\bsk)$.  That ordering then determines the $\widehat{f}_i, u_i$, and $v_i$ in terms of the $\widehat{f}(\bsk), \widehat{u}(\bsk)$, and $\widehat{v}(\bsk)$, respectively.
 
 \yuhannote{According to code, some expression should be as follows:}
 \frednote{I hope that it is fixed now.}
@@ -695,7 +696,7 @@ u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_
 \end{align*}
 
 
-We construct a function by choosing its Fourier coefficients $\widehat{f}(\bsk) \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for  $\bsk \in \{-30, -29, \ldots, 30\}^d$, and $\widehat{f}(\bsk) = 0$ otherwise.  This corresponds to $61^3 \approx 2 \times 10^5$ nonzero Fourier coefficients.  Let $ a= 2$ and  $b=\frac{1}{2}$ and 
+We construct a function by choosing its Fourier coefficients $\widehat{f}(\bsk) \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for  $\bsk \in \{-30, -29, \ldots, 30\}^d$, and $\widehat{f}(\bsk) = 0$ otherwise.  This corresponds to $61^3 \approx 2 \times 10^5$ nonzero Fourier coefficients.  Let $ a= 2$ and  $b=1/2$ and 
  choose $\bsn = \{0, 16, 32, 64, \ldots \}.$
  To  compute $\sigma_j(f), \ j \in \bbN$ by \eqref{sumdef},
  we need to sort $\bigl(\lambda(\bsk)\bigr)_{\bsk \in \bbZ^d}$ in descending order, $\lambda_1, \lambda_2, \ldots$. Given $\varepsilon$, we can then find the number of series coefficients needed to satisfy the the error criterion, i.e., $n_{j^\dagger}$ where
@@ -725,7 +726,7 @@ Fig.\ \ref{solfig} shows the input function, the solution, the approximate solut
  \end{figure}
 
 
-\section{Discussion and Conclusions} \label{sec:conc}
+\section{Discussion and Conclusion} \label{sec:conc}
 \textbf{todo}
 
 
