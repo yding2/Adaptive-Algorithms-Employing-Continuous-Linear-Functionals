@@ -71,7 +71,7 @@ zlabel(['\(S(f)(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
    '}, ' num2str(nom_Val) ')\)'])
 % zlabel(['\(\partial^{\{1\}}f(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
 %    '}, ' num2str(nom_Val) ', \ldots)\)'])
-print -depsc SimFourCoefSol.eps
+gcf; print -depsc SimFourCoefSol.eps
 
 
 figure
@@ -84,7 +84,7 @@ zlabel(['\(\tilde{A}(f,\varepsilon)(x_{' int2str(xcoord) '}, x_{' int2str(ycoord
    '}, ' num2str(nom_Val) ')\)'])
 % zlabel(['\(\partial^{\{1\}}f_{\mbox{app}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
 %    '}, ' num2str(nom_Val) ', \ldots)\)'])
-print -depsc SimDirectSolAppx.eps
+gcf; print -depsc SimDirectSolAppx.eps
 
 figure
 rotate3d on
@@ -96,7 +96,7 @@ zlabel(['\((S(f) - \tilde{A}(f))(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) .
    '}, ' num2str(nom_Val) ')\)'])
 % zlabel(['\(\partial^{\{1\}}f_{\mbox{err}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
 %    '}, ' num2str(nom_Val) ', \ldots)\)'])
-print -depsc SimDirectSolErr.eps
+gcf; print -depsc SimDirectSolErr.eps
 
 
 figure
@@ -109,7 +109,7 @@ zlabel(['\(f(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
    '}, ' num2str(nom_Val) ')\)'])
 % zlabel(['\(f(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
 %    '}, ' num2str(nom_Val) ', \ldots)\)'])
-print -depsc SimFourCoefInpFun.eps
+gcf; print -depsc SimFourCoefInpFun.eps
 
 
 figure
@@ -120,7 +120,7 @@ xlabel(['\(x_{' int2str(xcoord) '}\)'])
 ylabel(['\(x_{' int2str(ycoord) '}\)'])
 zlabel(['\(f_{\mbox{app}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
    '}, ' num2str(nom_Val) ', \ldots)\)'])
-print -depsc SimDirectInpFunAppx.eps
+gcf; print -depsc SimDirectInpFunAppx.eps
 
 figure
 rotate3d on
@@ -130,7 +130,7 @@ xlabel(['\(x_{' int2str(xcoord) '}\)'])
 ylabel(['\(x_{' int2str(ycoord) '}\)'])
 zlabel(['\(f_{\mbox{err}}(x_{' int2str(xcoord) '}, x_{' int2str(ycoord) ...
    '}, ' num2str(nom_Val) ', \ldots)\)'])
-print -depsc SimDirectInpFunErr.eps
+gcf; print -depsc SimDirectInpFunErr.eps
 
 figure(1)
 
