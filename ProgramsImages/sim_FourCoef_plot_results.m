@@ -32,7 +32,7 @@ set(hcb,'Ticks',tickVals,'TickLabels',tickLabels, ...
 %    'box','off','location','north','orientation','horizontal');
 set(gcf,'Position',[200,200,1000,500]) %make figure big enough and the right aspect ratio
 %leg_icons(2).Children.MarkerSize = 30; %make legend icons large enough
-print -depsc SimFourCoefErr.eps
+gcf; print -depsc SimFourCoefErr.eps
 
 %% Visualize (only a 2-d projection)
 xcoord = 1; % coordinate with the biggest w
