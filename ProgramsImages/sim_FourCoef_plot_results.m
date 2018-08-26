@@ -8,7 +8,6 @@ load(['sim_FourCoef_results_basis_' basisName '.mat'], ...
 
 gail.InitializeDisplay %add some variables for nice plotting
 
-rng(47)
 figure
 log10epsVec = log10(eps_vec);
 scatter(rat_vec,n_vec,800,log10epsVec,'.'); %plot ratio of actual error to tolerance, with color corresonding to tolerance

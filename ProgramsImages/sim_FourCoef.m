@@ -6,26 +6,33 @@
 close all
 clearvars
 format short e
+rng(47)
 d = 3;     %dimension
 coord_wt_vec = 2.^(0:-1:-d+1);
 wt_pow = 4;
-wv_num_max = 20;
+wv_num_max = 30;
 wv_num_mtx = permn(-wv_num_max:wv_num_max,d); %compute this just once for all
 nBasis = size(wv_num_mtx,1); %number of basis elements
 n_app = 2^10; %number of points to use for approximating L_inf norm
 % Assume that
 %  x is nX x d
 %  k is nK x d
-u_wt_fun = @(k) prod(2.^((k~=0)/2) ./ max(1,coord_wt_vec .* abs(k)).^wt_pow ,2); %nK x 1
+denom_wt_fun = @(k) prod(max(1,coord_wt_vec .* abs(k)).^wt_pow ,2); %nK x 1
+pow_2_wt_fun = @(k) 2.^(sum(k~=0,2)/2); %nK x 1
+u_wt_fun = @(k) pow_2_wt_fun(k) ./ denom_wt_fun(k); %nK x 1
 v_wt_fun = @(k) -sign(k(:,1)) .* 2.^(sum(k~=0,2)/2); %nK x 1
-basisName = 'CompExp'; %complex Exponential
+%basisName = 'CompExp'; %complex Exponential
 % inp_basis_fun = @(k,x) exp((2*pi*sqrt(-1))* (x * k'))./u_wt_fun(k)'; %nX x nK
 % out_basis_fun = @(k,x) -exp((2*pi*sqrt(-1))* (x * k')); %nX x nK
+basisName = 'CosineSine'; %cosine and sine
 inp_basis_fun = @(k,x) squeeze(prod(cos((2*pi)* (x .* reshape(k',1,d,size(k,1))) ...
-   + reshape(k',1,d,size(k,1))*(pi/2)),2)) .* u_wt_fun(k)'; %nX x nK
-out_basis_fun = @(k,x) squeeze(prod(cos((2*pi)* (x .* reshape(k',1,d,size(k,1))) ...
-   + reshape(k',1,d,size(k,1))*(pi/2)),2)) .* v_wt_fun(k)'; %nX x nK
-lambda = @(k) (2*pi)*(abs(k(:,1)).*u_wt_fun(k)); %nK x 1;
+   + (reshape(k',1,d,size(k,1)) < 0)*(pi/2)),2)) .* u_wt_fun(k)'; %nX x nK
+out_basis_fun = @(k,x) sin((2*pi)* (x(:,1) .* k(:,1)') ...
+   + (k(:,1)' < 0)*(pi/2)) .* ...
+   squeeze(prod(cos((2*pi)* (x(:,2:d) .* reshape(k(:,2:d)',1,d-1,size(k,1))) ...
+   + (reshape(k(:,2:d)',1,d-1,size(k,1)) < 0)*(pi/2)),2)) ...
+   .* v_wt_fun(k)'; %nX x nK
+lambda = @(k) (2*pi)*(abs(k(:,1)) ./ denom_wt_fun(k)); %nK x 1;
 [~,wh_ordLambda] = sort(lambda(wv_num_mtx),'descend');
 
 % Error tolerances
