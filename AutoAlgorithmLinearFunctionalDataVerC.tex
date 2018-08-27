@@ -118,7 +118,9 @@ S(u_i) = \lambda_i v_i, \quad i \in \bbN, \qquad S(f) = \sum_{i=1}^n \lambda_i \
 \DHJRnorm[\calF \to \calG]{S} := \sup_{f \ne 0} \frac{\DHJRnorm[\calG]{S(f)}}{\DHJRnorm[\calF]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. {\color{red} When do these two basis exist? For instance, can we freely choose from exponential to Walsh bases?} \frednote{We can choose whatever bases we want, provided that they fit our problem.  The existence is due to the singular value decomposition}
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. 
+
+The existence of the $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$ for a given $\calF$, $\calG$, and $S$ follows from the singular value decomposition.  The ease of identifying explicit expressions for these quantities depends on the particular problem of interest.  Alternatively, one may start with a choice of $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$, which then determine the solution operator and the spaces $\calF$ and $\calG$.
 
 \subsection{Solvability}  Let $\calH$ be any subset of $\calF$, and let $\calA(\calH)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \calH \to \calG$ to within some error tolerance for all inputs in $\calH$:
 \begin{multline} \label{adapErrCrit}
@@ -378,7 +380,7 @@ The algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2} lies in $\calA(
 \begin{equation} \label{eq:OurAlgjstar}
 j^* = \min\left \{ j \in \bbN : \sigma_{j}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab}  \right\}.
 \end{equation}
-Moreover, $\textup{cost}(\widetilde{A},{\color{red}\calC \cap \calB_\rho,}\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
+Moreover, $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, \frednote{Tony, I think you misunderstood.  It was correct to begin with.} where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdagger}
 j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}.
 \end{equation}
@@ -388,7 +390,7 @@ j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(
 \begin{proof}
 This algorithm terminates for some $j = j^*$ because $\sigma_j(f) \le ab^{j-1} \sigma_{1}(f) \to 0$ as $j \to \infty$. The value of $j^*$ follows directly from this termination criterion in Step 2.  It then follows that the error bound on $A_{n_{j^*}}(f)$ in \eqref{algoineq} is no greater than the error tolerance $\varepsilon$.  So, $\widetilde{A} \in \calA(\calC)$.
 
-For the remainder of the proof consider $\rho$ and $\varepsilon$ fixed.  To derive an upper bound on $n_{j^\dagger} = \textup{cost}(\widetilde{A},{\color{red}\calC \cap \calB_\rho,}\varepsilon,\rho)$ we first note some properties of $\sigma_j(f)$ for all $f \in \calC$:
+For the remainder of the proof consider $\rho$ and $\varepsilon$ fixed.  To derive an upper bound on $n_{j^\dagger} = \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho)$ we first note some properties of $\sigma_j(f)$ for all $f \in \calC$:
 \begin{multline} \label{normsigineq}
 \lambda_{n_j} \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} \le 
 \DHJRbignorm[2]{\big( \lambda_i \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} = \sigma_j(f) 
@@ -433,10 +435,10 @@ We note in passing that for our adaptive algorithm
 \end{equation*}
 This result may be obtained by considering functions where only $\widehat{f}_1$ is nonzero.  For $n_0 > 0$, $\sigma_1(f) = 0$, and for $n_0 = 0$, $\sigma_2(f) = 0$.
 
-The upper bound on $\textup{cost}(\widetilde{A},{\color{red}\calC \cap \calB_\rho,}\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $\{(\lambda_{n_j})_{j=0}^\infty\}$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $\{(\lambda_i)_{i=1}^\infty\}$. Consider the  term enclosed in square brackets on the the right hand side of the inequality in \eqref{jdagger}: \begin{equation} \label{keysum}
+The upper bound on $\textup{cost}(\widetilde{A},\calC,\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $\{(\lambda_{n_j})_{j=0}^\infty\}$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $\{(\lambda_i)_{i=1}^\infty\}$. Consider the  term enclosed in square brackets on the the right hand side of the inequality in \eqref{jdagger}: \begin{equation} \label{keysum}
 \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}.
 \end{equation}
-One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}${\color{red}.}
+One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}$.
 
 \begin{corollary} For the algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2}, then $\textup{cost}(\widetilde{A},\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdaggerfirst}
@@ -715,8 +717,9 @@ Fig.\ \ref{solfig} shows the input function, the solution, the approximate solut
 
 
 \section{Discussion and Conclusion} \label{sec:conc}
-There are few adaptive algorithms employing continuous linear functionals. The key idea of our algorithm is to derive an adaptive error bound by assuming the steady decay of the Fourier coefficients of the solution without the specific decay rate as a priori. 
-	The upper bound on the computational cost of our algorithm is presented in Theorem \ref{thm:compcost}.  Depending on which term is dominating in \eqref{keysum}, we also provide two simpler bounds on the cost. The lower bound on the complexity of the linear problem is also presented. Moreover, under assumption \eqref{lambdaRatio}, our algorithm is essentially optimal. The numerical example illustrates how to implement our algorithm and show it is practical. One interesting problem to consider is how to extend our algorithm to Banach space.
+Many practical adaptive algorithms lack theory, and many theoretically justified algorithms are non-adaptive.  We have demonstrated for a general setting how to construct a theoretically justified, essentially optimal algorithm.  The decay of the singular values determines the computational complexity of the problem and the computational cost of our algorithm.  
+
+The key idea of our algorithm is to derive an adaptive error bound by assuming the steady decay of the Fourier series coefficients of the solution.  We do not, however, need to know the decay rate of these coefficients a priori.  The cost of our algorithm also serves as a goal for an algorithm that uses function values, which are more commonly available than Fourier series coefficients.  An important next step is to identify an essentially optimal algorithm based on function values.  Another research direction would be to extend this setting to Banach spaces.
 	
 
 %\section*{References}
