@@ -86,7 +86,7 @@
 
 \begin{document}
 
-\title*{Adaptive Algorithms Employing Continuous Linear Functionals {\color{red} An Adaptive Algorithm?}}
+\title*{An Adaptive Algorithm Employing Continuous Linear Functionals}
 \author{Yuhan Ding \and Fred J. Hickernell \and Llu\'{\i}s Antoni Jim\'{e}nez Rugama}
 \institute{Yuhan Ding \at MCA 310, Department of Mathematics, Misericordia University,\\ 301 Lake St., Dallas, PA, 18612 \email{yding@misericordia.edu}
 \and
@@ -97,12 +97,12 @@ Department of Applied Mathematics, Illinois Institute of Technology,\\ RE 208, 1
 
 \maketitle
 
-\abstract{Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to achieve an approximation to the function satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We also provide a numerical experiment to illustrate our algorithm.}
+\abstract{Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic, adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to achieve an approximation to the function satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We also provide a numerical experiment to illustrate our algorithm.}
 
 
 
 \section{Introduction}
-Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy based on the input function data sampled.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider \emph{general linear problems} where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that {\color{red} the} computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  Our adaptive algorithm is defined on a \emph{cone} of input functions.
+Adaptive algorithms determine the design and sample size needed to solve problems to the desired accuracy based on the input function data sampled.  A priori upper bounds on some norm of the input function are not needed, but some underlying assumptions about the input function are required for the adaptive algorithm to succeed.  Here we consider \emph{general linear problems} where a finite number of series coefficients of the input function are used to obtain an approximate solution.  The proposed algorithm produces an approximation with guaranteed accuracy.  Moreover, we demonstrate that the computational cost of our algorithm is essentially no worse than that of the best possible algorithm.  Our adaptive algorithm is defined on a \emph{cone} of input functions.
 
 \subsection{Input and Output Spaces}  Let $\calF$ be a separable Hilbert space of inputs with orthonormal basis $\{u_i\}_{i \in \bbN}$, let $\calG$ be a separable Hilbert space of outputs  with orthonormal basis $\{v_i\}_{i\in \bbN}$, and let their norms be defined as the $\ell^2$-norms of their series coefficients:  
 \begin{subequations}\label{probDef}
@@ -118,7 +118,7 @@ S(u_i) = \lambda_i v_i, \quad i \in \bbN, \qquad S(f) = \sum_{i=1}^n \lambda_i \
 \DHJRnorm[\calF \to \calG]{S} := \sup_{f \ne 0} \frac{\DHJRnorm[\calG]{S(f)}}{\DHJRnorm[\calF]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. {\color{red} When do these two basis exist? For instance, can we freely choose from exponential to Walsh bases?}
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. {\color{red} When do these two basis exist? For instance, can we freely choose from exponential to Walsh bases?} \frednote{We can choose whatever bases we want, provided that they fit our problem.  The existence is due to the singular value decomposition}
 
 \subsection{Solvability}  Let $\calH$ be any subset of $\calF$, and let $\calA(\calH)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \calH \to \calG$ to within some error tolerance for all inputs in $\calH$:
 \begin{multline} \label{adapErrCrit}
@@ -146,14 +146,14 @@ For unbounded sets, $\calH$, this cost may be infinite.  Therefore, it is also h
 \begin{equation*}
 \textup{cost}(A,\calH,\varepsilon,\rho) : = \sup \{\textup{cost}(A,f,\varepsilon) : f \in \calH \cap \calB_{\rho} \} \qquad \forall \rho > 0, \ \varepsilon > 0.
 \end{equation*}
-Finally, we define the complexity of the problem as {\color{red} the} computational cost of the best algorithm:
+Finally, we define the complexity of the problem as the computational cost of the best algorithm:
 \begin{gather*}
 \textup{comp}(\calA(\calH),\varepsilon) := \min_{A \in \calA(\calH)} \textup{cost}(A, \calH, \varepsilon), \\
 \textup{comp}(\calA(\calH),\varepsilon,\rho) := \min_{A \in \calA(\calH)} \textup{cost}(A, \calH, \varepsilon, \rho).
 \end{gather*}
-Note that $\textup{comp}(\calA(\calH),\varepsilon,\rho) \ge \textup{comp}(\calA(\calH \cap \calB_{\rho}),\varepsilon)$ ({\color{red} $\leq$ ?}).  In the former case, the algorithm is unaware  that the input function has norm no greater than $\rho$.  
+Note that $\textup{comp}(\calA(\calH),\varepsilon,\rho) \ge \textup{comp}(\calA(\calH \cap \calB_{\rho}),\varepsilon)$ ({\color{red} $\leq$ ?}) \frednote{The inequality is correct.  The former problem is harder}.  In the former case, the algorithm is unaware  that the input function has norm no greater than $\rho$.  
 
-An optimal algorithm for $\calB_{\rho}$ can be constructed in terms of interpolation {\color{red}truncation of the last $n+1$ series coefficients?} based on the first $n$ series coefficients of the input, namely,
+An optimal algorithm for $\calB_{\rho}$ can be constructed in terms of interpolation with respect to the first $n$ series coefficients of the input, namely,
 \begin{gather}  \label{optAdef}
 A_n(f) := \sum_{i=1}^n \lambda_{i} \widehat{f}_{i} v_{i}, \\
 \label{errOpt}
@@ -169,7 +169,7 @@ This algorithm is optimal among algorithms in $\calA(\calB_{\rho})$, i.e.,
 \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \}.
 \]
 
-To prove this, let $A^*$ be an arbitrary algorithm in $\calA(\calB_{\rho})$, and let $L_1, \ldots, L_N$ be the linear functionals chosen when evaluating this algorithm for the zero function with tolerance $\varepsilon$.  Thus, $A^*(0,\varepsilon)$ is some function of $(L_1(0) , \ldots, L_N(0)) = (0, \ldots, 0)$.  Let $f$ be a linear combination of $u_1, \ldots, u_{n+1} {\color{red} u_{N+1}?}$ with norm $\rho$ satisfying  $L_1(f) = \cdots = L_N(f) = 0$, then $A^*(\pm f) = A^*(0)$, and
+To prove this, let $A^*$ be an arbitrary algorithm in $\calA(\calB_{\rho})$, and let $L_1, \ldots, L_N$ be the linear functionals chosen when evaluating this algorithm for the zero function with tolerance $\varepsilon$.  Thus, $A^*(0,\varepsilon)$ is some function of $(L_1(0) , \ldots, L_N(0)) = (0, \ldots, 0)$.  Let $f$ be a linear combination of $u_1, \ldots, u_{N+1}$ with norm $\rho$ satisfying  $L_1(f) = \cdots = L_N(f) = 0$, then $A^*(\pm f) = A^*(0)$, and
 \begin{align*}
 \varepsilon & \ge \max_{\pm} \DHJRnorm[\calG]{S(\pm f) - A^*(\pm f)} =  \max_{\pm} \DHJRnorm[\calG]{\pm S( f) - A^*(0)} \\
 & \ge \frac 12 \left [ \DHJRnorm[\calG]{S( f) - A^*(0)} + \DHJRnorm[\calG]{- S( f) - A^*(0)}\right] \\
@@ -179,11 +179,11 @@ To prove this, let $A^*$ be an arbitrary algorithm in $\calA(\calB_{\rho})$, and
 \end{align*}
 Thus, $\lambda_{N+1} \le \varepsilon/\rho$, and 
 \[
-\textup{cost}(A^*,\calB_\rho,\varepsilon) \ge \textup{cost}(A^*,0,\varepsilon)  = N \ge \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \} = \textup{cost}(\widetilde{A}{\color{red}\widehat{A}},\calB_\rho,\varepsilon).
+\textup{cost}(A^*,\calB_\rho,\varepsilon) \ge \textup{cost}(A^*,0,\varepsilon)  = N \ge \min\{ n : \lambda_{n+1} \le \varepsilon/\rho \} = \textup{cost}(\widehat{A},\calB_\rho,\varepsilon).
 \]
 Hence, algorithm $\widehat{A}$ defined in \eqref{optBallalg} is optimal for $\calA(\calB_{\rho})$.
 
-\begin{example} Consider the case of function approximation for periodic functions defined (on the $\rightarrow$ {\color{red} over}) [0,1], and algorithm $\widehat{A}$ defined in \eqref{optBallalg}:
+\begin{example} Consider the case of function approximation for periodic functions defined over [0,1], and algorithm $\widehat{A}$ defined in \eqref{optBallalg}:
 	\begin{align*}
 	f &= \sum_{k \in \bbZ} \widehat{f}(k) \widehat{u}_{k}  = \sum_{i \in \bbN} \widehat{f}_i u_i, 
 	& S(f) & = \sum_{k \in \bbZ} \widehat{f}(k) \widehat{\lambda}_k \widehat{v}_k = \sum_{i \in \bbN} \widehat{f}_i \lambda_i v_i, \\
@@ -214,23 +214,24 @@ Hence, algorithm $\widehat{A}$ defined in \eqref{optBallalg} is optimal for $\ca
 	= 2 \left \lceil \left(\frac{\rho}{\varepsilon} \right)^{1/r} \right \rceil - 1.
 	% & \lambda_{n+1} = \frac{1}{\lceil (n+1)/2 \rceil^r}.
 	\end{align*}
-	{\color{red} Perhaps worth mentioning what norm makes $\widehat{\lambda}_k\widehat{v}_{k}$ orthonormal in $\mathcal{F}$.}
+	{\color{red} Perhaps worth mentioning what norm makes $\widehat{\lambda}_k\widehat{v}_{k}$ orthonormal in $\mathcal{F}$.} \frednote{They are orthonormal because we define the norm that way.}
 	Here $\calG=L^2[0,1]$.  The larger the non-negative parameter $r$ is, the faster the $\lambda_i$ tend to 0 as $ i \to 0$, the smaller $\calB_\rho$ is, and the smaller  $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$ is.  For $r = 0$, $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon) = \infty$.
 \end{example}
 
 
-Our goal is not only to construct algorithms in $\calA(\calH)$ for some $\calH$, but also to determine whether the computational cost of our algorithms (are $\rightarrow$ {\color{red} is}) reasonable.  We define an algorithm $A \in \calA(\calH)$ to have \emph{essentially no worse cost} (then $\rightarrow$ {\color{red} than}) an algorithm $A^* \in \calA(\calH^*)$ if for some number $\omega$,
+Our goal is not only to construct algorithms in $\calA(\calH)$ for some $\calH$, but also to determine whether the computational cost of our algorithms is reasonable.  We define an algorithm $A \in \calA(\calH)$ to have \emph{essentially no worse cost}  than an algorithm $A^* \in \calA(\calH^*)$ if for some number $\omega$,
 \begin{gather}
 \textup{cost}(A,\calH,\varepsilon) \le \textup{cost}(A^*,\calH^*,\omega\varepsilon), \qquad \forall \varepsilon > 0, \\
 \textup{cost}(A,\calH,\varepsilon,\rho) \le \textup{cost}(A^*,\calH^*,\omega\varepsilon,\rho), \qquad \forall \varepsilon,\rho > 0.
 \end{gather}
+If these inequalities are not satisfied, we say that $A$ has \emph{essentially worse cost}  than $A^*$ .
 If the costs of two algorithms are essentially no worse than each other, then we call them essentially the same.  An algorithm whose cost is essentially no worse than the best possible algorithm, is called \emph{essentially optimal}.
 
 To illustrate these concepts, consider a nondecreasing sequence of positive numbers, $ \{\lambda^*_1, \lambda^*_2, \ldots \}$, which converges to $0$, where $\lambda^*_i \ge \lambda_i$ for all $i \in \bbN$.  Also consider an unbounded strictly increasing sequence of nonnegative integers $\bsn = \{n_0, n_1, \ldots \}$.  Define an algorithm $A^*$ analogously to $\widehat{A}$ defined in \eqref{optBallalg}:
 \begin{equation} \label{altBallalg}
 A^*(f,\varepsilon) = A_{n_{j^\dagger}}(f), \quad \text{where } j^\dagger = \min\{ j : \lambda^*_{n_j+1} \le \varepsilon/\rho \}, \qquad A^* \in \calA(\calB_{\rho}).
 \end{equation}
-By definition, the cost of algorithm $A^*$ is no better than that of  $\widehat{A}$.  Algorithm $A^*$ may or may not have essentially no {\color{red}(this "no" needed?)} worse cost than $\widehat{A}$ depending on the choice of $\bslambda^*$ and $\bsn$.  The table below shows some examples.  Each different case of $A^*$ is labeled as having a cost that is either essentially no worse or essentially worse than that of $\widehat{A}$.
+By definition, the cost of algorithm $A^*$ is no better than that of  $\widehat{A}$.  Algorithm $A^*$ may or may not have essentially worse cost than $\widehat{A}$ depending on the choice of $\bslambda^*$ and $\bsn$.  The table below shows some examples.  Each different case of $A^*$ is labeled as having a cost that is either essentially no worse or essentially worse than that of $\widehat{A}$.
 %\[
 \everymath{\displaystyle}
 \begin{longtable}{>{$}r<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}}
@@ -337,7 +338,7 @@ From the expression for the error in \eqref{errOpt} and the definition of the co
  = \displaystyle ab \sqrt{\frac{1}{1 - b^2}}\sigma_{j}(f)
  \label{algoineq}
 \end{align}
-The upper and lower error bounds {\color{red} (which is the lower bound?)} depend only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ as $j \to \infty$.  Moreover, the error of $A_{n_j}(f)$ is asymptotically no worse than $\sigma_j(f)$, whose rate of decay need not be postulated in advance. Our adaptive algorithm in Section \ref{sec:adaptalgo} increases $j$ until the right hand side is smaller than the error tolerance.
+This upper bound depends only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ as $j \to \infty$.  Moreover, the error of $A_{n_j}(f)$ is asymptotically no worse than $\sigma_j(f)$, whose rate of decay need not be postulated in advance. Our adaptive algorithm in Section \ref{sec:adaptalgo} increases $j$ until the right hand side is smaller than the error tolerance.
 
 Consider the choice 
 \begin{equation} \label{geonj}
