@@ -118,9 +118,9 @@ S(u_i) = \lambda_i v_i, \quad i \in \bbN, \qquad S(f) = \sum_{i=1}^n \lambda_i \
 \DHJRnorm[\calF \to \calG]{S} := \sup_{f \ne 0} \frac{\DHJRnorm[\calG]{S(f)}}{\DHJRnorm[\calF]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. {\color{red} The embedding operator is not considered either, right ($\lambda_i=1$)? When do these two basis exist? For instance, can we freely choose from exponential to Walsh bases?}
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. {\color{red} When do these two basis exist? For instance, can we freely choose from exponential to Walsh bases?}
 
-\subsection{Solvability}  Let $\calH$ be any subset {\color{red}(any subset? But $S$ will linearly defined over $\calH$?)} of $\calF$, and let $\calA(\calH)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \calH \to \calG$ to within some error tolerance for all inputs in $\calH$:
+\subsection{Solvability}  Let $\calH$ be any subset of $\calF$, and let $\calA(\calH)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \calH \to \calG$ to within some error tolerance for all inputs in $\calH$:
 \begin{multline} \label{adapErrCrit}
 \calA(\calH) : = \left\{ \text{algorithms } A:\calH \times (0,\infty) \rightarrow \calG : 
 \right . \\ \left .
@@ -377,7 +377,7 @@ The algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2} lies in $\calA(
 \begin{equation} \label{eq:OurAlgjstar}
 j^* = \min\left \{ j \in \bbN : \sigma_{j}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab}  \right\}.
 \end{equation}
-Moreover, $\textup{cost}(\widetilde{A},{\color{red}\mathcal{C},}\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
+Moreover, $\textup{cost}(\widetilde{A},{\color{red}\calC \cap \calB_\rho,}\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdagger}
 j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}.
 \end{equation}
@@ -387,7 +387,7 @@ j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(
 \begin{proof}
 This algorithm terminates for some $j = j^*$ because $\sigma_j(f) \le ab^{j-1} \sigma_{1}(f) \to 0$ as $j \to \infty$. The value of $j^*$ follows directly from this termination criterion in Step 2.  It then follows that the error bound on $A_{n_{j^*}}(f)$ in \eqref{algoineq} is no greater than the error tolerance $\varepsilon$.  So, $\widetilde{A} \in \calA(\calC)$.
 
-For the remainder of the proof consider $\rho$ and $\varepsilon$ fixed.  To derive an upper bound on $n_{j^\dagger} = \textup{cost}(\widetilde{A},{\color{red}\mathcal{C},}\varepsilon,\rho)$ we first note some properties of $\sigma_j(f)$ for all $f \in \calC$:
+For the remainder of the proof consider $\rho$ and $\varepsilon$ fixed.  To derive an upper bound on $n_{j^\dagger} = \textup{cost}(\widetilde{A},{\color{red}\calC \cap \calB_\rho,}\varepsilon,\rho)$ we first note some properties of $\sigma_j(f)$ for all $f \in \calC$:
 \begin{multline} \label{normsigineq}
 \lambda_{n_j} \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} \le 
 \DHJRbignorm[2]{\big( \lambda_i \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} = \sigma_j(f) 
@@ -413,7 +413,7 @@ For any $f \in  \calC \cap \calB_\rho$ and for any $j < j^* \le j^\dagger$,
 & \ge \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}\sigma_j^2(f)}{a^{2}\lambda_{n_{k-1}+1}^2} + \frac{\sigma_j^2(f)}{\lambda_{n_{j-1}+1}^2} \qquad \text{by \eqref{decayconedef}} \\
 & = \sigma_j^2(f) \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^{2} \lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right].
 \end{align*}
-Note that the quantity in the square brackets is an increasing function of $j$ because as $j$ increases, the sum becomes includes more terms and $b^{2(k-j)}$ also increases.
+Note that the quantity in the square brackets is an increasing function of $j$ because as $j$ increases, the sum includes more terms and $b^{2(k-j)}$ also increases.
 
 For all $j < j^* \le j^\dagger$ it follows from \eqref{eq:OurAlgjstar} that
 \begin{equation*}
@@ -432,10 +432,10 @@ We note in passing that for our adaptive algorithm
 \end{equation*}
 This result may be obtained by considering functions where only $\widehat{f}_1$ is nonzero.  For $n_0 > 0$, $\sigma_1(f) = 0$, and for $n_0 = 0$, $\sigma_2(f) = 0$.
 
-The upper bound on $\textup{cost}(\widetilde{A},\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $\{(\lambda_{n_j})_{j=0}^\infty\}$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $\{(\lambda_i)_{i=1}^\infty\}$. Consider the  term enclosed in square brackets on the the right hand side of the inequality in \eqref{jdagger}: \begin{equation} \label{keysum}
+The upper bound on $\textup{cost}(\widetilde{A},{\color{red}\calC \cap \calB_\rho,}\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $\{(\lambda_{n_j})_{j=0}^\infty\}$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $\{(\lambda_i)_{i=1}^\infty\}$. Consider the  term enclosed in square brackets on the the right hand side of the inequality in \eqref{jdagger}: \begin{equation} \label{keysum}
 \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}.
 \end{equation}
-One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}$
+One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}${\color{red}.}
 
 \begin{corollary} For the algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2}, then $\textup{cost}(\widetilde{A},\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdaggerfirst}
@@ -672,30 +672,16 @@ Consider the case of approximating the  partial derivative with respect to $x_1$
 \begin{align*}
 \allowdisplaybreaks
 f &= \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \widehat{u}_{\bsk} = \sum_{i \in \bbN} \widehat{f}_i u_i , \\
-\widehat{u}_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max(1,\gamma_j \DHJRabs{k_j})},  \\ 
+\widehat{u}_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max^4(1,\gamma_j k_j)},  \\ 
 S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \lambda(\bsk) \widehat{v}_{\bsk} (\bsx)
 = \sum_{i \in \bbN} \widehat{f}_i \lambda_i v_i, \\ 
-\widehat{v}_{\bsk}(\bsx) & : =  -\textup{sign}(k_1) 2^{(1-\delta_{k_1,0})/2} \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
-& \qquad \qquad \times \prod_{j=2}^d 2^{(1-\delta_{k_j,0})/2} \cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\ 
-\lambda(\bsk) &:= \frac{2 \pi \DHJRabs{k_1}}{\prod_{j=1}^d\max(1,\gamma_j k_j)}, \\
+\widehat{v}_{\bsk}(\bsx) & : =  -\textup{sign}(k_1)  \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
+& \qquad \qquad \times \prod_{j=2}^d
+\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\ 
+\lambda(\bsk) &:= 2 \pi \DHJRabs{k_1}\frac{\prod_{j=1}^d 2^{(1-\delta_{k_j,0})/2}}{\prod_{j=1}^d\max^4(1,\gamma_j k_j)}, \\
 \boldsymbol{\gamma} & := (1,1/2, 1/4, \ldots, 2^{-d+1}).
 \end{align*}
 Note that $\lambda_1 \ge \lambda_2 \ge \cdots$ is an ordering of the $\lambda(\bsk)$.  That ordering then determines the $\widehat{f}_i, u_i$, and $v_i$ in terms of the $\widehat{f}(\bsk), \widehat{u}(\bsk)$, and $\widehat{v}(\bsk)$, respectively.
-
-\yuhannote{According to code, some expression should be as follows:}
-\frednote{I hope that it is fixed now.}
-\begin{align*}
-u_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max^8(1,\gamma_j k_j)},  \\ 
-\lambda(\bsk) &:= 2 \pi \DHJRabs{k_1}\frac{2^{(1-\delta_{k_j,0})/2}}{\prod_{j=1}^d\max^8(1,\gamma_j k_j)}.\\
-\end{align*}
-
-\yuhannote{$v_{\bsk}(\bsx) $ still doesn't match the code}
-\begin{align*}
-    v_{\bsk}(\bsx) & : =  -\textup{sign}(k_1)  \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
-& \qquad \qquad \times \prod_{j=2}^d
-\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) 
-\end{align*}
-
 
 We construct a function by choosing its Fourier coefficients $\widehat{f}(\bsk) \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for  $\bsk \in \{-30, -29, \ldots, 30\}^d$, and $\widehat{f}(\bsk) = 0$ otherwise.  This corresponds to $61^3 \approx 2 \times 10^5$ nonzero Fourier coefficients.  Let $ a= 2$ and  $b=1/2$ and 
  choose $\bsn = \{0, 16, 32, 64, \ldots \}.$
