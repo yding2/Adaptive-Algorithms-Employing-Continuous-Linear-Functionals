@@ -69,6 +69,7 @@
 
 \newcommand{\DHJRnorm}[2][{}]{\ensuremath{\left \lVert #2 \right \rVert}_{#1}}
 \newcommand{\DHJRbignorm}[2][{}]{\ensuremath{\bigl \lVert #2 \bigr \rVert}_{#1}}
+\newcommand{\DHJRBignorm}[2][{}]{\ensuremath{\Bigl \lVert #2 \Bigr \rVert}_{#1}}
 \newcommand{\DHJRabs}[1]{\ensuremath{{\left \lvert #1 \right \rvert}}}
 
 
@@ -97,7 +98,7 @@ Department of Applied Mathematics, Illinois Institute of Technology,\\ RE 208, 1
 
 \maketitle
 
-\abstract{Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic, adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to achieve an approximation to the function satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We also provide a numerical experiment to illustrate our algorithm.}
+\abstract{Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic, adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to produce an approximate solution satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We provide a numerical experiment to illustrate our algorithm.}
 
 
 
@@ -111,16 +112,16 @@ f = \sum_{i\in \bbN} \widehat{f}_i u_i \in \calF, \qquad
 \DHJRnorm[\calF]{f}=\DHJRbignorm[2]{(\widehat{f}_i\big)_{i\in \bbN}}, \\
 g = \sum_{i\in \bbN} \widehat{g}_i v_i \in \calG, \qquad \DHJRnorm[\calG]{g}=\DHJRbignorm[2]{(\widehat{g}_i\big)_{i\in \bbN}}.
 \end{gather}
-Let these two bases be chosen by the singular value decomposition so that the linear solution operator, $S:\calF \to \calG$, satisfies
+Let these two bases be chosen so that the linear solution operator, $S:\calF \to \calG$, satisfies
 \begin{gather}
 S(u_i) = \lambda_i v_i, \quad i \in \bbN, \qquad S(f) = \sum_{i=1}^n \lambda_i \widehat{f}_i v_i, \\
 \lambda_1 \ge \lambda_2 \ge \cdots > 0, \quad \lim_{i \to \infty} \lambda_i = 0, \qquad
 \DHJRnorm[\calF \to \calG]{S} := \sup_{f \ne 0} \frac{\DHJRnorm[\calG]{S(f)}}{\DHJRnorm[\calF]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, this setting is not relevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. 
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, our arguments are irrelevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. 
 
-The existence of the $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$ for a given $\calF$, $\calG$, and $S$ follows from the singular value decomposition.  The ease of identifying explicit expressions for these quantities depends on the particular problem of interest.  Alternatively, one may start with a choice of $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$, which then determine the solution operator and the spaces $\calF$ and $\calG$.
+The existence of the $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$ for a given $\calF$, $\calG$, and $S$ follows from the singular value decomposition.  The ease of identifying explicit expressions for these quantities depends on the particular problem of interest.  Alternatively, one may start with a choice of $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$, which then determine the solution operator, $S$, and the spaces $\calF$ and $\calG$.
 
 \subsection{Solvability}  Let $\calH$ be any subset of $\calF$, and let $\calA(\calH)$ denote the set of deterministic algorithms that successfully approximate the solution operator $S : \calH \to \calG$ to within some error tolerance for all inputs in $\calH$:
 \begin{multline} \label{adapErrCrit}
@@ -136,7 +137,7 @@ Our problem is not solvable for $\calF$, as can be demonstrated by contradiction
 \begin{align*}
     \varepsilon &\ge \frac 12 \left[ \DHJRnorm[\calG]{S(0) - A(0,\varepsilon)} + \DHJRnorm[\calG]{S(cf) - A(cf,\varepsilon)}\right] \\
     & =  \frac 12 \left[ \DHJRnorm[\calG]{0 - A(0,\varepsilon)} + \DHJRnorm[\calG]{S(cf) - A(0,\varepsilon)}\right] \\
-    & \ge  \frac {\DHJRabs{c}\DHJRnorm[\calG]{S(f)}}2  \qquad \text{by the triangle inequality}.
+    & \ge  \frac {\DHJRnorm[\calG]{cS(f)}}2 = \frac {\DHJRabs{c}\DHJRnorm[\calG]{S(f)}}2  \qquad \text{by the triangle inequality}.
 \end{align*}
 Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c$.  The presumed $A$ does not exist, $\calA(\calF)$ is empty, and our problem is not solvable for $\calF$. However, it is solvable for well-chosen subsets of $\calF$, as will be shown in the sections below.
 
@@ -144,7 +145,7 @@ Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c
 \begin{equation*}
 \textup{cost}(A,\calH,\varepsilon) : = \sup \{\textup{cost}(A,f,\varepsilon) : f \in \calH \} \qquad \forall \varepsilon > 0.
 \end{equation*}
-For unbounded sets, $\calH$, this cost may be infinite.  Therefore, it is also helpful to define the cost of algorithms for input functions in $\calH \cap \calB_{\rho}$, where $\calB_{\rho} : = \{ f \in \calF : \DHJRnorm[\calF]{f} \le \rho \}$ is the ball of radius $\rho$:
+For unbounded sets, $\calH$, this cost may be infinite.  Therefore, we also define the cost of algorithms for input functions in $\calH \cap \calB_{\rho}$, where $\calB_{\rho} : = \{ f \in \calF : \DHJRnorm[\calF]{f} \le \rho \}$ is the ball of radius $\rho$:
 \begin{equation*}
 \textup{cost}(A,\calH,\varepsilon,\rho) : = \sup \{\textup{cost}(A,f,\varepsilon) : f \in \calH \cap \calB_{\rho} \} \qquad \forall \rho > 0, \ \varepsilon > 0.
 \end{equation*}
@@ -153,13 +154,13 @@ Finally, we define the complexity of the problem as the computational cost of th
 \textup{comp}(\calA(\calH),\varepsilon) := \min_{A \in \calA(\calH)} \textup{cost}(A, \calH, \varepsilon), \\
 \textup{comp}(\calA(\calH),\varepsilon,\rho) := \min_{A \in \calA(\calH)} \textup{cost}(A, \calH, \varepsilon, \rho).
 \end{gather*}
-Note that $\textup{comp}(\calA(\calH),\varepsilon,\rho) \ge \textup{comp}(\calA(\calH \cap \calB_{\rho}),\varepsilon)$ ({\color{red} $\leq$ ?}) \frednote{The inequality is correct.  The former problem is harder}.  In the former case, the algorithm is unaware  that the input function has norm no greater than $\rho$.  
+Note that $\textup{comp}(\calA(\calH),\varepsilon,\rho) \ge \textup{comp}(\calA(\calH \cap \calB_{\rho}),\varepsilon)$.  In the former case, the algorithm is unaware  that the input function has norm no greater than $\rho$.  
 
 An optimal algorithm for $\calB_{\rho}$ can be constructed in terms of interpolation with respect to the first $n$ series coefficients of the input, namely,
 \begin{gather}  \label{optAdef}
 A_n(f) := \sum_{i=1}^n \lambda_{i} \widehat{f}_{i} v_{i}, \\
 \label{errOpt}
-\DHJRnorm[\calG]{S(f) - A_n(f)} = \DHJRbignorm[2]{\left(\lambda_{i} \widehat{f}_{i} \right)_{i= n+1}^{\infty}} \le \lambda_{n+1} \DHJRnorm[\calF]{f}.
+\DHJRnorm[\calG]{S(f) - A_n(f)} = \DHJRBignorm[2]{\left(\lambda_{i} \widehat{f}_{i} \right)_{i= n+1}^{\infty}} \le \lambda_{n+1} \DHJRnorm[\calF]{f}.
 \end{gather}
 Define the non-adaptive algorithm as
 \begin{equation} \label{optBallalg}
@@ -176,8 +177,8 @@ To prove this, let $A^*$ be an arbitrary algorithm in $\calA(\calB_{\rho})$, and
 \varepsilon & \ge \max_{\pm} \DHJRnorm[\calG]{S(\pm f) - A^*(\pm f)} =  \max_{\pm} \DHJRnorm[\calG]{\pm S( f) - A^*(0)} \\
 & \ge \frac 12 \left [ \DHJRnorm[\calG]{S( f) - A^*(0)} + \DHJRnorm[\calG]{- S( f) - A^*(0)}\right] \\
 & \ge \DHJRnorm[\calG]{S(f)} 
-= \DHJRbignorm[2]{\big(\lambda_i\widehat{f}_i\big)_{i=1}^{N+1}} \\
-& \ge \lambda_{N+1} \DHJRbignorm[2]{\big(\widehat{f}_i\big)_{i=1}^{N+1}} = \lambda_{N+1} \DHJRnorm[\calF]{f} = \lambda_{N+1} \rho.
+= \DHJRBignorm[2]{\big(\lambda_i\widehat{f}_i\big)_{i=1}^{N+1}} \\
+& \ge \lambda_{N+1} \DHJRBignorm[2]{\big(\widehat{f}_i\big)_{i=1}^{N+1}} = \lambda_{N+1} \DHJRnorm[\calF]{f} = \lambda_{N+1} \rho.
 \end{align*}
 Thus, $\lambda_{N+1} \le \varepsilon/\rho$, and 
 \[
@@ -216,27 +217,29 @@ Hence, algorithm $\widehat{A}$ defined in \eqref{optBallalg} is optimal for $\ca
 	= 2 \left \lceil \left(\frac{\rho}{\varepsilon} \right)^{1/r} \right \rceil - 1.
 	% & \lambda_{n+1} = \frac{1}{\lceil (n+1)/2 \rceil^r}.
 	\end{align*}
-	{\color{red} Perhaps worth mentioning what norm makes $\widehat{\lambda}_k\widehat{v}_{k}$ orthonormal in $\mathcal{F}$.} \frednote{They are orthonormal because we define the norm that way.}
-	Here $\calG=L^2[0,1]$.  The larger the non-negative parameter $r$ is, the faster the $\lambda_i$ tend to 0 as $ i \to 0$, the smaller $\calB_\rho$ is, and the smaller  $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$ is.  For $r = 0$, $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon) = \infty$.
+	Here, $\calG=L^2[0,1]$.  The larger the non-negative parameter $r$ is, the faster the $\lambda_i$ tend to 0 as $ i \to 0$, the more exclusive $\calB_\rho$ is, and the smaller  $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$ is.  For $r = 0$, $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon) = \infty$.
 \end{example}
 
 
-Our goal is not only to construct algorithms in $\calA(\calH)$ for some $\calH$, but also to determine whether the computational cost of our algorithms is reasonable.  We define an algorithm $A \in \calA(\calH)$ to have \emph{essentially no worse cost}  than an algorithm $A^* \in \calA(\calH^*)$ if for some number $\omega$,
-\begin{gather}
-\textup{cost}(A,\calH,\varepsilon) \le \textup{cost}(A^*,\calH^*,\omega\varepsilon), \qquad \forall \varepsilon > 0, \\
-\textup{cost}(A,\calH,\varepsilon,\rho) \le \textup{cost}(A^*,\calH^*,\omega\varepsilon,\rho), \qquad \forall \varepsilon,\rho > 0.
-\end{gather}
-If these inequalities are not satisfied, we say that $A$ has \emph{essentially worse cost}  than $A^*$ .
+Our goal is to construct algorithms in $\calA(\calH)$ for some $\calH$ and also to determine whether their computational cost is reasonable.  We define  $\textup{cost}(A,\calH,\varepsilon,\rho)$ to be \emph{essentially no worse} than $\textup{cost}(A^*,\calH^*,\varepsilon,\rho)$ if for some number $\omega$,
+\begin{equation} \label{essNoWorseDef}
+    \textup{cost}(A,\calH,\varepsilon,\rho)
+    \le 
+    \textup{cost}(A^*,\calH^*,\omega\varepsilon,\rho)
+    \qquad \forall \varepsilon,\rho > 0.
+\end{equation}
+We extend this definition analogously if $\textup{cost}(A,\calH,\varepsilon,\rho)$ is replaced by $\textup{cost}(A,\calH,\varepsilon)$ and/or $\textup{cost}(A^*,\calH^*,\omega\varepsilon,\rho)$ is replaced by $\textup{cost}(A^*,\calH^*,\omega\varepsilon)$.
+If these inequalities are not satisfied, we say that the cost of  $A$ is \emph{essentially worse}  than the cost of $A^*$.
 If the costs of two algorithms are essentially no worse than each other, then we call them essentially the same.  An algorithm whose cost is essentially no worse than the best possible algorithm, is called \emph{essentially optimal}.
 
-To illustrate these concepts, consider a nondecreasing sequence of positive numbers, $ \{\lambda^*_1, \lambda^*_2, \ldots \}$, which converges to $0$, where $\lambda^*_i \ge \lambda_i$ for all $i \in \bbN$.  Also consider an unbounded strictly increasing sequence of nonnegative integers $\bsn = \{n_0, n_1, \ldots \}$.  Define an algorithm $A^*$ analogously to $\widehat{A}$ defined in \eqref{optBallalg}:
+To illustrate these concepts, consider a non-decreasing sequence of positive numbers, $ \{\lambda^*_1, \lambda^*_2, \ldots \}$, which converges to $0$, where $\lambda^*_i \ge \lambda_i$ for all $i \in \bbN$.  Also consider an unbounded strictly increasing sequence of non-negative integers $\bsn = \{n_0, n_1, \ldots \}$.  Define an algorithm $A^*$ analogously to $\widehat{A}$ defined in \eqref{optBallalg}:
 \begin{equation} \label{altBallalg}
 A^*(f,\varepsilon) = A_{n_{j^\dagger}}(f), \quad \text{where } j^\dagger = \min\{ j : \lambda^*_{n_j+1} \le \varepsilon/\rho \}, \qquad A^* \in \calA(\calB_{\rho}).
 \end{equation}
 By definition, the cost of algorithm $A^*$ is no better than that of  $\widehat{A}$.  Algorithm $A^*$ may or may not have essentially worse cost than $\widehat{A}$ depending on the choice of $\bslambda^*$ and $\bsn$.  The table below shows some examples.  Each different case of $A^*$ is labeled as having a cost that is either essentially no worse or essentially worse than that of $\widehat{A}$.
 %\[
 \everymath{\displaystyle}
-\begin{longtable}{>{$}r<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}>{$}l<{$}}
+\begin{longtable}{>{$}r<{$}@{\quad}>{$}l<{$}@{\qquad}>{$}l<{$}>{$}l<{$}>{$}l<{$}}
 \toprule \toprule
 &\lambda_i = \frac{C}{i^p}
 & 
@@ -299,11 +302,11 @@ By definition, the cost of algorithm $A^*$ is no better than that of  $\widehat{
 %\]
 
 \subsection{The Case for Adaptive Algorithms}
-For bounded sets of input functions, such as balls, non-adaptive algorithms, such as $\widehat{A}$, make sense.  However, it is typically unknown which ball the input function lies in.  Thus, we consider unbounded sets of input functions, whose properties can be inferred from the data we collect.  We use the interpolatory algorithm $A_n$, defined in \eqref{optAdef}, but we propose an alternative way to bound the error other than assuming an a priori bound on $\DHJRnorm[\calF]{f}$.
+For bounded sets of input functions, such as balls, non-adaptive algorithms like $\widehat{A}$ make sense.  However, it is typically unknown which ball the input function lies in.  Thus, we consider unbounded sets of input functions, whose properties can be inferred from the data we collect.  We use the interpolatory algorithm $A_n$, defined in \eqref{optAdef}, but we propose an alternative way to bound the error other than assuming an a priori bound on $\DHJRnorm[\calF]{f}$.
 
 Adaptive algorithms encountered in practice typically employ heuristic error bounds.  While any algorithm can be fooled, we would like precise necessary conditions for being fooled, or equivalently, sufficient conditions for the algorithm to succeed.  Our adaptive algorithm has such conditions and follows in the vein of adaptive algorithms developed in \cite{HicEtal14a, HIcEtal14b, HicJim16a, JimHic16a}.
 
-Our rigorous, data-driven error bound assumes the input to have steadily---but not necessarily monotonically---decaying series coefficients.  The cone of nice inputs, $\calC$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\widetilde{A} \in \calA(\calC)$, in Section \ref{sec:adaptalgo},  where $\widetilde{A}(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$ depending on the input data and the definition of $\calC$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\widetilde{A}(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\widetilde{A}$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  Concluding remarks are give in Section \ref{sec:conc}. 
+Our rigorous, data-driven error bound assumes the series coefficients of the input to decay steadily---but not necessarily monotonically.  The cone of nice inputs, $\calC$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\widetilde{A} \in \calA(\calC)$, in Section \ref{sec:adaptalgo},  where $\widetilde{A}(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$ depending on the input data and the definition of $\calC$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\widetilde{A}(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\widetilde{A}$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  We end with concluding remarks in Section \ref{sec:conc}. 
 
 
 
@@ -311,7 +314,7 @@ Our rigorous, data-driven error bound assumes the input to have steadily---but n
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Assuming a Steady Decay of the Series Coefficients of the Solution} \label{sec:cone}
 
-Recall from \eqref{errOpt} that the error of the fixed sample size interpolatory algorithm $A_n$ is $\DHJRnorm[\calG]{S(f) - A_n(f)} = \DHJRbignorm[2]{\bigl(\lambda_{i} \widehat{f}_{i} \bigr)_{i= n+1}^{\infty}}$.  The error depends on the series coefficients not yet observed, so at first glance this error seems to be impossible to bound in terms of observed series coefficients.  
+Recall from \eqref{errOpt} that the error of the fixed sample size interpolatory algorithm $A_n$ is $\DHJRnorm[\calG]{S(f) - A_n(f)} = \DHJRbignorm[2]{\bigl(\lambda_{i} \widehat{f}_{i} \bigr)_{i= n+1}^{\infty}}$.  The error depends on the series coefficients not yet observed, so at first it seems impossible to bound the error in terms of observed series coefficients.  
 
 However, we can observe the partial sums 
 \begin{equation} \label{sumdef}
@@ -320,9 +323,9 @@ However, we can observe the partial sums
 \end{equation}
 where $\bsn  = \{n_0, n_1, \ldots\}$ is a strictly increasing, unbounded sequence of non-negative integers.  We define the cone of nice input functions to consist of those functions for which the $\sigma_j(f)$ decay at a given rate with respect to one another:
 \begin{align} \label{decayconedef}
-\calC &= \left\{ f \in \calF : \sigma_{j+r}(f) \le ab^r \sigma_j (f) \ \forall j,r \in \bbN \right\} \\
+\calC &= \left\{ f \in \calF : \sigma_{j+r}(f) \le ab^r \sigma_j (f) \ \ \forall j,r \in \bbN \right\} \\
 \nonumber
-& = \left\{ f \in \calF : \sigma_j(f) \le \min_{1 \le r < j}\{ab^r\sigma_{j-r}(f)\} \ \forall j \in \bbN \right\}.
+& = \left\{ f \in \calF : \sigma_j(f) \le \min_{1 \le r < j}\{ab^r\sigma_{j-r}(f)\} \ \ \forall j \in \bbN \right\}.
 \end{align}
 Here, $a$ and $b$ are positive numbers that define the inclusivity of the cone $\calC$ and 
 \begin{equation} \label{abcond}
@@ -380,7 +383,7 @@ The algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2} lies in $\calA(
 \begin{equation} \label{eq:OurAlgjstar}
 j^* = \min\left \{ j \in \bbN : \sigma_{j}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab}  \right\}.
 \end{equation}
-Moreover, $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, \frednote{Tony, I think you misunderstood.  It was correct to begin with.} where $j^\dagger$ satisfies the following upper bound:
+Moreover, $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdagger}
 j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}.
 \end{equation}
@@ -440,7 +443,7 @@ The upper bound on $\textup{cost}(\widetilde{A},\calC,\rho,\varepsilon)$ in Theo
 \end{equation}
 One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}$.
 
-\begin{corollary} For the algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2}, then $\textup{cost}(\widetilde{A},\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
+\begin{corollary} For the algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2}, then $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdaggerfirst}
 j^\dagger \le \left \lceil \log\left(\frac{\rho a^2\lambda_{n_{0}+1} }{\varepsilon \sqrt{1 - b^2}}\right) \div \log\left(\frac{1}{b}\right) \right \rceil.
 \end{equation}
@@ -466,7 +469,7 @@ This implies \eqref{jdaggerfirst}.
 
 Ignoring all but the term outside the sum leads to the simpler upper bound in \eqref{jdaggerlast}.  If the $\lambda_{n_{j-1}+1}$ decay as assumed in \eqref{lambdankbd} then
 \[
-j^\dagger \le \min \left \{j \in \bbN :  \alpha \beta^j < \frac{\varepsilon\sqrt{1 - b^2}}{ab \rho} \right\},
+j^\dagger \le \min \left \{j \in \bbN :  \alpha \beta^j \le \frac{\varepsilon\sqrt{1 - b^2}}{ab \rho} \right\},
 \]
 which implies \eqref{jdaggerlastsimple}.
 \end{proof}
@@ -482,7 +485,7 @@ The adaptive algorithm $\widetilde{A}$, which does not know an upper bound on $\
 \lambda_{n_{j+1}+1} \ge c_\lambda \lambda_{n_j+1}, \qquad j \in \bbN, 
 \end{equation}
 for some positive $c_\lambda$.  Then $\textup{cost}(\widetilde{A},\calC, \varepsilon,\rho)$ is essentially no worse than \linebreak[4]
-$\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$. 
+$\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$ in the sense of \eqref{essNoWorseDef}. 
 
 
 \end{corollary}
@@ -530,7 +533,7 @@ j^* & = \max \left \{ j \in \bbN : \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\righ
 \end{theorem}
 
 \begin{proof}
-Consider a fixed $\rho$ and $\varepsilon$.  Choose any positive integer $j$ such that $n_j$ exceeds $\textup{comp}(\calA(\calC),\varepsilon,\rho)$.  The proof proceeds by carefully constructing thre  test input functions, $f$ and $f_{\pm}$, lying in $\calC \cap \calB_{\rho}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $n_j$, which can be translated into a lower bound on $\textup{comp}(\calA(\calC),\varepsilon,\rho)$. 
+Consider a fixed $\rho$ and $\varepsilon$.  Choose any positive integer $j$ such that $n_j$ exceeds $\textup{comp}(\calA(\calC),\varepsilon,\rho)$.  The proof proceeds by carefully constructing three test input functions, $f$ and $f_{\pm}$, lying in $\calC \cap \calB_{\rho}$, which yield the same approximate solution but different true solutions.  This leads to a lower bound on $n_j$, which can be translated into a lower bound on $\textup{comp}(\calA(\calC),\varepsilon,\rho)$. 
 
 The first test function $f \in \calC$ is defined in terms of its series coefficients:
 \begin{align}
@@ -575,7 +578,7 @@ Let $u$ be a linear combination of $u_1, \cdots, u_{n_j}$, expressed as
 \[
 u =  \sum_{k=0}^{j}\frac{b^{k-j}u^{(k)}}{\lambda_{n_k}},
 \]
-where $u^{(0)}$ is a linear combination of $u_{1}, \ldots, u_{n_0}$, and each $u^{(k)}$ is a linear combination of $u_{n_k+1}, \ldots, u_{n_k}$, for $k =1, \ldots, j$.  We constrain $u$ to satisfy:
+where $u^{(0)}$ is a linear combination of $u_{1}, \ldots, u_{n_0}$, and each $u^{(k)}$ is a linear combination of $u_{n_{k-1}+1}, \ldots, u_{n_k}$, for $k =1, \ldots, j$.  We constrain $u$ to satisfy:
 \begin{equation}\label{uConstraint}
 L_1(u) = \cdots = L_n(u) = 0, \qquad \langle u,f \rangle_{\calF} = 0, \qquad 
 \max_{0\le k\le j} \DHJRbignorm[\calF]{u^{(k)}} = 1.
@@ -587,7 +590,7 @@ Let the other two test functions be constructed in terms of $u$ as
 \label{etadef}
 f_\pm & := f \pm \eta u, \qquad \eta : =  \frac {(a-1)c}{(a+1)R}, \\
 \nonumber
-\DHJRnorm[\calF]{f^*_\pm}^2 & \le \DHJRnorm[\calF]{f}^2 + \DHJRnorm[\calF]{\eta u }^2 \qquad \text{by \eqref{uConstraint}} \\
+\DHJRnorm[\calF]{f_\pm}^2 & \le \DHJRnorm[\calF]{f}^2 + \DHJRnorm[\calF]{\eta u }^2 \qquad \text{by \eqref{uConstraint}} \\
 & \le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \DHJRbignorm[\calF]{u^{(k)}}^2\right) + \eta^2 \DHJRbignorm[\calF]{u^{(0)}}^2 \frac{b^{-2j}}{\lambda_{n_0}^2}\\
 \nonumber
 & \le  \left(c^2+ \eta^2 \right) \sum_{k=0}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}}  \qquad \text{by \eqref{uConstraint}}\\
@@ -620,15 +623,15 @@ which establishes that $f_\pm \in \calC$.
 Although two test functions $f_\pm$ yield the same approximate solution, they have different true solutions.  In particular,
 \begin{align*}
 \varepsilon &\ge \max \bigl\{\DHJRnorm[\calG]{S(f_+) - A^*(f_+,\varepsilon)}, \DHJRnorm[\calG]{S(f_-) - A^*(f_-,\varepsilon)} \bigr\} \\
-&\ge \frac 12 \bigl[\DHJRnorm[\calG]{S(f^*_+) - A^*(f,\varepsilon)} + \DHJRnorm[\calG]{S(f^*_-) - A^*(f,\varepsilon)}  \bigr] \\
-&\qquad \qquad \text{since } A^*(f^*_\pm,\varepsilon) = A^*(f,\varepsilon) \\
-&\ge \frac 12 \DHJRnorm[\calG]{S(f^*_+) - S(f^*_-)} \quad \text{by the triangle inequality}\\
-&\ge \frac 12 \DHJRnorm[\calG]{S(f^*_+ - f^*_-)} \quad \text{since $S$ is linear}\\
+&\ge \frac 12 \bigl[\DHJRnorm[\calG]{S(f_+) - A^*(f,\varepsilon)} + \DHJRnorm[\calG]{S(f_-) - A^*(f,\varepsilon)}  \bigr] \\
+&\qquad \qquad \text{since } A^*(f_\pm,\varepsilon) = A^*(f,\varepsilon) \\
+&\ge \frac 12 \DHJRnorm[\calG]{S(f_+) - S(f_-)} \quad \text{by the triangle inequality}\\
+&\ge \frac 12 \DHJRnorm[\calG]{S(f_+ - f_-)} \quad \text{since $S$ is linear}\\
 &= \eta \DHJRnorm[\calG]{S(u)}.
 \end{align*}
 Thus, we have
 \begin{align*}
-\varepsilon^2  & \ge \eta \DHJRnorm[\calG]{S(u)}^2= 
+\varepsilon^2  & \ge \eta^2 \DHJRnorm[\calG]{S(u)}^2= 
 \eta^2 \sum_{k=0}^{j} \DHJRbignorm[\calG]{S(u^{(k)})}^2  \frac{b^{2(k-j)}}{\lambda_{n_k}^2}\\
 & \ge \eta^2 
 \sum_{k=0}^{j} \DHJRbignorm[\calF]{u^{(k)}}^2 
@@ -636,8 +639,8 @@ b^{2(k-j)}\\
 & \ge  \eta^2 b^{2(k^{*}-j)} \qquad \text{ where } k^* = \argmax_{0 \le k \le j} \DHJRbignorm[\calF]{u^{(k)}} \\
 & \ge \eta^2 = \frac{(a-1)^2c^2}{(a+1)^2R^2} \\
 &
-=\frac{(a-1)^2 \rho^2}{(a+1)^2A^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} A^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
-& \le  \rho^2 \left[\left\{\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right\}\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
+=\frac{(a-1)^2 \rho^2}{(a+1)^2R^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} R^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
+& =  \rho^2 \left[\left\{\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right\}\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
 \end{align*}
 
 This lower bound must be satisfied by $j$ to be consistent with the assumption $\textup{comp}(\calA(\calC),\varepsilon,\rho) \le n_j - 1$.  Thus, for any $j$ violating this inequality it follows that $\textup{comp}(\calA(\calC),\varepsilon,\rho) \ge n_j$.  This implication provides a lower bound on $\textup{comp}(\calA(\calC),\varepsilon,\rho)$.
@@ -647,7 +650,7 @@ The next step is to show that the cost of our algorithm is essentially no worse 
 
 \begin{theorem}
 \label{thm:CostNoWorse}
-Under assumption \eqref{lambdaRatio} $\textup{cost}(\widetilde{A},\varepsilon,\rho)$ is essentially no worse than $\textup{comp}(\calA(\calC),\varepsilon,\rho)$.
+Under assumption \eqref{lambdaRatio} $\textup{cost}(\widetilde{A},\calC, \varepsilon,\rho)$ is essentially no worse than $\textup{comp}(\calA(\calC),\varepsilon,\rho)$. 
 \end{theorem}
 \begin{proof}
 Let  
@@ -655,7 +658,7 @@ Let
     \omega = \sqrt{\frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}},
 \end{equation}
 and note that it does not depend on $\rho$ or $\varepsilon$ but only on the definition of $\calC$. 
-For any positive $\rho$ and $\varepsilon$, Theorem \ref{thm:compcost} says that $\textup{cost}(\widetilde{A},\rho,\varepsilon) \le n_{j^\dagger}$ where 
+For any positive $\rho$ and $\varepsilon$, Theorem \ref{thm:compcost} says that $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, where 
 \begin{align*} 
 j^\dagger &\le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\} \\
 &\le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4b^2} \sum_{k=1}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k-1}+1}^2} \right\} \qquad \text{since } a > 1\\
@@ -665,7 +668,7 @@ j^\dagger &\le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{
 &\le \min \left \{j \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} \le \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{by \eqref{omegadef} } \\
 &= \max \left \{j \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} =:j^*.
 \end{align*}
-By Theorem \ref{thm:lowbdcomp}, $\textup{comp}(\calA(\calC),\omega\varepsilon,\rho) \ge n_{j^*}$, and by the argument above, $n_{j^*} \ge n_{j^\dagger} \ge \textup{cost}(\widetilde{A},\varepsilon,\rho)$.  Thus, our algorithm is essentially no more costly than the optimal algorithm.
+By Theorem \ref{thm:lowbdcomp}, $\textup{comp}(\calA(\calC),\omega\varepsilon,\rho) \ge n_{j^*}$, and by the argument above, $n_{j^*} \ge n_{j^\dagger} \ge \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho)$.  Thus, our algorithm is essentially no more costly than the optimal algorithm.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -678,7 +681,7 @@ f &= \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \widehat{u}_{\bsk} = \sum_{i \in \
 \widehat{u}_{\bsk} (\bsx) &:= \prod_{j=1}^d \frac{2^{(1-\delta_{k_j,0})/2}\cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 )}{\max^4(1,\gamma_j k_j)},  \\ 
 S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\bsk) \lambda(\bsk) \widehat{v}_{\bsk} (\bsx)
 = \sum_{i \in \bbN} \widehat{f}_i \lambda_i v_i, \\ 
-\widehat{v}_{\bsk}(\bsx) & : =  -\textup{sign}(k_1)  \sin(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ) \\
+\widehat{v}_{\bsk}(\bsx) & : =  -\textup{sign}(k_1)  \sin(2\pi k_1 x_1  + \bbone_{(-\infty,0)}(k_1) \pi/2 ) \\
 & \qquad \qquad \times \prod_{j=2}^d
 \cos(2\pi k_j x_j  + \bbone_{(-\infty,0)}(k_j) \pi/2 ), \\ 
 \lambda(\bsk) &:= 2 \pi \DHJRabs{k_1}\frac{\prod_{j=1}^d 2^{(1-\delta_{k_j,0})/2}}{\prod_{j=1}^d\max^4(1,\gamma_j k_j)}, \\
@@ -686,13 +689,13 @@ S(f) &: = \frac{\partial f}{\partial x_1} = \sum_{\bsk \in \bbZ^d} \widehat{f}(\
 \end{align*}
 Note that $\lambda_1 \ge \lambda_2 \ge \cdots$ is an ordering of the $\lambda(\bsk)$.  That ordering then determines the $\widehat{f}_i, u_i$, and $v_i$ in terms of the $\widehat{f}(\bsk), \widehat{u}(\bsk)$, and $\widehat{v}(\bsk)$, respectively.
 
-We construct a function by choosing its Fourier coefficients $\widehat{f}(\bsk) \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for  $\bsk \in \{-30, -29, \ldots, 30\}^d$, and $\widehat{f}(\bsk) = 0$ otherwise.  This corresponds to $61^3 \approx 2 \times 10^5$ nonzero Fourier coefficients.  Let $ a= 2$ and  $b=1/2$ and 
+We construct a function by choosing its Fourier coefficients $\widehat{f}(\bsk) \overset{\text{IID}}{\sim}  \mathcal{N}(0,1)$ for $d=3$, $\bsk \in \{-30, -29, \ldots, 30\}^3$, and $\widehat{f}(\bsk) = 0$ otherwise.  This corresponds to $61^3 \approx 2 \times 10^5$ nonzero Fourier coefficients.  Let $ a= 2$ and  $b=1/2$ and 
  choose $\bsn = \{0, 16, 32, 64, \ldots \}.$
  To  compute $\sigma_j(f), \ j \in \bbN$ by \eqref{sumdef},
  we need to sort $\bigl(\lambda(\bsk)\bigr)_{\bsk \in \bbZ^d}$ in descending order, $\lambda_1, \lambda_2, \ldots$. Given $\varepsilon$, we can then find the number of series coefficients needed to satisfy the the error criterion, i.e., $n_{j^\dagger}$ where
  \[j^{\dagger} = \min \left\{j \in \bbN : \frac{ab\sigma_j(f)}{\sqrt{1-b^2}}  \le \varepsilon. \right\}\]
  
-Fig.\ \ref{solfig} shows the input function, the solution, the approximate solution, and the error of the approximate solution for $d=3$ and $\varepsilon = 0.1$.  For this example, $ n_{j^\dagger} = 8192$ is sufficient to satisfy the error tolerance, as is clear from Fig.\ \ref{solfig}(d).  Fig. \ref{errfig} shows the sample size, $n_{j^\dagger}$ needed for ten different error tolerances from $0.1$ to $10$. Because the possible sample sizes powers of $2$, some tolerances require the same sample size.
+Fig.\ \ref{solfig} shows the input function, the solution, the approximate solution, and the error of the approximate solution for $\varepsilon = 0.1$.  For this example, $ n_{j^\dagger} = 8192$ is sufficient to satisfy the error tolerance, as is clear from Fig.\ \ref{solfig}(d).  Fig. \ref{errfig} shows the sample size, $n_{j^\dagger}$ needed for ten different error tolerances from $0.1$ to $10$. Because the possible sample sizes are powers of $2$ , some tolerances require the same sample size.
 
 \begin{figure}[ht]
 	\centering
@@ -712,9 +715,12 @@ Fig.\ \ref{solfig} shows the input function, the solution, the approximate solut
 \begin{figure}[ht]
  	\centering
  		\includegraphics[width =7.5 cm]{ProgramsImages/SimFourCoefErr.eps}
- 	\caption{Sample size $n$, error tolerance $\varepsilon$ and ratio \label{errfig}} % 
+ 	\caption{Sample size $n_{j^{\dagger}}$, error tolerance $\varepsilon$, and ratio. \label{errfig}} % 
  \end{figure}
+ 
+\tonynote{It looks like the font size in Figure 2 is smaller than that of Figure 1. Perhaps it would be easier to read if a bit larger?}
 
+\tonynote{In the x-axis of Figure 2, we mention $\hat{f}$. Is it referring to the Fourier coefficients? As a suggestion, are we not interested in something like $\DHJRnorm[\mathcal{G}]{S(f)-\widetilde{A}({f},\varepsilon)}$? This could allow us to plot marks at the different $\varepsilon$ and see how conservative the algorithm is.}
 
 \section{Discussion and Conclusion} \label{sec:conc}
 Many practical adaptive algorithms lack theory, and many theoretically justified algorithms are non-adaptive.  We have demonstrated for a general setting how to construct a theoretically justified, essentially optimal algorithm.  The decay of the singular values determines the computational complexity of the problem and the computational cost of our algorithm.  
