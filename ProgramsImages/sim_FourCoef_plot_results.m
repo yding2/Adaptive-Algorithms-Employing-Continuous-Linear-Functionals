@@ -1,5 +1,4 @@
 %%Plot results
-%Hello Overleaf
 function sim_FourCoef_plot_results(basisName)
 
 load(['sim_FourCoef_results_basis_' basisName '.mat'], ...
