@@ -17,7 +17,7 @@ set(gca,'XScale','log', 'YScale','log')
 xlim([min([10.^floor(log10(rat_vec*0.8)); 0.1]) ...
  max([10.^(ceil(log10(rat_vec*1.2))); 1])])
 ylim(10.^[floor(log10(min(n_vec))) ceil(log10(max(n_vec)))])
-xlabel({'\(||f-\tilde{A}(f,\varepsilon)||_{2}/\varepsilon\)'},'FontSize',36)
+xlabel({'\(||S(f)-\tilde{A}(f,\varepsilon)||_{2}/\varepsilon\)'},'FontSize',36)
 ylabel({'Sample size, \(n_{j^{\dagger}}\)'},'FontSize',36)
 hcb = colorbar; %showing tolerance values
 title(hcb,'\(\varepsilon\)','interpreter','latex')
