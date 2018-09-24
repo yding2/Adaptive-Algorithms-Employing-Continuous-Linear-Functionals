@@ -402,7 +402,7 @@ j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(
 \begin{proof}
 This algorithm terminates for some $j = j^*$ because $\sigma_j(f) \le ab^{j-1} \sigma_{1}(f) \to 0$ as $j \to \infty$. The value of $j^*$ follows directly from this termination criterion in Step 2.  It then follows that the error bound on $A_{n_{j^*}}(f)$ in \eqref{algoineq} is no greater than the error tolerance $\varepsilon$.  So, $\widetilde{A} \in \calA(\calC)$.
 
-For the remainder of the proof consider $\rho$ and $\varepsilon$ fixed.  To derive an upper bound on $n_{j^\dagger} = \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho)$ we first note some properties of $\sigma_j(f)$ for all $f \in \calC$:
+For the remainder of the proof consider $\rho$ and $\varepsilon$ to be fixed.  To derive an upper bound on $n_{j^\dagger} = \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho)$ we first note some properties of $\sigma_j(f)$ for all $f \in \calC$:
 \begin{multline} \label{normsigineq}
 \lambda_{n_j} \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} \le 
 \DHJRbignorm[2]{\big( \lambda_i \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} = \sigma_j(f) 
@@ -487,7 +487,7 @@ This corollary highlights two limiting factors on the computational cost of our 
 
 Assumption \eqref{lambdankbd} is not very restrictive.  It holds if the $\lambda_i$ decay algebraically and the $n_j$ increase geometrically.  It also holds if the $\lambda_i$ decay geometrically and the $n_j$ increase arithmetically.
 
-The adaptive algorithm $\widetilde{A}$, which does not know an upper bound on $\DHJRnorm[\calF]{f}$ a priori, may cost more than the non-adaptive algorithm $\widehat{A}$, which assumes an upper bound on $\DHJRnorm[\calF]{f}$, but under reasonable assumptions, the extra cost will be small.
+The adaptive algorithm $\widetilde{A}$, which does not know an upper bound on $\DHJRnorm[\calF]{f}$ a priori, may cost more than the non-adaptive algorithm $\widehat{A}$, which assumes an upper bound on $\DHJRnorm[\calF]{f}$, but under reasonable assumptions, the extra cost is small.
 
 \begin{corollary} \label{cor:tAsameCosthA} Suppose that the sequence $\bsn$ is chosen to satisfy
 \begin{equation} \label{lambdaDecay}
@@ -730,7 +730,7 @@ Fig.\ \ref{solfig} shows the input function, the solution, the approximate solut
 \section{Discussion and Conclusion} \label{sec:conc}
 Many practical adaptive algorithms lack theory, and many theoretically justified algorithms are non-adaptive.  We have demonstrated for a general setting how to construct a theoretically justified, essentially optimal algorithm.  The decay of the singular values determines the computational complexity of the problem and the computational cost of our algorithm.  
 
-The key idea of our algorithm is to derive an adaptive error bound by assuming the steady decay of the Fourier series coefficients of the solution.  We do not, however, need to know the decay rate of these coefficients a priori.  The cost of our algorithm also serves as a goal for an algorithm that uses function values, which are more commonly available than Fourier series coefficients.  An important next step is to identify an essentially optimal algorithm based on function values.  Another research direction would be to extend this setting to Banach spaces.
+The key idea of our algorithm is to derive an adaptive error bound by assuming the steady decay of the Fourier series coefficients of the solution.  The set of such functions constitutes a cone.  We do not need to know the decay rate of these coefficients a priori.  The cost of our algorithm also serves as a goal for an algorithm that uses function values, which are more commonly available than Fourier series coefficients.  An important next step is to identify an essentially optimal algorithm based on function values.  Another research direction is to extend this setting to Banach spaces of inputs and/or outputs.
 	
 
 %\section*{References}
