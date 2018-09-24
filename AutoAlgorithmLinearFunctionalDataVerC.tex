@@ -98,7 +98,7 @@ Department of Applied Mathematics, Illinois Institute of Technology,\\ RE 208, 1
 
 \maketitle
 
-\abstract{Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic, adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution to be approximated decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to produce an approximate solution satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We provide a numerical experiment to illustrate our algorithm.}
+\abstract{Automatic algorithms attempt to provide approximate solutions that differ from exact solutions by no more than a user-specified error tolerance. This paper describes an automatic, adaptive algorithm for approximating the solution to a general linear problem on Hilbert spaces. The algorithm employs continuous linear functionals of the input function, specifically Fourier coefficients. We assume that the Fourier coefficients of the solution decay sufficiently fast, but do not require the decay rate to be known a priori. We also assume that the Fourier coefficients decay steadily, although not necessarily monotonically. Under these assumptions, our adaptive algorithm is shown to produce an approximate solution satisfying the desired error tolerance, without prior knowledge of the norm of the function to be approximated. Moreover, the computational cost of our algorithm is shown to be essentially no worse than that of the optimal algorithm. We provide a numerical experiment to illustrate our algorithm.}
 
 
 
@@ -119,7 +119,7 @@ S(u_i) = \lambda_i v_i, \quad i \in \bbN, \qquad S(f) = \sum_{i=1}^n \lambda_i \
 \DHJRnorm[\calF \to \calG]{S} := \sup_{f \ne 0} \frac{\DHJRnorm[\calG]{S(f)}}{\DHJRnorm[\calF]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$. Thus, our arguments are irrelevant for evaluating the definite integral or any other linear functional, since in those cases $\lambda_2 = \lambda_3 = \cdots = 0$. 
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution generally requires an infinite number of series coefficients, $\widehat{f}_i$.
 
 The existence of the $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$ for a given $\calF$, $\calG$, and $S$ follows from the singular value decomposition.  The ease of identifying explicit expressions for these quantities depends on the particular problem of interest.  Alternatively, one may start with a choice of $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$, which then determine the solution operator, $S$, and the spaces $\calF$ and $\calG$.
 
@@ -133,7 +133,7 @@ The existence of the $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \la
 Algorithms in $\calA(\calH)$ are allowed to sample adaptively any bounded, linear functionals
 of the input function.  They must sample only a finite number of linear functionals for each input function and positive tolerance.  The definition of $\calH$ can be used to construct algorithms in $\calA(\calH)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a} we call a problem \emph{solvable} for inputs $\calH$ if $\calA(\calH)$ is non-empty.
 
-Our problem is not solvable for $\calF$, as can be demonstrated by contradiction. For any potential algorithm, we show that there exists some $f \in \calF$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \calA(\calF)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals are used to compute $A(0,\varepsilon)$. Since the output space, $\calG$, is infinite dimensional and $n$ is finite, there exists some nonzero $f \in \calF$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$, and both of these have approximation error no greater than $\varepsilon$, i.e.,
+Our problem is not solvable for the whole Hilbert space $\calF$, as can be demonstrated by contradiction. For any potential algorithm, we show that there exists some $f \in \calF$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \calA(\calF)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals are used to compute $A(0,\varepsilon)$. Since the output space, $\calG$, is infinite dimensional and $n$ is finite, there exists some nonzero $f \in \calF$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$, and both of these have approximation error no greater than $\varepsilon$, i.e.,
 \begin{align*}
     \varepsilon &\ge \frac 12 \left[ \DHJRnorm[\calG]{S(0) - A(0,\varepsilon)} + \DHJRnorm[\calG]{S(cf) - A(cf,\varepsilon)}\right] \\
     & =  \frac 12 \left[ \DHJRnorm[\calG]{0 - A(0,\varepsilon)} + \DHJRnorm[\calG]{S(cf) - A(0,\varepsilon)}\right] \\
@@ -141,11 +141,11 @@ Our problem is not solvable for $\calF$, as can be demonstrated by contradiction
 \end{align*}
 Since $S(f) \ne 0$, it is impossible for this inequality to hold for all real $c$.  The presumed $A$ does not exist, $\calA(\calF)$ is empty, and our problem is not solvable for $\calF$. However, it is solvable for well-chosen subsets of $\calF$, as will be shown in the sections below.
 
-\subsection{Computational Cost of the Algorithm and Complexity of the Problem} The computational cost of an algorithm $A \in \calA(\calH)$ for $f \in \calH$ and error tolerance $\varepsilon$ is denoted $\textup{cost}(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define the cost of algorithms as 
+\subsection{Computational Cost of the Algorithm and Complexity of the Problem} The computational cost of an algorithm $A \in \calA(\calH)$ for $f \in \calH$ and error tolerance $\varepsilon$ is denoted $\textup{cost}(A,f,\varepsilon)$, and is defined as the number of linear functional values required to produce $A(f,\varepsilon)$.  By overloading the notation, we define the cost of algorithms for sets of inputs, $\calH$, as 
 \begin{equation*}
 \textup{cost}(A,\calH,\varepsilon) : = \sup \{\textup{cost}(A,f,\varepsilon) : f \in \calH \} \qquad \forall \varepsilon > 0.
 \end{equation*}
-For unbounded sets, $\calH$, this cost may be infinite.  Therefore, we also define the cost of algorithms for input functions in $\calH \cap \calB_{\rho}$, where $\calB_{\rho} : = \{ f \in \calF : \DHJRnorm[\calF]{f} \le \rho \}$ is the ball of radius $\rho$:
+For unbounded sets, $\calH$, this cost may be infinite.  Therefore, it is meaningful to define the cost of algorithms for input functions in $\calH \cap \calB_{\rho}$, where $\calB_{\rho} : = \{ f \in \calF : \DHJRnorm[\calF]{f} \le \rho \}$ is the ball of radius $\rho$:
 \begin{equation*}
 \textup{cost}(A,\calH,\varepsilon,\rho) : = \sup \{\textup{cost}(A,f,\varepsilon) : f \in \calH \cap \calB_{\rho} \} \qquad \forall \rho > 0, \ \varepsilon > 0.
 \end{equation*}
@@ -232,7 +232,16 @@ We extend this definition analogously if $\textup{cost}(A,\calH,\varepsilon,\rho
 If these inequalities are not satisfied, we say that the cost of  $A$ is \emph{essentially worse}  than the cost of $A^*$.
 If the costs of two algorithms are essentially no worse than each other, then we call them essentially the same.  An algorithm whose cost is essentially no worse than the best possible algorithm, is called \emph{essentially optimal}.
 
-To illustrate these concepts, consider a non-increasing sequence of positive numbers, $ \{\lambda^*_1, \lambda^*_2, \ldots \}$, which converges to $0$, where $\lambda^*_i \ge \lambda_i$ for all $i \in \bbN$.  Also consider an unbounded strictly increasing sequence of non-negative integers $\bsn = \{n_0, n_1, \ldots \}$.  Define an algorithm $A^*$ analogously to $\widehat{A}$ defined in \eqref{optBallalg}:
+Our condition for essentially no worse cost in \eqref{essNoWorseDef} is not the same as 
+\begin{equation} \label{NOTessNoWorseDef}
+    \textup{cost}(A,\calH,\varepsilon,\rho)
+    \le 
+    \omega \, \textup{cost}(A^*,\calH^*,\varepsilon,\rho)
+    \qquad \forall \varepsilon,\rho > 0.
+\end{equation}
+If the $\textup{cost}(A^*,\calH^*,\varepsilon,\rho)$ is proportional to $\max(1,\varepsilon^{-p})$, then conditions \eqref{essNoWorseDef} and \eqref{NOTessNoWorseDef} are equivalent.  If $\textup{cost}(A^*,\calH^*,\varepsilon,\rho)$ is proportional to $[1+\log(\max(1,\varepsilon)]^{-p}$, then \eqref{essNoWorseDef} is stricter than \eqref{NOTessNoWorseDef}.
+
+To illustrate the comparison of costs, consider a non-increasing sequence of positive numbers, $ \{\lambda^*_1, \lambda^*_2, \ldots \}$, which converges to $0$, where $\lambda^*_i \ge \lambda_i$ for all $i \in \bbN$.  Also consider an unbounded strictly increasing sequence of non-negative integers $\bsn = \{n_0, n_1, \ldots \}$.  Define an algorithm $A^*$ analogously to $\widehat{A}$ defined in \eqref{optBallalg}:
 \begin{equation} \label{altBallalg}
 A^*(f,\varepsilon) = A_{n_{j^\dagger}}(f), \quad \text{where } j^\dagger = \min\{ j : \lambda^*_{n_j+1} \le \varepsilon/\rho \}, \qquad A^* \in \calA(\calB_{\rho}).
 \end{equation}
@@ -302,11 +311,11 @@ By definition, the cost of algorithm $A^*$ is no better than that of  $\widehat{
 %\]
 
 \subsection{The Case for Adaptive Algorithms}
-For bounded sets of input functions, such as balls, non-adaptive algorithms like $\widehat{A}$ make sense.  However, it is typically unknown which ball the input function lies in.  Thus, we consider unbounded sets of input functions, whose properties can be inferred from the data we collect.  We use the interpolatory algorithm $A_n$, defined in \eqref{optAdef}, but we propose an alternative way to bound the error other than assuming an a priori bound on $\DHJRnorm[\calF]{f}$.
+For bounded sets of input functions, such as balls, non-adaptive algorithms like $\widehat{A}$ make sense.  However, an a priori upper bound on $\DHJRnorm[\calF]{f}$ is typically unavailable in practice, so it is unknown which $\calB_{\rho}$ contain the input function $f$.  Our aim is to consider unbounded sets of $f$ for which the error of the interpolatory algorithm $A_n(f)$, defined in \eqref{optAdef}, can be bounded without an a priori upper bound on $\DHJRnorm[\calF]{f}$.
 
 Adaptive algorithms encountered in practice typically employ heuristic error bounds.  While any algorithm can be fooled, we would like precise necessary conditions for being fooled, or equivalently, sufficient conditions for the algorithm to succeed.  Our adaptive algorithm has such conditions and follows in the vein of adaptive algorithms developed in \cite{HicEtal14a, HIcEtal14b, HicJim16a, JimHic16a}.
 
-Our rigorous, data-driven error bound assumes the series coefficients of the input to decay steadily---but not necessarily monotonically.  The cone of nice inputs, $\calC$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\widetilde{A} \in \calA(\calC)$, in Section \ref{sec:adaptalgo},  where $\widetilde{A}(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$ depending on the input data and the definition of $\calC$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\widetilde{A}(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\widetilde{A}$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  We end with concluding remarks in Section \ref{sec:conc}. 
+Our rigorous, data-driven error bound assumes the series coefficients of the input function, $f$, to decay steadily---but not necessarily monotonically.  The cone of nice input functions, $\calC$, is defined in Section \ref{sec:cone}.  For such inputs, we construct an adaptive algorithm, $\widetilde{A} \in \calA(\calC)$, in Section \ref{sec:adaptalgo},  where $\widetilde{A}(f,\varepsilon) = A_{n^*}(f)$ for some $n^*$ depending on the input data and the definition of $\calC$.  The number of series coefficients sampled, $n^*$, is adaptively determined so that $\widetilde{A}(f,\varepsilon)$ satisfies the error condition in \eqref{adapErrCrit}.  The computational cost of $\widetilde{A}$ is given in  Theorem \ref{thm:compcost}.  Section \ref{sec:opt} shows that our new algorithm is essentially optimal (see Theorem \ref{thm:CostNoWorse}).  Section \ref{sec:examp} provides an example of our algorithm.  We end with concluding remarks in Section \ref{sec:conc}. 
 
 
 
@@ -327,11 +336,11 @@ where $\bsn  = \{n_0, n_1, \ldots\}$ is a strictly increasing, unbounded sequenc
 \nonumber
 & = \left\{ f \in \calF : \sigma_j(f) \le \min_{1 \le r < j}\{ab^r\sigma_{j-r}(f)\} \ \ \forall j \in \bbN \right\}.
 \end{align}
-Here, $a$ and $b$ are positive numbers that define the inclusivity of the cone $\calC$ and 
+Here, $a$ and $b$ are positive numbers that define the inclusivity of the cone $\calC$ and satisfy
 \begin{equation} \label{abcond}
 b <1 < a.
 \end{equation}
-The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in \calC$. We do not expect the series coefficients of the solution $S(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.
+The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in \calC$. Because $ab^r$ may be greater than one, we do not require the series coefficients of the solution, $S(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.
 
 From the expression for the error in \eqref{errOpt} and the definition of the cone in  \eqref{decayconedef}, one can now derive a data-driven error bound for $j \in \bbN$:
 \begin{align}
