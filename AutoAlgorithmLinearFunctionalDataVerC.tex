@@ -242,9 +242,9 @@ Our condition for essentially no worse cost in \eqref{essNoWorseDef} is not the 
 If the $\textup{cost}(A^*,\calH^*,\varepsilon,\rho)$ is proportional to $\max(1,\varepsilon^{-p})$, then conditions \eqref{essNoWorseDef} and \eqref{NOTessNoWorseDef} are equivalent.  If $\textup{cost}(A^*,\calH^*,\varepsilon,\rho)$ is proportional to $[1+\log(\max(1,\varepsilon)]^{-p}$, then \eqref{essNoWorseDef} is stricter than \eqref{NOTessNoWorseDef}.
 
 To illustrate the comparison of costs, consider a non-increasing sequence of positive numbers, $ \{\lambda^*_1, \lambda^*_2, \ldots \}$, which converges to $0$, where $\lambda^*_i \ge \lambda_i$ for all $i \in \bbN$.  Also consider an unbounded strictly increasing sequence of non-negative integers $\bsn = \{n_0, n_1, \ldots \}$.  Define an algorithm $A^*$ analogously to $\widehat{A}$ defined in \eqref{optBallalg}:
-\begin{equation} \label{altBallalg}
+\begin{equation*} \label{altBallalg}
 A^*(f,\varepsilon) = A_{n_{j^\dagger}}(f), \quad \text{where } j^\dagger = \min\{ j : \lambda^*_{n_j+1} \le \varepsilon/\rho \}, \qquad A^* \in \calA(\calB_{\rho}).
-\end{equation}
+\end{equation*}
 By definition, the cost of algorithm $A^*$ is no better than that of  $\widehat{A}$.  Algorithm $A^*$ may or may not have essentially worse cost than $\widehat{A}$ depending on the choice of $\bslambda^*$ and $\bsn$.  The table below shows some examples.  Each different case of $A^*$ is labeled as having a cost that is either essentially no worse or essentially worse than that of $\widehat{A}$.
 %\[
 \everymath{\displaystyle}
@@ -337,9 +337,9 @@ where $\bsn  = \{n_0, n_1, \ldots\}$ is a strictly increasing, unbounded sequenc
 & = \left\{ f \in \calF : \sigma_j(f) \le \min_{1 \le r < j}\{ab^r\sigma_{j-r}(f)\} \ \ \forall j \in \bbN \right\}.
 \end{align}
 Here, $a$ and $b$ are positive numbers that define the inclusivity of the cone $\calC$ and satisfy
-\begin{equation} \label{abcond}
+\begin{equation*} \label{abcond}
 b <1 < a.
-\end{equation}
+\end{equation*}
 The constant $a$ is an inflation factor, and the constant $b$ defines the general rate of decay of the $\sigma_j(f)$ for $f \in \calC$. Because $ab^r$ may be greater than one, we do not require the series coefficients of the solution, $S(f)$, to decay monotonically. However, we expect their partial sums to decay steadily.
 
 From the expression for the error in \eqref{errOpt} and the definition of the cone in  \eqref{decayconedef}, one can now derive a data-driven error bound for $j \in \bbN$:
@@ -355,9 +355,9 @@ From the expression for the error in \eqref{errOpt} and the definition of the co
 This upper bound depends only on the function data and the parameters defining $\calC$.  The error vanishes as $j \to \infty$ because $\sigma_j(f) \le ab^{j-1} \sigma_1(f) \to 0$ as $j \to \infty$.  Moreover, the error of $A_{n_j}(f)$ is asymptotically no worse than $\sigma_j(f)$, whose rate of decay need not be postulated in advance. Our adaptive algorithm in Section \ref{sec:adaptalgo} increases $j$ until the right hand side is smaller than the error tolerance.
 
 Consider the choice 
-\begin{equation} \label{geonj}
+\begin{equation*} \label{geonj}
 n_j = 2^{j}n_0,
-\end{equation}
+\end{equation*}
 where the number of terms in the sums, $\sigma_j(f)$, are doubled at each step.  If the series coefficients of the solution decay like $\lambda_{i} \DHJRabs{f_{i}} = \calO(i^{-p})$ for some $p>1$, then it is reasonable to expect that the $\sigma_j(f)$ are bounded above and below as
 \begin{equation} \label{algDecJ}
 C_{\textup{lo}} (n_02^j)^{1-p} \le \sigma_j(f) \le C_{\textup{up}} (n_02^j)^{1-p}, \quad   j \in \bbN,
@@ -379,9 +379,9 @@ Given $a$, $b$, the sequence $\bsn$, the cone $\calC$, the input function $f \in
 \begin{description}
 \item[Step 1.] Compute $\sigma_{j}(f)$ as defined in \eqref{sumdef}.
 \item[Step 2.] Check whether $j$ is large enough to satisfy the error tolerance, i.e.,
-    \begin{equation}\label{covcrit}
+    \begin{equation*}\label{covcrit}
           \sigma_{j}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab} .
-    \end{equation}
+    \end{equation*}
     If this is true, then return $\widetilde{A}(f,\varepsilon) = A_{n_{j}}(f)$, where $A_n$ is defined in \eqref{optAdef}, and terminate the algorithm.
 \item[Step 3.] Otherwise, increase $j$ by $1$ and return to Step $1$.
 \end{description}
@@ -447,9 +447,9 @@ We note in passing that for our adaptive algorithm
 \end{equation*}
 This result may be obtained by considering functions where only $\widehat{f}_1$ is nonzero.  For $n_0 > 0$, $\sigma_1(f) = 0$, and for $n_0 = 0$, $\sigma_2(f) = 0$.
 
-The upper bound on $\textup{cost}(\widetilde{A},\calC,\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $\{(\lambda_{n_j})_{j=0}^\infty\}$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $\{(\lambda_i)_{i=1}^\infty\}$. Consider the  term enclosed in square brackets on the the right hand side of the inequality in \eqref{jdagger}: \begin{equation} \label{keysum}
+The upper bound on $\textup{cost}(\widetilde{A},\calC,\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $\{(\lambda_{n_j})_{j=0}^\infty\}$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $\{(\lambda_i)_{i=1}^\infty\}$. Consider the  term enclosed in square brackets on the the right hand side of the inequality in \eqref{jdagger}: \begin{equation*} \label{keysum}
 \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}.
-\end{equation}
+\end{equation*}
 One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}$.
 
 \begin{corollary} For the algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2}, then $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
@@ -471,9 +471,9 @@ j^\dagger \le
 
 \begin{proof}
 Ignoring all but the first term in the sum in \eqref{keysum} implies that 
-\begin{equation} \label{jsumupperbd}
+\begin{equation*} \label{jsumupperbd}
 j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \frac{b^{2(1-j)}}{a^2\lambda_{n_{0}+1}^2}    \right\}.
-\end{equation}
+\end{equation*}
 This implies \eqref{jdaggerfirst}.
 
 Ignoring all but the term outside the sum leads to the simpler upper bound in \eqref{jdaggerlast}.  If the $\lambda_{n_{j-1}+1}$ decay as assumed in \eqref{lambdankbd} then
@@ -528,17 +528,15 @@ The following theorem establishes a lower bound on the complexity of our problem
 
 \begin{theorem} \label{thm:lowbdcomp}
 Under assumption  \eqref{lambdaRatio}, a lower bound on the complexity of the linear problem defined in \eqref{probDef} is
-\begin{subequations} \label{compbd}
-\begin{align}
- \label{compbdA}
+\begin{align*}
+ %\label{compbdA}
 &\textup{comp}(\calA(\calC),\varepsilon,\rho) \ge n_{j^*}, 
 \intertext{where}
-\label{compbdB}
+%\label{compbdB}
 j^* & = \max \left \{ j \in \bbN : \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}   <
 \frac{\rho^2}{\varepsilon^2}
 \right \}.
-\end{align}
-\end{subequations}
+\end{align*}
 \end{theorem}
 
 \begin{proof}
@@ -554,12 +552,12 @@ The first test function $f \in \calC$ is defined in terms of its series coeffici
 0, & \text{otherwise},
 \end{cases}
 \\
-\label{cdef}
+\nonumber
 c^2 &:=  \rho^2 \left[ \left(1+\frac{(a-1)^2}{(a+1)^{2} R^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1}.
 \end{align}
 It can be verified that the test function lies both in $\calB_{\rho}$ and in $\calC$:
 \begin{align}
-\label{testfunnorm}
+\nonumber
 \DHJRnorm[\calF]{f}^2 &=  c^2\sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \le \rho^2,
 \\
 \nonumber
@@ -596,14 +594,16 @@ Since $u$ is a linear combination of $n_j >n+1$ basis functions, these constrain
 
 Let the other two test functions be constructed in terms of $u$ as 
 \begin{align}
-\label{etadef}
+\nonumber
 f_\pm & := f \pm \eta u, \qquad \eta : =  \frac {(a-1)c}{(a+1)R}, \\
 \nonumber
 \DHJRnorm[\calF]{f_\pm}^2 & \le \DHJRnorm[\calF]{f}^2 + \DHJRnorm[\calF]{\eta u }^2 \qquad \text{by \eqref{uConstraint}} \\
-& \le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \DHJRbignorm[\calF]{u^{(k)}}^2\right) + \eta^2 \DHJRbignorm[\calF]{u^{(0)}}^2 \frac{b^{-2j}}{\lambda_{n_0}^2}\\
+& \nonumber 
+\le \sum_{k=1}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}} \left(c^2+ \eta^2 \DHJRbignorm[\calF]{u^{(k)}}^2\right) + \eta^2 \DHJRbignorm[\calF]{u^{(0)}}^2 \frac{b^{-2j}}{\lambda_{n_0}^2}\\
 \nonumber
 & \le  \left(c^2+ \eta^2 \right) \sum_{k=0}^j \frac{ b^{2(k-j)}}{\lambda^2_{n_{k}}}  \qquad \text{by \eqref{uConstraint}}\\
-&  \le \rho^2,
+& \nonumber 
+\le \rho^2,
 \end{align} 
 so $f_{\pm} \in \calB_{\rho}$.  By design, $A^*(f_\pm,\varepsilon) = A^*(f,\varepsilon)$, which will be used below.
 
