@@ -207,12 +207,9 @@ Hence, algorithm $\widehat{A}$ defined in \eqref{optBallalg} is optimal for $\ca
 	\widehat{u}_{(i-1)/2}, & i \text{ odd},
 	\end{cases}
 	\\
-	\DHJRnorm[\calF]{f}^2 & = \left( \int_0^1 f(x) \, \D x \right)^2 + \frac{\DHJRnormnorm[2]{f^{(r)}}^2}{(2 \pi)^{2r}} 
-	&\widehat{f}_i& = \begin{cases} \widehat{f}(-i/2), & i \text{ even},\\
+	&&\widehat{f}_i& = \begin{cases} \widehat{f}(-i/2), & i \text{ even},\\
 	\widehat{f}((i-1)/2), & i \text{ odd},
 	\end{cases}
-	\\
-		\DHJRnorm[\calG]{g}& = \DHJRnorm[2]{g} 
 	\end{align*}
 	\begin{align*}
 	\textup{comp}(\calA(\calB_{\rho}),\varepsilon) &= \textup{cost}(\widehat{A},\calB_{\rho},\varepsilon) 
@@ -221,7 +218,7 @@ Hence, algorithm $\widehat{A}$ defined in \eqref{optBallalg} is optimal for $\ca
 	= 2 \left \lceil \left(\frac{\rho}{\varepsilon} \right)^{1/r} \right \rceil - 1.
 	% & \lambda_{n+1} = \frac{1}{\lceil (n+1)/2 \rceil^r}.
 	\end{align*}
-	Here, $r$ is a positive integer, and $\calF$ consists of functions that have absolutely continuous, periodic $r-1$ derivatives.  A larger $r$ implies a stronger $\calF$-norm, a more exclusive $\calB_\rho$, and a smaller  $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$.
+	Here, $\calG=L^2[0,1]$.  The larger the non-negative parameter $r$ is, the faster the $\lambda_i$ tend to 0 as $ i \to 0$, the more exclusive $\calB_\rho$ is, and the smaller  $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$ is.  For $r = 0$, $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon) = \infty$.
 \end{example}
 
 
