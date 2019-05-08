@@ -14,7 +14,14 @@
 
 \subsection*{Report beginning ``The submitted paper \ldots''}
 
+Regarding the comment about why a cone is preferred above a ball \ldots
+
 \begin{enumerate}
+    \item[1.] The first sentence is Subsection 1.1 has been rephrased.
+    \item[2.] The sufficient and necessary conditions of the existence of singular value decomposition has been added  to  the last paragraph of Subsection 1.1
+    \item[3.] \textit{linear functionals are used} changed to 
+    \textit{linear functionals that are used}
+    \item[4.] Inserted \textit{the} before the algorithm
     \item[5.] The norm for $\calF$ has been identified.
 \end{enumerate}
 
@@ -22,14 +29,66 @@
 \subsection*{Report beginning ``This paper proposes \ldots''}
 
 \begin{enumerate}[labelwidth = 10ex]
-    \item[$6^{\text{th}}$ \bullet] The norm does depend on the $\lambda_i$ because the $u_i$ depend on the $\lambda_i$.  This is clearer not that the norm for $\calF$ has been identified.
+    \item[$1^{\text{st}}$ \bullet] Replaced
+    $\sum\limits_{i =1 }^n$ by $\sum\limits_{i \in \mathbb{N} }$
+    \item[$2^{\text{nd}}$ \bullet] Added one paragraph to end of \S 1.1 to foreshadow Example 1 and the numerical example.
+    \item[$3^{\text{rd}}$ \bullet] Inserted "that"
+    \item[$4^{\text{th}}$ \bullet] Replaced $A(0,\varepsilon)$ 
+    with $A(f,\varepsilon)$
+    \item[$5^{\text{th}}$ \bullet] Matched the notation for the sample size to the notation for the corresponding algorithm before Section 3,  for example,
+    $\widehat{A} \leftrightarrow \widehat{n}, \widetilde{A} \leftrightarrow \widetilde{n},
+    A^* \leftrightarrow n^*$. As after section 3, we used a sequence $\bsn = \{n_0, n_1, \ldots \}.$ 
+     \item[$6^{\text{th}}$ \bullet] The norm \emph{does} depend on the $\lambda_i$ because the $u_i$ depend on the $\lambda_i$.  This is clearer now that the norm for $\calF$ has been identified.
+    \item[$7^{\text{th}}$ \bullet] Added $\exists \omega >0:$ to the definition
+    \item[$8^{\text{th}}$ \bullet] Added for some $p>0$
+    \item[$9^{\text{th}}$ \bullet] Changed ``no better than'' to ``no smaller than''
+    \item[$10^{\text{th}}$ \bullet] Thanks for the correction. Changed to $1/2 -p$.
+     \item[$11^{\text{th}}$ \bullet] Changed ``then'' to ``we have''
+      \item[$12^{\text{th}}$ \bullet] Corrected the reference of the formula
+      \item[$13^{\text{th}}$ \bullet]
+       \begin{itemize}
+       \item[$-$] Changed the inequality to 
+      $n + 1\le \textup{comp}(\calA(\calC),\varepsilon,\rho) +1 \le n_j$ to make the proof consistent.
+      \item[$-$] As $n$ is the sample size for a particular function of the optimal algorithm, it is possible 
+      $n < \textup{cost}(A^*,\calC,\varepsilon,\rho) =  \textup{comp}(\calA(\calC),\varepsilon,\rho).$ 
+           \item[$-$] Removed ``by (21)''
+           \item[$-$] Added some derivation to illustrate it.
+            \item[$-$] Changed to round brackets
+            \item[$-$] Thanks for the suggestion. Changed to it. The last equality holds
+            because the sum in the $\min$ ends at $j+1$ term and the sum in the $\max$ ends at $j$ term.
+            \[\min \left \{j \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} \le \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} 
+= \max \left \{j \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\}\]
+       \end{itemize}
 \end{enumerate}
 
 
-\subsection*{Report beginning ``This article studies \ldots''}
+\subsection*{Report beginning  \item[$9^{\text{th}}$ \bullet]This article studies \ldots''}
+
+Regarding the conditions (6) and (7), we have added some examples and explanation after we introduced these two conditions.
 
 \begin{enumerate}
-    \item[??] 
+    \item[1] Changed to ``Hence, the algorithm''
+    \item[2] Changed to ``and the algorithm''
+    \item[3] Changed to ``If for some $p > 0$ ''
+    \item[4] Thanks for the comment. Used a different function.
+    \item[5] Thanks for the comment. Added the examples.
+    \item[6] Have added the period at the end of the formula.
+    \item[7] Thanks for the comment. We added a clarification at the end of Section 2.
+    \item[8] Changed to $\lambda_i |\widehat{f}_i|$
+    \item[9] Changed the assumption to 
+    $\lambda_i |\widehat{f}_i| =\Theta(i^{-p})$
+    \item[10] Removed $\forall j  \ge 1$
+    \item[11] Changed $\div$ to $/$
+    \item[12] There is no $+1$ because there is no $b$ in the term
+    $ \log\left(\frac{\rho a^2\lambda_{n_{0}+1} }{\varepsilon \sqrt{1 - b^2}}\right)$.
+    It's been cancelled out as
+    \[\frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \frac{b^{2(1-j)}}{a^2\lambda_{n_{0}+1}^2} =  \frac{(1 - b^2)}{a^2} \frac{b^{-2j}}{a^2\lambda_{n_{0}+1}^2}\]
+    \item[13] Corrected the reference of the formula
+    \item[14] Erased $\le n_{j^\dagger}+1$ and changed the last inequality to
+    \[
+    \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) = \widetilde{n}_{j^\dagger} \le  \widehat{n} = \textup{cost}(\widehat{A},\calB_{\rho},\varepsilon c_{\lambda}^2\sqrt{1 - b^2}/ab).
+    \]
+    \item[15] Changed $j^*$ to $j^{\ddagger}$
 \end{enumerate}
 
 
