@@ -121,7 +121,7 @@ S(u_i) = \lambda_i v_i, \quad i \in \bbN, \qquad S(f) = \sum_{i\in \bbN} \lambda
 \DHJRnorm[\calF \to \calG]{S} := \sup_{f \ne 0} \frac{\DHJRnorm[\calG]{S(f)}}{\DHJRnorm[\calF]{f}} = \lambda_1.
 \end{gather}
 \end{subequations}
-This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution requires an infinite number of series coefficients, $\widehat{f}_i$, in general.
+This setting includes, for example, the recovery of functions, derivatives, indefinite integrals, and solutions of linear (partial) differential equations.  We focus on cases where the exact solution requires an infinite number of series coefficients, $\widehat{f}_i$, in general, i.e., all $\lambda_i$ are positive.
 
 The existence of the $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$ for a given $\calF$, $\calG$, and $S$ follows from the singular value decomposition. The singular value decomposition with singular values tending to zero (but never equal to zero) exists if (and only if ) the solution operator is compact and not finite rank. The ease of identifying explicit expressions for these quantities depends on the particular problem of interest.  Alternatively, one may start with a choice of $( u_i )_{i \in \bbN}$, $ ( v_i )_{i \in \bbN}$, and $( \lambda_i )_{i \in \bbN}$, which then determine the solution operator, $S$, and the spaces $\calF$ and $\calG$. 
 
@@ -137,7 +137,7 @@ Example \ref{exam:exam1} in Section \ref{subsec:costandcomplex} illustrates this
 Algorithms in $\calA(\calH)$ are allowed to sample adaptively any bounded, linear functionals
 of the input function.  They must sample only a finite number of linear functionals for each input function and positive error tolerance.  The definition of $\calH$ can be used to construct algorithms in $\calA(\calH)$, but no other a priori knowledge about the input functions is available.  Following \cite{KunEtal19a} we call a problem \emph{solvable} for inputs $\calH$ if $\calA(\calH)$ is non-empty.
 
-Our problem is not solvable for the whole Hilbert space, $\calF$, as can be demonstrated by contradiction. For any potential algorithm, we show that there exists some $f \in \calF$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \calA(\calF)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals that are used to compute $A(f,\varepsilon)$. Since the output space, $\calG$, is infinite dimensional and $n$ is finite, there exists some nonzero $f \in \calF$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$, and both of these have approximation error no greater than $\varepsilon$, i.e.,
+Our problem is not solvable for the whole Hilbert space, $\calF$, as can be demonstrated by contradiction. For any potential algorithm, we show that there exists some $f \in \calF$, that looks like $0$ to the algorithm, but for which $S(f)$ is far from $S(0) = 0$.   Choose any $A \in \calA(\calF)$ and $\varepsilon > 0$, and let $L_1, \ldots, L_n$ be the linear functionals that are used to compute $A(0,\varepsilon)$. Since the output space, $\calG$, is infinite dimensional and $n$ is finite, there exists some nonzero $f \in \calF$ satisfying that $L_1(f) = \cdots = L_n(f) = 0$ with non-zero $S(f)$. This means that $A(cf,\varepsilon) = A(0,\varepsilon)$ for any real $c$, and both of these have approximation error no greater than $\varepsilon$, i.e.,
 \begin{align*}
     \varepsilon &\ge \frac 12 \left[ \DHJRnorm[\calG]{S(cf) - A(cf,\varepsilon)} + \DHJRnorm[\calG]{S(-cf) - A(-cf,\varepsilon)}\right] \\
     & =  \frac 12 \left[ \DHJRnorm[\calG]{cS(f) - A(0,\varepsilon)} + \DHJRnorm[\calG]{-cS(f) - A(0,\varepsilon)}\right] \\
@@ -352,9 +352,9 @@ However, we can observe a finite number of partial sums,
 \end{equation}
 where $\bsn  = (n_0, n_1, \ldots)$ is an unbounded, strictly increasing sequence of non-negative integers.  We define the cone of nice input functions to consist of those functions for which the $\sigma_j(f)$ decay at a given rate with respect to one another:
 \begin{align} \label{decayconedef}
-\calC &= \left\{ f \in \calF : \sigma_{j+r}(f) \le ab^r \sigma_j (f) \ \ \forall j,r \in \bbN \right\} \\
+\calC = \calC_{\bsn,a,b} &= \left\{ f \in \calF : \sigma_{j+r}(f) \le ab^r \sigma_j (f) \ \ \forall j,r \in \bbN \right\} \\
 \nonumber
-& = \left\{ f \in \calF : \sigma_j(f) \le \min_{1 \le r < j}ab^r\sigma_{j-r}(f) \ \ \forall j \in \bbN \right\}.
+& = \Bigl\{ f \in \calF : \sigma_j(f) \le \min_{1 \le r < j}ab^r\sigma_{j-r}(f) \ \ \forall j \in \bbN \Bigr\}.
 \end{align}
 Here, $a$ and $b$ are positive numbers that define the inclusivity of the cone $\calC$ and satisfy
 \begin{equation*} \label{abcond}
@@ -388,21 +388,22 @@ Thus, choosing $a \ge C_{\textup{up}}/C_{\textup{lo}}$ and $b \ge 2^{1/2-p}$ ens
 
 Although the definition of the cone in \eqref{decayconedef} constrains the decay rate of $\lambda_{i} \DHJRbigabs{\widehat{f}_{i}}$ it is a rather weak constraint.  Specifying $a$ and $b$ only implies a lower bound---but not an upper bound---on the $p$ for which $\lambda_{i} \DHJRbigabs{\widehat{f}_{i}}$ can be $\Theta(i^{-p})$.
 
+\frednote{We need some horizontal axis labels for figures (d)--(f).} Figure \ref{fig:fourier_example} shows three functions and their coefficients for the case of Example \ref{exam:exam1} when $r=1$ and $n_j=2^j$. There are three functions: $f(x)={\rm e}^{-3x}\sin(3\pi x^2)$, $f_{\text{big}}=100f$ and $f_{\text{fuzzy}}$. The function $f_{\text{fuzzy}}$ is obtained by taking $\sigma_8(f_{\text{fuzzy}})=250\sigma_8(f)$ and $\sigma_j(f_{\text{fuzzy}})=\sigma_j(f)$ for $j \ne 8$.  Both $f$ and $f_{\text{big}}$ lie in the same cones, $\calC_{\bsn,a,b}$, and both appear similarly nice.  Therefore, we expect adaptive algorithms that are successful for $f$ to also be successful for $f_{\text{big}}$. However, $f_{\text{big}}$ does not lie in some of the balls,  $\calB_{\rho}$, that $f$ lies in.  On the other hand, the high frequency noise in $f_{\text{fuzzy}}$ suggests that only more robust and costly adaptive algorithms would be able to succeed for such an input.  This corresponds to the fact that $f_{\text{fuzzy}}$ does not lie in all cones, $\calC_{\bsn,a,b}$, that $f$ lies in.
 
 \begin{figure}[ht]
+\newcommand{\figwidth}{3.5cm}
 	\centering
-	\begin{tabular}{cc}
-		\includegraphics[width=5.5cm]{ProgramsImages/Function.eps} &
-		\includegraphics[width=5.5cm]{ProgramsImages/FunctionWalshFourierCoeffDecay.eps}
-		\\ (a) & (b) \\
-		\includegraphics[width =5.5cm]{ProgramsImages/Scaled.eps} &
-		\includegraphics[width=5.5cm]{ProgramsImages/ScaledWalshFourierCoeffDecay.eps}
-		\\ (c) & (d) \\
-		\includegraphics[width=5.5cm]{ProgramsImages/Filtered.eps} &
-		\includegraphics[width=5.5cm]{ProgramsImages/FilteredWalshFourierCoeffDecay.eps}
-		\\ (e) & (f)
+	\begin{tabular}{c@{\quad}c@{\quad}c}
+		\includegraphics[width=\figwidth]{ProgramsImages/Function.eps} &
+		\includegraphics[width=\figwidth]{ProgramsImages/Scaled.eps} &
+		\includegraphics[width=\figwidth]{ProgramsImages/Filtered.eps}
+		\\ (a) & (b) & (c) \\
+		\includegraphics[width=\figwidth]{ProgramsImages/FunctionWalshFourierCoeffDecay.eps} &
+		\includegraphics[width=\figwidth]{ProgramsImages/ScaledWalshFourierCoeffDecay.eps} &
+		\includegraphics[width=\figwidth]{ProgramsImages/FilteredWalshFourierCoeffDecay.eps}
+		\\ (d) & (e) & (f)
 	\end{tabular}
-	\caption{(a) The function $f(x)={\rm e}^{-3x}\sin(3\pi x^2)$; (b) The first Fourier coefficients of $f$; (c) The function $f_{\text{big}}=100f$; (d) The first Fourier coefficients of $f_{\text{big}}$; (e) The function $f_{\text{fuzzy}}$ resulting from modifying some of $f$ coefficients; (f) The first Fourier coefficients of $f_{\text{fuzzy}}$. \label{fig:fourier_example}}
+	\caption{(a) The function $f(x)={\rm e}^{-3x}\sin(3\pi x^2)$; (b) The function $f_{\text{big}}=100f$; (c) The function $f_{\text{fuzzy}}$ which results from modifying some of $f$ coefficients, in dark green; (d) The first Fourier coefficients of $f$; (e) The first Fourier coefficients of $f_{\text{big}}$; (f) The first Fourier coefficients of $f_{\text{fuzzy}}$. \label{fig:fourier_example}}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -422,17 +423,23 @@ Given $a$, $b$, the sequence $\bsn$, the cone $\calC$, the input function $f \in
 \item[Step 3.] Otherwise, increase $j$ by $1$ and return to Step $1$.
 \end{description}
 \end{algo}
-
+\yuhannote{Please check the result of Theorem 1} \frednote{Yuhan, please put $\rho$ and $\varepsilon$ on left.}\yuhannote{Done. Please double check}
 \begin{theorem}\label{thm:compcost}
 The algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2} lies in $\calA(\calC)$ and has computational cost $\textup{cost}(\widetilde{A},f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly by the inequalities 
 \begin{equation} \label{eq:OurAlgjstar}
 j^* = \min\left \{ j \in \bbN : \sigma_{j}(f) \le \frac{\varepsilon\sqrt{1 - b^2}}{ab}  \right\}.
 \end{equation}
-Moreover, $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
+Moreover, $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \frednote{=} n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdagger}
-j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}.
+j^\dagger \le \min \left \{j \in \bbN : F(j) \ge \frac{\rho^2 a^4}{\varepsilon^2(1 - b^2)} \right\},
 \end{equation}
-
+% \begin{equation} \label{jdagger}
+% j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^4} F(j) \right\},
+% \end{equation}
+where $F$ is the strictly increasing function defined as
+\begin{equation} \label{jsum}
+F(j): = \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}, \qquad j \in \N.
+\end{equation}
 \end{theorem}
 
 \begin{proof}
@@ -449,28 +456,33 @@ For the remainder of the proof consider $\rho$ and $\varepsilon$ to be fixed.  T
 A rough upper bound on $j^\dagger$ may be obtained by noting that for any $f \in \calC \cap \calB_\rho$ and for any $j < j^* \le j^\dagger$, it follows from \eqref{eq:OurAlgjstar} and \eqref{normsigineq} that 
 \begin{equation*}
 \rho \ge \DHJRnorm[\calF]{f} \ge \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=n_{j-1}+1}^{n_j}} \ge \frac{\sigma_j(f)}{\lambda_{n_{j-1}+1}} > \frac{\varepsilon\sqrt{1 - b^2}}{ab \lambda_{n_{j-1}+1}}
+\ge \frac{\varepsilon\sqrt{1 - b^2}}{ab \lambda_{n_{j-1}}}
 \end{equation*}
 Thus, one upper bound on $j^\dagger$ is the smallest $j$ violating the above inequality:
 \begin{equation} \label{jdaggerlast}
-j^\dagger \le \min \left \{j \in \bbN :  \lambda_{n_{j-1}+1} \le \frac{\varepsilon\sqrt{1 - b^2}}{ab \rho} \right\}.
+j^\dagger \le \min \left \{j \in \bbN :  \lambda_{n_{j-1}} \le \frac{\varepsilon\sqrt{1 - b^2}}{\rho ab } \right\}.
 \end{equation}
 
 The tighter upper bound in Theorem \ref{thm:compcost} may be obtained by a more careful argument in a similar vein.  
 For any $f \in  \calC \cap \calB_\rho$ satisfying $n_{j^*} = \textup{cost}(\widetilde{A},f,\varepsilon) = \textup{cost}(\widetilde{A}, \calC, \varepsilon, \rho) = n_{j^{\dagger}}$ and for any $j < j^* = j^\dagger$,
+\yuhannote{new proof starts here}\frednote{Looks good to me}
 \begin{align*}
-\rho^2 &\ge \DHJRnorm[\calF]{f}^2 = \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=1}^{\infty}}^2 \\
-& \ge \sum_{k=1}^j \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=n_{k-1}+1}^{n_k}}^2 \\
+\rho^2 &\ge \DHJRnorm[\calF]{f}^2 = \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=1}^{\infty}}^2  \ge \sum_{k=1}^j \DHJRbignorm[2]{\big( \widehat{f}_i \big)_{i=n_{k-1}+1}^{n_k}}^2 \\
 & \ge \sum_{k=1}^j \frac{\sigma_k^2(f)}{\lambda_{n_{k-1}+1}^2} \qquad \text{by \eqref{normsigineq}}\\
 & \ge \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}\sigma_j^2(f)}{a^{2}\lambda_{n_{k-1}+1}^2} + \frac{\sigma_j^2(f)}{\lambda_{n_{j-1}+1}^2} \qquad \text{by \eqref{decayconedef}} \\
-& = \sigma_j^2(f) \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^{2} \lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right].
+& = \sigma_j^2(f) \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^{2} \lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]\\
+&> \frac{ \sigma_j^2(f)}{a^2} \sum_{k=1}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k-1}+1}^2}  \qquad \text{since } a > 1\\
+&= \frac{ \sigma_j^2(f)}{a^2}\sum_{k=0}^{j-1} \frac{b^{2(k+1-j)}}{\lambda_{n_{k}+1}^2}  \\
+& \ge  \frac{b^2 \sigma_j^2(f)}{a^2} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}  \qquad \text{since } \lambda_{n_k} \ge \lambda_{n_k+1}\\
+& = \frac{b^2 \sigma_j^2(f)}{a^2} F(j)
+\qquad \text{by } \eqref{jsum}.
 \end{align*}
-Note that the quantity in the square brackets is an increasing function of $j$ because as $j$ increases, the sum includes more terms and $b^{2(k-j)}$ also increases.
 
 So, for any $j < j^* = j^\dagger$ it follows from the termination criterion in \eqref{eq:OurAlgjstar} that
 \begin{equation*}
-\rho^2 > \frac{\varepsilon^2(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{ b^{2(k-j)}}{a^{2}\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right].
+ F(j) < \frac{ \rho^2 a^4}{\varepsilon^2(1 - b^2)}.
 \end{equation*}
-Thus, any $j$ that violates the above inequality, must satisfy $j \ge j^\dagger$, establishing \eqref{jdagger}.
+Note from \eqref{jsum} that $F$ is an increasing function because as $j$ increases, the sum defining $F$ includes more positive terms and $b^{2(k-j)}$ also increases. Thus, any $j$ that violates the above inequality, must satisfy $j \ge j^\dagger$.  This establishes \eqref{jdagger}.
 \end{proof}
 
 We note in passing that for our adaptive algorithm,
@@ -483,51 +495,56 @@ We note in passing that for our adaptive algorithm,
 \end{equation*}
 This result may be obtained by considering functions where only $\widehat{f}_1$ is nonzero.  For $n_0 > 0$, $\sigma_1(f) = 0$, and for $n_0 = 0$, $\sigma_2(f) = 0$.
 
-The upper bound on $\textup{cost}(\widetilde{A},\calC,\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $(\lambda_{n_j})_{j=0}^\infty$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $(\lambda_i)_{i=1}^\infty$. Consider the  term enclosed in square brackets on the the right hand side of the inequality in \eqref{jdagger}: \begin{equation*} \label{keysum}
-\sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}.
-\end{equation*}
-One can imagine that in some cases the first term in the sum dominates, while in other cases the term outside the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k-1}+1}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}$.
+\yuhannote{Also change the analysis and corollary 1}
+The upper bound on $\textup{cost}(\widetilde{A},\calC,\rho,\varepsilon)$ in Theorem \ref{thm:compcost}  is a non-decreasing function of $\rho/\varepsilon$, which depends on the behavior of the sequence $(\lambda_{n_j})_{j=0}^\infty$.  This in turn depends both on the increasing sequence $\bsn$ and on the non-increasing sequence $(\lambda_i)_{i=1}^\infty$. Considering the sum $F(j)$,
+one can imagine that in some cases the first term in the sum $F(j)$ dominates, while in other cases the last term in the sum dominates, all depending on how $b^{k-j}/\lambda_{n_{k}}$ behaves with $k$ and $j$.  These simplifications lead to two simpler, but coarser upper bounds on the cost of $\widetilde{A}$.
 
 \begin{corollary} For the algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2}, we have $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger}$, where $j^\dagger$ satisfies the following upper bound:
 \begin{equation} \label{jdaggerfirst}
-j^\dagger \le \left \lceil \log\left(\frac{\rho a^2\lambda_{n_{0}+1} }{\varepsilon \sqrt{1 - b^2}}\right) \middle/ \log\left(\frac{1}{b}\right) \right \rceil.
+j^\dagger \le \left \lceil \log\left(\frac{\rho a^2\lambda_{n_{0}} }{\varepsilon \sqrt{1 - b^2}}\right) \middle/ \log\left(\frac{1}{b}\right) \right \rceil.
 \end{equation}
-Moreover, if the $\lambda_{n_{j-1}+1}$ decay as quickly as
+Moreover, if the $\lambda_{n_{j-1}}$ decay as quickly as
 \begin{equation}
 \label{lambdankbd}
-\lambda_{n_{j-1}+1} \le \alpha \beta^j,  \quad j \in \bbN,  \qquad \text{for some } \alpha > 0, \ 0 < \beta < 1.
+\lambda_{n_{j-1}} \le \alpha \beta^j,  \quad j \in \bbN,  \qquad \text{for some } \alpha > 0, \ 0 < \beta < 1.
 \end{equation}
 then $j^\dagger$ also satisfies the following upper bound:
 \begin{equation}
 \label{jdaggerlastsimple}
 j^\dagger \le
-\left \lceil \log\left(\frac{\rho a\alpha b }{\varepsilon \sqrt{1 - b^2}}\right) \middle/ \log\left(\frac{1}{\beta}\right) \right \rceil.
+\left \lceil \log\left(\frac{\rho a^2\alpha b }{\varepsilon \sqrt{1 - b^2}}\right) \middle/ \log\left(\frac{1}{\beta}\right) \right \rceil.
 \end{equation}
 \end{corollary}
 
 \begin{proof}
-Ignoring all but the first term in the sum in \eqref{jdagger} implies that 
+Ignoring all but the first term in the definition of $F$ in \eqref{jsum} implies that 
 \begin{equation*} \label{jsumupperbd}
-j^\dagger \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \frac{b^{2(1-j)}}{a^2\lambda_{n_{0}+1}^2}    \right\}.
+j^\dagger \le \min \left \{j \in \bbN : b^{-2j}  \ge  \frac{\rho^2 a^4 \lambda_{n_{0}}^2 }{\varepsilon^2(1 - b^2)} \right\}.
 \end{equation*}
 This implies \eqref{jdaggerfirst}.
 
-Ignoring all but the term outside the sum leads to the simpler upper bound in \eqref{jdaggerlast}.  If the $\lambda_{n_{j-1}+1}$ decay as assumed in \eqref{lambdankbd} then
+Ignoring all but the last term of the sum \eqref{jsum}. leads to the simpler upper bound similar to  \eqref{jdaggerlast}
+\begin{equation*} 
+j^\dagger \le \min \left \{j \in \bbN :  \lambda_{n_{j-1}}^{-1} \ge \frac{ \rho a^2b}{ \varepsilon\sqrt{1 - b^2}} \right\}.
+\end{equation*}
+If the $\lambda_{n_{j-1}}$ decay as assumed in \eqref{lambdankbd} then
 \[
-j^\dagger \le \min \left \{j \in \bbN :  \alpha \beta^j \le \frac{\varepsilon\sqrt{1 - b^2}}{ab \rho} \right\},
+j^\dagger \le \min \left \{j \in \bbN :  \alpha \beta^{-j} \le \frac{\rho a^2b }{ \varepsilon\sqrt{1 - b^2}} \right\},
 \]
 which implies \eqref{jdaggerlastsimple}.
 \end{proof}
 
-This corollary highlights two limiting factors on the computational cost of our adaptive algorithm, $\widetilde{A}$. When $j$ is large enough to make $\lambda_{n_{j-1}+1}\DHJRnorm[\calF]{f}/\varepsilon$ small enough, $\widetilde{A}(f,\varepsilon)$ stops.  This is statement \eqref{jdaggerlastsimple}, and its precursor, \eqref{jdaggerlast}.  Alternatively, the assumption that the $\sigma_j(f)$ are steadily decreasing, as specified in the definition of $\calC$ in \eqref{decayconedef}, means that $\widetilde{A}(f,\varepsilon)$ also must stop by the time $j$ becomes large enough with respect to $\lambda_{n_0+1}\DHJRnorm[\calF]{f}/\varepsilon$.
+This corollary highlights two limiting factors on the computational cost of our adaptive algorithm, $\widetilde{A}$. When $j$ is large enough to make $\lambda_{n_{j-1}}\DHJRnorm[\calF]{f}/\varepsilon$ small enough, $\widetilde{A}(f,\varepsilon)$ stops.  This is statement \eqref{jdaggerlastsimple} 
+and its precursor, \eqref{jdaggerlast}.  Alternatively, the assumption that the $\sigma_j(f)$ are steadily decreasing, as specified in the definition of $\calC$ in \eqref{decayconedef}, means that $\widetilde{A}(f,\varepsilon)$ also must stop by the time $j$ becomes large enough with respect to $\lambda_{n_0}\DHJRnorm[\calF]{f}/\varepsilon$.
 
 Assumption \eqref{lambdankbd} is not very restrictive.  It holds if the $\lambda_i$ decay algebraically and the $n_j$ increase geometrically.  It also holds if the $\lambda_i$ decay geometrically and the $n_j$ increase arithmetically.
 
 The adaptive algorithm $\widetilde{A}$, which does not know an upper bound on $\DHJRnorm[\calF]{f}$ a priori, may cost more than the non-adaptive algorithm $\widehat{A}$, which assumes an upper bound on $\DHJRnorm[\calF]{f}$, but under reasonable assumptions, the extra cost is small.
 
+\yuhannote{corollary 2 is not changed} \frednote{I think we need a small change}
 \begin{corollary} \label{cor:tAsameCosthA} Suppose that the sequence $\bsn$ is chosen to satisfy
 \begin{equation} \label{lambdaDecay}
-\lambda_{n_{j+1}+1} \ge c_\lambda \lambda_{n_j+1}, \qquad j \in \bbN, 
+\lambda_{n_{j+1}} \ge c_\lambda \lambda_{n_j}, \qquad j \in \bbN, 
 \end{equation}
 for some positive $c_\lambda$.  Then $\textup{cost}(\widetilde{A},\calC, \varepsilon,\rho)$ is essentially no worse than \linebreak[4]
 $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$ in the sense of \eqref{essNoWorseDef}. 
@@ -536,13 +553,14 @@ $\textup{cost}(\widehat{A},\calB_{\rho},\varepsilon)$ in the sense of \eqref{ess
 \begin{proof}
 Combining the upper bound on $n_{j^\dagger} = \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho)$ in \eqref{jdaggerlast} plus  \eqref{lambdaDecay} above, it follows that
 \begin{equation*}
-\lambda_{n_{j^\dagger}+1} \ge c_{\lambda}^2 \lambda_{n_{j^\dagger-2}+1} > \frac{\varepsilon c_{\lambda}^2\sqrt{1 - b^2}}{ab \rho} \ge \lambda_{\widehat{n}+1},
+\lambda_{n_{j^\dagger{{\color{red}+1}}}} \ge c_{\lambda}^{{\color{red}{3}}} \lambda_{n_{j^\dagger-2}} > \frac{\varepsilon c_{\lambda}^{{\color{red}{3}}}\sqrt{1 - b^2}}{\rho ab } = \frac{\omega \varepsilon}{\rho} \ge \lambda_{\widehat{n}+1},
+\qquad \omega := \frac{ c_{\lambda}^{{\color{red}{3}}}\sqrt{1 - b^2}}{ab }
 \end{equation*}
 where $\widehat{n}
-= \textup{cost}(\widehat{A},\calB_{\rho},\varepsilon c_{\lambda}^2\sqrt{1 - b^2}/ab)$.
-Since the $\lambda_i$ are non-increasing,
+= \textup{cost}(\widehat{A},\calB_{\rho},\omega\varepsilon )$.
+Since the $\lambda_i$ are non-increasing, {\color{red} $n_{j^\dagger+1} \le \widehat{n}+1$, and so $n_{j^\dagger} \le \widehat{n}$.  Thus, }
 \begin{equation*}
-\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) = n_{j^\dagger} \le \widehat{n} = \textup{cost}(\widehat{A},\calB_{\rho},\varepsilon c_{\lambda}^2\sqrt{1 - b^2}/ab).
+\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) = n_{j^\dagger} \le \widehat{n} = \textup{cost}(\widehat{A},\calB_{\rho}, \omega \varepsilon).
 \end{equation*}
 \end{proof}
 
@@ -556,11 +574,11 @@ A lower bound on $\textup{comp}(\calA(\calC),\varepsilon,\rho)$ is established b
 \begin{equation} \label{lambdaRatio}
 R = \sup_{j \in \bbN} \frac{\lambda_{n_{j-1}}}{\lambda_{n_j}} < \infty.
 \end{equation}
-Hence, the $n_j$ are not too far apart with respect to the decay of the $\lambda_i$ as $i \to \infty$.
+\frednote{That is, the subsequence $\lambda_{n_1}, \lambda_{n_2}, \ldots$ cannot decay too quickly.}
 
 The following theorem establishes a lower bound on the complexity of our problem for input functions in $\calC$.  The theorem after that shows that the cost of our algorithm as given in Theorem \ref{thm:compcost} is essentially no worse than this lower bound.
 
-\frednote{Need to check this proof again}
+\yuhannote{Please check the definition of $j^\ddagger$}
 \begin{theorem} \label{thm:lowbdcomp}
 Under assumption  \eqref{lambdaRatio}, a lower bound on the complexity of the linear problem defined in \eqref{probDef} is
 \begin{align*}
@@ -568,10 +586,11 @@ Under assumption  \eqref{lambdaRatio}, a lower bound on the complexity of the li
 &\textup{comp}(\calA(\calC),\varepsilon,\rho) \ge n_{j^{\ddagger}} - 1, 
 \intertext{where}
 %\label{compbdB}
-j^{\ddagger} & = \max \left \{ j \in \bbN : \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}   <
-\frac{\rho^2}{\varepsilon^2}
-\right \}.
+j^{\ddagger} & = \min \left \{ j \in \bbN : F(j+2) \ge \frac{\rho^2}{\varepsilon^2 b^2}
+\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}
+\right \},
 \end{align*}
+where $F(j)$ defined in \eqref{jsum}.
 \end{theorem}
 
 \begin{proof}
@@ -629,7 +648,7 @@ Since $u$ is a linear combination of $n_j  \ge n+2$ basis functions, these $n+2$
 
 Let the other two test functions be constructed in terms of $u$ as 
 \begin{align}
-\nonumber
+\label{DHJRetaDef}
 f_\pm & := f \pm \eta u, \qquad \eta : =  \frac {(a-1)c}{(a+1)R}, \\
 \nonumber
 \DHJRnorm[\calF]{f_\pm}^2 & \le \DHJRnorm[\calF]{f}^2 + \DHJRnorm[\calF]{\eta u }^2  \\
@@ -674,104 +693,81 @@ Although two test functions $f_\pm$ yield the same approximate solution, they ha
 &\ge \frac 12 \DHJRnorm[\calG]{S(f_+ - f_-)} \quad \text{since $S$ is linear}\\
 &= \eta \DHJRnorm[\calG]{S(u)}.
 \end{align*}
-Thus, we have
+Thus, we have \yuhannote{Please check the proof below}
 \begin{align*}
 \varepsilon^2  & \ge \eta^2 \DHJRnorm[\calG]{S(u)}^2= 
 \eta^2 \sum_{k=0}^{j} \DHJRbignorm[\calG]{S(u^{(k)})}^2  \frac{b^{2(k-j)}}{\lambda_{n_k}^2}\\
 & \ge \eta^2 
 \sum_{k=0}^{j} \DHJRbignorm[\calF]{u^{(k)}}^2 
-b^{2(k-j)}\\
+b^{2(k-j)} 
+\qquad {\color{red} \text{since } \DHJRbignorm[\calG]{S(u^{(k)})} \ge \lambda_{n_k} \DHJRbignorm[\calF]{u^{(k)}} }\\
 & \ge  \eta^2 b^{2(k^{*}-j)} \qquad \text{ where } k^* = \argmax_{0 \le k \le j} \DHJRbignorm[\calF]{u^{(k)}} \\
-& \ge \eta^2 = \frac{(a-1)^2c^2}{(a+1)^2R^2} \\
+& \ge \eta^2 = \frac{(a-1)^2c^2}{(a+1)^2R^2} 
+\qquad {\color{red} \text{since } b < 1}\\
 &
-=\frac{(a-1)^2 \rho^2}{(a+1)^2R^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} R^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
-& =  \rho^2 \left[\left(\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
+=\frac{(a-1)^2 \rho^2}{(a+1)^2R^2}\left[\left(1+\frac{(a-1)^2}{(a+1)^{2} R^2 }\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} 
+\qquad {\color{red} \text{by \eqref{DHJRetaDef}}}\\
+& =  \rho^2 \left[\left(\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right)\sum_{k=0}^j \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}\right]^{-1} \\
+& = \rho^2 \left[\left(\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right) b^2F(j+1)\right]^{-1} 
+\qquad {\color{red} \text{by \eqref{jsum}}}.
 \end{align*}
+\frednote{This inequality is equivalent to 
+\begin{equation}
+    F(j+1) \ge  \frac{\rho^2}{\varepsilon^2 b^2}
+\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}
+\end{equation}
+}
 
 This lower bound must be satisfied by $j$ to be consistent with the assumption $\textup{comp}(\calA(\calC),\varepsilon,\rho) \le n_j - 2$.  Thus, for any $j$ violating this inequality it follows that $\textup{comp}(\calA(\calC),\varepsilon,\rho) \ge n_j - 1$.  This implication provides a lower bound on $\textup{comp}(\calA(\calC),\varepsilon,\rho)$.
 \end{proof}
 
 The next step is to show that the cost of our algorithm is essentially no worse than that of the optimal algorithm.
-\frednote{Now this proof needs fixing.}
+\yuhannote{The proof of theorem 3 needs to be checked.}
 \begin{theorem}
 \label{thm:CostNoWorse}
 Under assumption \eqref{lambdaRatio} $\textup{cost}(\widetilde{A},\calC, \varepsilon,\rho)$ is essentially no worse than $\textup{comp}(\calA(\calC),\varepsilon,\rho)$. 
 \end{theorem}
-\begin{proof}
-Let  
-\begin{equation} \label{omegadef}
-    \omega = \sqrt{\frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}},
-\end{equation}
-and note that it does not depend on $\rho$ or $\varepsilon$ but only on the definition of $\calC$. 
-For any positive $\rho$ and $\varepsilon$, Theorem \ref{thm:compcost} says that $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger(\varepsilon,\rho)}$, where 
-\[
-j^\dagger(\varepsilon,\rho) \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}, \]
-and we are showing the explicit dependence of $j^\dagger$ on $\varepsilon$ and $\rho$.  As we have
-\begin{align*} 
- & \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \\
-&\ge  \frac{(1 - b^2)}{a^4b^2} \sum_{k=1}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k-1}+1}^2}  \qquad \text{since } a > 1\\
-&\ge  \frac{(1 - b^2)}{a^4} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}+1}^2}  \\
-&\ge  \frac{(1 - b^2)}{a^4} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}  \qquad \text{since } \lambda_{n_k} \ge \lambda_{n_k+1}\\
-&\ge  \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4)} \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}  \qquad \text{by \eqref{lambdaRatio},}
-\end{align*}
-thus 
-\begin{align*} 
-j^\dagger &\le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\} \\
-&\le \min \left \{j \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} \le \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \qquad \text{by \eqref{omegadef} } \\
-&= \max \left \{j \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} =:j^{\ddagger}.
-\end{align*}
-By Theorem \ref{thm:lowbdcomp}, $\textup{comp}(\calA(\calC),\omega\varepsilon,\rho) \ge n_{j^{\ddagger}}$, and by the argument above, $n_{j^{\ddagger}} \ge n_{j^\dagger} \ge \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho)$.  Thus, our algorithm is essentially no more costly than the optimal algorithm.
-\end{proof}
-\tonynote{
-\begin{align*}
-(b^2R^2)^\ell \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} & = (R^2)^\ell\sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k-\ell}}^2} \\
-& \geq (R^2)^{\ell-1}\sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k-\ell+1}}^2} \\
-& \geq \sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \\
-& \geq \frac{b^{2(\ell-1)}}{\lambda_{n_{j+\ell-1}}^2}
-\end{align*}
-}
-
-\yuhannote{Let  
+\begin{proof} Let
 \begin{equation} \label{newomegadef}
-    \omega = \sqrt{\frac{(1 - b^2)b^2}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}},
+    \omega = \sqrt{\frac{(1 - b^2)b^4}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}},
 \end{equation}
 and note that it does not depend on $\rho$ or $\varepsilon$ but only on the definition of $\calC$. 
 For any positive $\rho$ and $\varepsilon$, Theorem \ref{thm:compcost} says that $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger(\varepsilon,\rho)}$, where 
 \[
-j^\dagger(\varepsilon,\rho) \le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\}, \]
-and we are showing the explicit dependence of $j^\dagger$ on $\varepsilon$ and $\rho$.
-As we have
-\begin{align*} 
- & \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \\
-&\ge  \frac{(1 - b^2)}{a^4b^2} \sum_{k=1}^{j} \frac{b^{2(k-j)}}{\lambda_{n_{k-1}+1}^2}  \qquad \text{since } a > 1\\
-&=  \frac{(1 - b^2)}{a^4} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}+1}^2}  \\
-&\ge  \frac{(1 - b^2)}{a^4} \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}  \qquad \text{since } \lambda_{n_k} \ge \lambda_{n_k+1},\\
-\end{align*}
-and by \eqref{lambdaRatio}, for any $l \in \mathbb{N}$
+j^\dagger(\varepsilon,\rho) \le \min \left \{j \in \bbN : F(j) \ge \frac{\rho^2 a^4}{\varepsilon^2 (1-b^2)}  \right\}. \]
+According to \eqref{lambdaRatio}, for any $\ell \in \mathbb{N}$
 \begin{align*}
-(b^2R^2)^\ell \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} & = (R^2)^\ell\sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k-\ell}}^2} \\
+ (b^2R^2)^\ell F(j)
+& =(b^2R^2)^\ell \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} 
+ = (R^2)^\ell\sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k-\ell}}^2} \\
 & \geq (R^2)^{\ell-1}\sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k-\ell+1}}^2} \\
-& \geq \sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \\
+ & \geq \sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \\
 & \geq \frac{b^{2(\ell-1)}}{\lambda_{n_{j+\ell-1}}^2},
 \end{align*}
 thus 
 \begin{align*} 
- & \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \\
-&\ge  \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)} \sum_{k=0}^{j+2} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}  \qquad \text{by \eqref{lambdaRatio}}\\
-&=  \frac{\omega^2}{b^2}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+2} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \qquad \text{by \eqref{newomegadef}.}
+  \frac{(1 - b^2)}{a^4} F(j) 
+&\ge  \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)} \sum_{k=0}^{j+2} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}  \\
+& = \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)} b^6 F(j+3)\\
+&=  \omega^2\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] b^2 F(j+3) \qquad \text{by \eqref{newomegadef}.}
 \end{align*}
 Hence,
 \begin{align*} 
-j^\dagger(\varepsilon,\rho) &\le \min \left \{j \in \bbN : \frac{\rho^2}{\varepsilon^2} \le \frac{(1 - b^2)}{a^2b^2} \left[ \sum_{k=1}^{j-1} \frac{b^{2(k-j)}}{a^2\lambda_{n_{k-1}+1}^2} + \frac{1}{\lambda_{n_{j-1}+1}^2}\right]   \right\} \\
-&\le \min \left \{j \in \bbN : \frac{\rho^2}{ \varepsilon^2} \le \frac{\omega^2}{b^2}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+2} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \right\} \\
-&= \min \left \{j \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} \le \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j+2} \frac{b^{2(k-j-1)}}{\lambda_{n_{k}}^2} \right\} \\
-&= \max \left \{j' \in \bbN : \frac{\rho^2}{\omega^2 \varepsilon^2} > \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] \sum_{k=0}^{j'+1} \frac{b^{2(k-j'-1)}}{\lambda_{n_{k}}^2} \right\} \\
+j^\dagger(\varepsilon,\rho) &\le \min \left \{j \in \bbN : F(j) \ge \frac{\rho^2 a^4}{\varepsilon^2 (1-b^2)}   \right\} \\
+& =
+ \min \left \{j \in \bbN : \frac{(1 - b^2)}{a^4} F(j) \ge \frac{\rho^2 }{\varepsilon^2 }   \right\} \\
+& \le \min \left \{j \in \bbN : \omega^2\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] b^2 F(j+3) \ge \frac{\rho^2}{\varepsilon^2}  \right\} \\
+& = \min \left \{j \in \bbN :  F(j+3) \ge \frac{\rho^2}{\omega^2 \varepsilon^2 b^2} \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1} \right\} \\
 & = j^{\ddagger}(\omega\varepsilon,\rho) - 1.
 \end{align*}
 By the argument above, it follows that $j^\ddagger -1 \ge j^\dagger$ and by Theorem 2 so
 \[
 \textup{comp}(\calA(\calC),\omega\varepsilon,\rho) \ge n_{j^{\ddagger}} -1 \ge n_{j^{\ddagger}-1} \ge  n_{j^\dagger}\ge \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) .\]
-Therefore, our algorithm is essentially no more costly than the optimal algorithm. }
+Therefore, our algorithm is essentially no more costly than the optimal algorithm. 
+\end{proof}
+
+ 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Example} \label{sec:examp}
@@ -825,6 +821,11 @@ Many practical adaptive algorithms lack theory, and many theoretically justified
 
 The key idea of our algorithm is to derive an adaptive error bound by assuming the steady decay of the Fourier series coefficients of the solution.  The set of such functions constitutes a cone.  We do not need to know the decay rate of these coefficients a priori.  The cost of our algorithm also serves as a goal for an algorithm that uses function values, which are more commonly available than Fourier series coefficients.  An important next step is to identify an essentially optimal algorithm based on function values.  Another research direction is to extend this setting to Banach spaces of inputs and/or outputs.
 
+\begin{acknowledgement}
+The authors would like to thank three anonymous referees for their suggestions which helped to improve the presentation of the results.
+
+
+\end{acknowledgement}
 
 %\section*{References}
 %\nocite{*}
