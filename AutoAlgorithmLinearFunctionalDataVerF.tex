@@ -423,7 +423,7 @@ Given $a$, $b$, the sequence $\bsn$, the cone $\calC$, the input function $f \in
 \item[Step 3.] Otherwise, increase $j$ by $1$ and return to Step $1$.
 \end{description}
 \end{algo}
-\yuhannote{Please check the result of Theorem 1} \frednote{Yuhan, please put $\rho$ and $\varepsilon$ on left.}\yuhannote{Done. Please double check}
+\yuhannote{Please check the result of Theorem 1} 
 \begin{theorem}\label{thm:compcost}
 The algorithm, $\widetilde{A}$, defined in Algorithm \ref{algo2} lies in $\calA(\calC)$ and has computational cost $\textup{cost}(\widetilde{A},f,\varepsilon)=n_{j^*}$, where $j^*$ is defined implicitly by the inequalities 
 \begin{equation} \label{eq:OurAlgjstar}
@@ -711,14 +711,19 @@ b^{2(k-j)}
 & = \rho^2 \left[\left(\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right) b^2F(j+1)\right]^{-1} 
 \qquad {\color{red} \text{by \eqref{jsum}}}.
 \end{align*}
-\frednote{This inequality is equivalent to 
+{\color{red} This inequality is equivalent to 
 \begin{equation}
     F(j+1) \ge  \frac{\rho^2}{\varepsilon^2 b^2}
-\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}
+\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}.
 \end{equation}
-}
 
-This lower bound must be satisfied by $j$ to be consistent with the assumption $\textup{comp}(\calA(\calC),\varepsilon,\rho) \le n_j - 2$.  Thus, for any $j$ violating this inequality it follows that $\textup{comp}(\calA(\calC),\varepsilon,\rho) \ge n_j - 1$.  This implication provides a lower bound on $\textup{comp}(\calA(\calC),\varepsilon,\rho)$.
+
+This lower bound must be satisfied by $j$ to be consistent with the assumption $\textup{comp}(\calA(\calC),\varepsilon,\rho) \le n_j - 2$.  Thus, any $j$ violating this inequality satisfies $\textup{comp}(\calA(\calC),\varepsilon,\rho) \ge n_j - 1$.  Since $F$ is strictly increasing, the largest $j$ violating this inequality must satisfy
+\begin{equation}
+F(j+1) < \frac{\rho^2}{\varepsilon^2 b^2}
+\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1} \le F(j+2),
+\end{equation}
+which is the definition of  $j^\ddagger$ above in the statement of this theorem.  This proves the lower bound on $\textup{comp}(\calA(\calC),\varepsilon,\rho)$. }
 \end{proof}
 
 The next step is to show that the cost of our algorithm is essentially no worse than that of the optimal algorithm.
@@ -727,43 +732,44 @@ The next step is to show that the cost of our algorithm is essentially no worse 
 \label{thm:CostNoWorse}
 Under assumption \eqref{lambdaRatio} $\textup{cost}(\widetilde{A},\calC, \varepsilon,\rho)$ is essentially no worse than $\textup{comp}(\calA(\calC),\varepsilon,\rho)$. 
 \end{theorem}
-\begin{proof} Let
-\begin{equation} \label{newomegadef}
-    \omega = \sqrt{\frac{(1 - b^2)b^4}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}},
-\end{equation}
-and note that it does not depend on $\rho$ or $\varepsilon$ but only on the definition of $\calC$. 
-For any positive $\rho$ and $\varepsilon$, Theorem \ref{thm:compcost} says that $\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) \le n_{j^\dagger(\varepsilon,\rho)}$, where 
-\[
-j^\dagger(\varepsilon,\rho) \le \min \left \{j \in \bbN : F(j) \ge \frac{\rho^2 a^4}{\varepsilon^2 (1-b^2)}  \right\}. \]
-According to \eqref{lambdaRatio}, for any $\ell \in \mathbb{N}$
+\begin{proof} 
+{\color{red} We need an inequality relating $F(j)$, which appears in the definition of $j^\dagger$ in Theorem \ref{thm:compcost} and $F(j+3)$, which is related to the definition of $j^\ddagger$ in Theorem \ref{thm:lowbdcomp}.  According to \eqref{lambdaRatio} and the definition of $F$ in \eqref{jsum}, for any $\ell \in \mathbb{N}$,
+\begin{equation*}
+R^{2\ell} F(j) \ge R^{2\ell} \frac{b^{-2}}{\lambda_{n_{j-1}}^2} \geq \frac{b^{-2}}{\lambda_{n_{j+\ell-1}}^2},
+\end{equation*}
+and so
 \begin{align*}
- (b^2R^2)^\ell F(j)
-& =(b^2R^2)^\ell \sum_{k=0}^{j-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} 
- = (R^2)^\ell\sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k-\ell}}^2} \\
-& \geq (R^2)^{\ell-1}\sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k-\ell+1}}^2} \\
- & \geq \sum_{k=\ell}^{j+\ell-1} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2} \\
-& \geq \frac{b^{2(\ell-1)}}{\lambda_{n_{j+\ell-1}}^2},
+b^{-2\ell}[1 + b^2R^2\cdots + (b^2R^2)^\ell] F(j) & \ge F(j)b^{-2\ell} + \frac{b^{-2\ell}}{\lambda_{n_{j}}^2} + \cdots + \frac{b^{-2}}{\lambda_{n_{j+\ell-1}}^2} \\
+& = \sum_{j=0}^{j-1} \frac{b^{2(k - j -\ell)}}{\lambda_{n_{k}}^2} + \frac{b^{-2\ell}}{\lambda_{n_{j}}^2} + \cdots + \frac{b^{-2}}{\lambda_{n_{j+\ell-1}}^2} \\
+& = F(j + \ell).
 \end{align*}
-thus 
-\begin{align*} 
-  \frac{(1 - b^2)}{a^4} F(j) 
-&\ge  \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)} \sum_{k=0}^{j+2} \frac{b^{2(k-j)}}{\lambda_{n_{k}}^2}  \\
-& = \frac{(1 - b^2)}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)} b^6 F(j+3)\\
-&=  \omega^2\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] b^2 F(j+3) \qquad \text{by \eqref{newomegadef}.}
-\end{align*}
-Hence,
+The $\ell=3$ case of this inequality implies the following lower bound on $F(j)$ in terms of $F(j+3)$:
+\begin{equation*} 
+F(j) \ge  \frac{b^6 F(j+3)}{1 + b^2R^2 + b^4R^4 + b^6R^6} \\
+=  \frac{\omega^2 a^4 b^2}{1 - b^2}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] F(j+3),
+\end{equation*}
+where
+\begin{equation} \label{newomegadef}
+\omega = \sqrt{\frac{(1 - b^2)b^4}{a^4(1 + b^2R^2 + b^4R^4 + b^6R^6)}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1}},
+\end{equation}
+Note that $\omega$ does not depend on $\rho$ or $\varepsilon$ but only on the definition of $\calC$.
+
+For any positive $\rho$ and $\varepsilon$, let $j^\dagger = j^\dagger(\varepsilon,\rho)$ be defined as in Theorem \ref{thm:compcost} and let $j^\ddagger = j^\ddagger(\varepsilon,\rho)$ be defined as in Theorem \ref{thm:lowbdcomp}.  Then by those Theorems, $j^\dagger(\varepsilon,\rho)$ can be bounded above in terms of $ j^{\ddagger}(\omega\varepsilon,\rho)$ for $\omega$ defined in \eqref{newomegadef}:
 \begin{align*} 
 j^\dagger(\varepsilon,\rho) &\le \min \left \{j \in \bbN : F(j) \ge \frac{\rho^2 a^4}{\varepsilon^2 (1-b^2)}   \right\} \\
-& =
- \min \left \{j \in \bbN : \frac{(1 - b^2)}{a^4} F(j) \ge \frac{\rho^2 }{\varepsilon^2 }   \right\} \\
-& \le \min \left \{j \in \bbN : \omega^2\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] b^2 F(j+3) \ge \frac{\rho^2}{\varepsilon^2}  \right\} \\
+& \le \min \left \{j \in \bbN : \frac{\omega^2 a^4 b^2}{1 - b^2}\left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right] F(j+3) \ge \frac{\rho^2 a^4}{\varepsilon^2 (1-b^2)}    \right\} \\
 & = \min \left \{j \in \bbN :  F(j+3) \ge \frac{\rho^2}{\omega^2 \varepsilon^2 b^2} \left[\frac{(a+1)^{2} R^2 }{(a-1)^2} + 1\right]^{-1} \right\} \\
 & = j^{\ddagger}(\omega\varepsilon,\rho) - 1.
 \end{align*}
-By the argument above, it follows that $j^\ddagger -1 \ge j^\dagger$ and by Theorem 2 so
+By the argument above, it follows that $ j^\dagger(\varepsilon,\rho) \le j^\ddagger(\omega\varepsilon,\rho) -1$, and again by Theorems \ref{thm:compcost} and  \ref{thm:lowbdcomp} it follows that 
 \[
-\textup{comp}(\calA(\calC),\omega\varepsilon,\rho) \ge n_{j^{\ddagger}} -1 \ge n_{j^{\ddagger}-1} \ge  n_{j^\dagger}\ge \textup{cost}(\widetilde{A},\calC,\varepsilon,\rho) .\]
-Therefore, our algorithm is essentially no more costly than the optimal algorithm. 
+\textup{cost}(\widetilde{A},\calC,\varepsilon,\rho)
+= n_{j^\dagger}(\varepsilon,\rho)
+\le n_{j^{\ddagger}(\omega\varepsilon,\rho)-1} 
+\le n_{j^{\ddagger}(\omega\varepsilon,\rho)} -1 
+\le \textup{comp}(\calA(\calC),\omega\varepsilon,\rho) .
+\]
+Therefore, our algorithm is essentially no more costly than the optimal algorithm. }
 \end{proof}
 
  
