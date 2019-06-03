@@ -95,7 +95,7 @@ set(gca,'Ytick',yticks)
 axis([1 nplot-1 ymin ymax])
 xlabel('\(i\)','interpreter','latex')
 ylabel('\(|\widehat{f}_{i}|\)','interpreter','latex')
-set(gca,'Position',[0.2 0.155 0.75 0.77])
+% set(gca,'Position',[0.2 0.155 0.75 0.77])
 print('FunctionWalshFourierCoeffDecay.eps', '-depsc');
 
 
@@ -113,7 +113,7 @@ set(gca,'Ytick',yticks)
 axis([1 nplot-1 ymin ymax])
 xlabel('\(i\)','interpreter','latex')
 ylabel('\(|\widehat{f}_{\textnormal{big},i}|\)','interpreter','latex')
-set(gca,'Position',[0.2 0.155 0.75 0.77])
+% set(gca,'Position',[0.2 0.155 0.75 0.77])
 print('ScaledWalshFourierCoeffDecay.eps', '-depsc');
 
 
@@ -132,7 +132,7 @@ set(gca,'Ytick',yticks)
 axis([1 nplot-1 ymin ymax])
 xlabel('\(i\)','interpreter','latex')
 ylabel('\(|\widehat{f}_{\textnormal{fuzzy},i}|\)','interpreter','latex')
-set(gca,'Position',[0.2 0.155 0.75 0.77])
+% set(gca,'Position',[0.2 0.155 0.75 0.77])
 print('FilteredWalshFourierCoeffDecay.eps', '-depsc');
 
 %% Plot filtered function
