@@ -1,0 +1,8 @@
+Notes on proofs for 4658801_1_En_8_Chapter
+
+lines 10-11:  Replace "norm of the function to be approximated." by "norm of the input function."
+
+line 70:  Replace "both of have" by "both have"
+
+line 82:  Delete space after "cost" and before "(A, ..."
+
