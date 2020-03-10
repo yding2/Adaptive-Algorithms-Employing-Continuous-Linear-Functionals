@@ -1,8 +1,16 @@
 Notes on proofs for 4658801_1_En_8_Chapter
 
+Metadata:  Correct the third author's name
+
+Metadata:  Keywords added
+
+Author affiliation:  Correct to Ll. A. Jiménez Rugama
+
 lines 10-11:  Replace "norm of the function to be approximated." by "norm of the input function."
 
 line 70:  Replace "both of have" by "both have"
 
 line 82:  Delete space after "cost" and before "(A, ..."
+
+line 534:  Reference 7 has been folded into references 4 and 5
 
